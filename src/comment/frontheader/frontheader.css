@@ -1,0 +1,23 @@
+.clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
+.headerCon{
+    width:100%;
+    height:50px;
+    background-color: #3f51b5;
+}
+.loginCon{
+    float:right;
+    line-height:50px;
+    margin-right:50px;
+    cursor:pointer;
+    color:#fff
+}
+.logoCon{
+    float:left;
+    height:50px;
+    width:100rpx;
+    line-height:50px;
+    font-size:32px;
+    margin-left:100px ;
+    color:#FFF
+
+}

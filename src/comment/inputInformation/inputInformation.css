@@ -1,0 +1,181 @@
+.clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
+.informationCon{
+    width:80vw;
+    height:800px;
+    background-color: yellow;
+    margin:0 auto
+}
+.tabBanner{
+    width:900px;
+    margin-top:30px;
+    margin:0 auto
+}
+.tabBanner div{
+    float:left;
+    width:300px;
+    height:38px;
+    background:greenyellow;
+    text-align: center;
+    line-height: 38px;
+    cursor:pointer
+
+}
+
+.baseInfoCon{
+    width:100vw;
+    min-height:26vw;
+    text-align:center;
+    display:flex;
+    flex-flow: column;
+    float:left;
+    z-index: 10;
+     background:#FFF;
+    position: absolute;
+
+
+}
+
+.passportPicCon{
+    width:100vw;
+    min-height:26vw;
+    float:left;
+    z-index: -10;
+    position: absolute;
+    background:#FFF
+}
+
+.signCon{
+    width:100vw;
+    min-height:26vw;
+    float:left;
+    z-index: -10;
+    position: absolute;
+    background:#FFF
+}
+.banConshow{
+    display: block;
+}
+.banConhide{
+    display: none;
+}
+.stepBtnCon{
+    text-align: center;
+    margin-top:550px
+}
+.infoCon{
+    margin-top:60px
+}
+.consumerName,.consumerProfession,.consumerAddress{
+    width:300px;
+ 
+}
+
+.videoCon{
+    float:left;
+    margin:48px 0 0 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    height:400px;
+    border:1px dashed #666;
+    position: relative;
+}
+.videoConLabel{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 32px;
+    color:#666;
+    margin-left:-46px;
+    margin-top:-10px;
+
+}
+
+
+.videoCanvasCon{
+    float:left;
+    margin:48px 0 0 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    height:400px;
+    border:1px dashed #666
+
+}
+.handkeepPassportCanvasCon{
+    float:left;
+    margin:48px 0 0 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    height:400px;
+    border:1px dashed #666
+}
+.btnCon{
+    float:left;
+    margin:48px 0 0 50px;
+    width:300px;
+    height:400px;
+
+}
+.openCamera{
+    width:129px;
+    height:40px;
+    background:#3f51b5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 40px;
+    color:#FFF;
+    text-align: center;
+    margin:90px 0 0 50px;
+    cursor: pointer;
+}
+.takephoto,.takeHandKeepPhoto{
+    width:129px;
+    height:40px;
+    background:#3f51b5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 40px;
+    color:#FFF;
+    text-align: center;
+    margin:50px 0 0 50px;
+    cursor: pointer;
+}
+
+.signRegion{
+    width:600px;
+    border:1px solid #666;
+    text-align: center;
+    border-radius: 20px;
+    margin:20px auto;
+    overflow: hidden;
+}
+.signControl{
+    width:600px;
+    height:60px;
+    margin:0 auto
+}
+.clearSign{
+    width:129px;
+    height:40px;
+    float:left;
+    background:#3f51b5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 40px;
+    color:#FFF;
+    text-align: center;
+    cursor: pointer;
+    margin-left:150px;
+}
+.takeSign{
+    width:129px;
+    height:40px;
+    float:left;
+    background:#3f51b5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 40px;
+    color:#FFF;
+    text-align: center;
+    cursor: pointer;
+    margin-left:50px;
+}

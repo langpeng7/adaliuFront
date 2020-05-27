@@ -8,6 +8,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CanvasDraw from "react-canvas-draw";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,6 +23,14 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(1),
     },
   }));
+  const allState = {
+    name:"",
+    jobL:"",
+    address:"",
+    pic1:"",
+    pic2:"",
+    signPic:""
+  }
 function getSteps() {
   return ['填写基本信息', '上传照片', '签字'];
 }
@@ -41,14 +50,75 @@ function getStepContent(stepIndex) {
 
 
 export default function InputInformation() {
+    //默认样式
     const classes = useStyles();
+    //步揍状态
     const [activeStep, setActiveStep] = React.useState(0);
+    //步揍值
     const steps = getSteps();
+    //姓名
+    const [csName, setName] = React.useState("姓名");
+    const iptName = (e) => {
+      setName(e.target.value);
+    }
+    //职业
+    const [csJob, setJob] = React.useState("职业");
+    const iptJob = (e) => {
+      setJob(e.target.value);
+    }
+    //住址
+    const [csAddress, setAddress] = React.useState("住址");
+    const iptAddress = (e) => {
+      setAddress(e.target.value);
+    }  
+    //护照
+    const [csPic1, setPic1] = React.useState();
+    //手持护照
+    const [csPic2, setPic2] = React.useState();  
+    //签名
+    const [csSignPic, setSignPic] = React.useState();  
 
+    //下一步的动作
     const handleNext = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      if(activeStep == 2){
+
+        console.log(csName)
+        console.log(csJob)
+        console.log(csAddress)
+        console.log(csPic1)
+        console.log(csSignPic)
+
+
+        // axios.get('/api/list')
+        // .then(function (response) {
+        //   console.log(response)
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+
+        // })
+        axios({
+          method: 'post',
+          url: '/api/savePic',
+          headers: {
+            'Content-Type':'application/json'
+          },          
+          data: JSON.stringify({
+            csName: csName,
+            csJob: csJob,
+            csAddress:csAddress,
+            csPic1:csPic1,
+            csPic2:csPic2,
+            csSignPic:csSignPic
+          })
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+      }
     };
-  
+    
     const handleBack = () => {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
@@ -56,14 +126,18 @@ export default function InputInformation() {
     const handleReset = () => {
       setActiveStep(0);
     };
+
+    //显示隐藏style 状态
     const hideEle={
         'zIndex':'-10'
     };
     const showEle={
         'zIndex':'10'
     };
+
+
     //加一个videolabel状态
-    const [videoLabel,setVideoLabelType] = React.useState({type:true})
+    // const [videoLabel,setVideoLabelType] = React.useState({type:true})
 
 
     //获得video摄像头区域
@@ -76,7 +150,7 @@ export default function InputInformation() {
         };
         
         //label 隐藏
-        setVideoLabelType((type) => false);
+        // setVideoLabelType((type) => false);
 
         let promise = navigator.mediaDevices.getUserMedia(constraints);
         promise.then(function (MediaStream) {
@@ -96,7 +170,7 @@ export default function InputInformation() {
       
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
-      console.log(saveImage)
+      setPic1(b64)
     // $('.pic').val(b64)
     }
 
@@ -111,13 +185,14 @@ export default function InputInformation() {
       
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
-      console.log(saveImage)
+      setPic2(b64)
     // $('.pic').val(b64)
     }
 
     const signCanvas= React.createRef();
     function takeSign(){
       let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
+      setSignPic(signImg)
     }
     function clear(){
       signCanvas.current.clear()
@@ -133,13 +208,13 @@ export default function InputInformation() {
         </Stepper>
         <div className = "baseInfoCon"  style={activeStep==0?showEle:hideEle}>
             <div className = "infoCon">
-                <TextField className="consumerName" helperText="请输入姓名" defaultValue="姓名"/>
+                <TextField className="consumerName" helperText="请输入姓名"   value={csName} onChange={iptName}/>
             </div>
             <div className = "infoCon">
-                <TextField className="consumerProfession" helperText="请输入职业" defaultValue="职业"/>
+                <TextField className="consumerProfession" helperText="请输入职业" value={csJob} onChange={iptJob}/>
             </div>
             <div className = "infoCon">
-                <TextField className="consumerAddress" helperText="请输入地址" defaultValue="地址"/>
+                <TextField className="consumerAddress" helperText="请输入地址" value={csAddress} onChange={iptAddress}/>
             </div>
         </div>
         <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>

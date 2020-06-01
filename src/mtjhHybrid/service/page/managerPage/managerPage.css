@@ -1,0 +1,49 @@
+/****************************数据服务**********************************/
+.serviceCon{
+    padding:4vw;
+    text-align: left;
+    width:100%;
+    height:1000px;
+    background-color: red;
+  
+}
+.loginService{
+    width:80vw;
+    height:781px;
+
+    margin:0 auto;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 320px) { 
+ 
+}
+@media screen and (min-width: 321px) and (max-width: 360px) {  
+
+}
+
+@media screen and (min-width: 412px) and (max-width: 515px) {  
+
+}
+

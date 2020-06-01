@@ -1,6 +1,10 @@
 export default { 
-    analysisPath:{
-        pathname:"/service/analysisReports",
+    webLoginPath:{
+        pathname:"/service/webLogin",
+        query:{}
+    },
+    managerPagePath:{
+        pathname:"/service/managerPage",
         query:{}
     },
     fwbContentFuturesMarketPath:{

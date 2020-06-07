@@ -1,6 +1,6 @@
 .clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
 .informationCon{
-    width:80vw;
+    width:100vw;
     height:800px;
     background-color: yellow;
     margin:0 auto

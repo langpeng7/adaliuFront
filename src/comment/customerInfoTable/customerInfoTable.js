@@ -13,33 +13,33 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker} from '@material-ui/pickers';
-
+import axios from 'axios';
 
 const columns = [
+  { id: 'code', 
+  label: '预约码', 
+  minWidth: 120 
+  },
   { id: 'name', 
     label: '姓名', 
-    minWidth: 110 
+    minWidth: 80 
   },
   {
     id: 'population',
-    label: '联系方式',
-    minWidth: 100,
+    label: '职业',
+    minWidth: 80,
 
-  },
-  { id: 'code', 
-    label: '工作', 
-    minWidth: 80 
   },
   {
     id: 'size',
     label: '住址',
-    minWidth: 170,
+    minWidth: 200,
 
   },
   {
     id: 'density',
     label: '设施',
-    minWidth: 170,
+    minWidth: 60,
 
   },
 ];
@@ -67,6 +67,17 @@ const rows = [
   createData('Brazil', 'BR', 210147125, 8515767),
 ];
 
+function aaa(){
+  axios({
+    method: 'get',
+    url: '/api/list'
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+}
+
+
 const useStyles = makeStyles({
   root: {
     width: '80vw',
@@ -81,7 +92,7 @@ export default function CustomerInfoTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  aaa()
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

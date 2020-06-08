@@ -49,7 +49,7 @@ class WebLogin extends React.Component{
 				<FrontHeader /> 
 				<div className="loginService">
 					<div className="loginLeftPicCon">
-						<img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" />
+						{/* <img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" /> */}
 
 						
 					</div>

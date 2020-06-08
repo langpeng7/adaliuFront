@@ -81,13 +81,9 @@ export default function InputInformation() {
     //下一步的动作
     const handleNext = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      console.log(activeStep)
       if(activeStep == 2){
 
-        console.log(csName)
-        console.log(csJob)
-        console.log(csAddress)
-        console.log(csPic1)
-        console.log(csSignPic)
 
 
         // axios.get('/api/list')

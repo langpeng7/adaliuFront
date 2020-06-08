@@ -9,6 +9,7 @@ function Basic(e) {
   return (
     <Router >
         <Switch>
+        <Route path="/"   component={ManagerPage} />
         <Route path="/service/webLogin"   component={WebLogin} />
         <Route path="/service/welcome"    component={ServiceCon}   />
         <Route path="/service/managerPage"    component={ManagerPage}   />

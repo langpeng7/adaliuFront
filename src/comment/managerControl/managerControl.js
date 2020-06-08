@@ -12,7 +12,7 @@ import Category from '@material-ui/icons/Category';
  import Paper from '@material-ui/core/Paper';
  import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-
+import CustomerInfoTable  from '../../comment/customerInfoTable/customerInfoTable';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -32,48 +32,53 @@ export default function managerControl() {
 
   //右侧content 根据状态切换
   const [contentType, setContentType] = React.useState(0);
-  const customerInfo = () => {
+  const customerInfo = (e) => {
     setContentType((contentType)=>(0));
-    console.log(contentType)
   }
 
   const houseManage = () => {
     setContentType((contentType)=>(1));
-    console.log(contentType)
   }
   const createUrl = () => {
     setContentType((contentType)=>(2));
-
-    console.log(contentType)
   }
+
+  
+  const [selectedDate, setSelectedDate] = React.useState();
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   return (
     <div className={classes.root}>
        <Grid container>
         <Grid item xs={2} style={{ backgroundColor: '#eee', height: '100vh' }}>
           <List component="nav" aria-label="main mailbox folders">
-            <ListItem button>
+            <ListItem button onClick={customerInfo} data-type="0">
             <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="顾客信息"  onClick={customerInfo} /> 
+              <ListItemText primary="顾客信息"   /> 
             </ListItem>
-            <ListItem button>
+            <ListItem button onClick={houseManage}  data-type="1">
               <ListItemIcon>
                   <Category />
                 </ListItemIcon>
-              <ListItemText primary="设施管理" onClick={houseManage}/> 
+              <ListItemText primary="设施管理" /> 
             </ListItem>
-            <ListItem button>
+            <ListItem button  onClick={createUrl} data-type="2">
             <ListItemIcon>
                 <DraftsIcon />
               </ListItemIcon>
-              <ListItemText primary="生成链接" onClick={createUrl}/> 
+              <ListItemText primary="生成链接"/> 
             </ListItem>
           </List> 
         </Grid>
         <Grid item xs={10}>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==0?"block":"none"}} >
-              顾客信息
+
+          <CustomerInfoTable />
+
           </div>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==1?"block":"none" }}>
             设施管理

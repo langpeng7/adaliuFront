@@ -106,7 +106,7 @@ export default function InputInformation() {
             csAddress:csAddress,
             csPic1:csPic1,
             csPic2:csPic2,
-            csSignPic:csSignPic
+            csSignPic:csSignPic,
           })
         })
         .then(function (response) {

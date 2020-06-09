@@ -23,7 +23,6 @@ class ServiceCon extends React.Component{
 		return(
 			<div className="serviceInhouse">
 				<FrontHeader />
-				<InputInformation />
 				<Foot />
 			</div>
 		)

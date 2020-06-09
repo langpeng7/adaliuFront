@@ -8,12 +8,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-
+import axios from 'axios';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker} from '@material-ui/pickers';
-
+import Format  from '../../common/format';
 
 const columns = [
   { id: 'name', 
@@ -21,51 +21,43 @@ const columns = [
     minWidth: 110 
   },
   {
-    id: 'population',
-    label: '联系方式',
+    id: 'code',
+    label: '预约码',
     minWidth: 100,
 
   },
-  { id: 'code', 
+  { id: 'job', 
     label: '工作', 
     minWidth: 80 
   },
   {
-    id: 'size',
+    id: 'address',
     label: '住址',
     minWidth: 170,
 
   },
   {
-    id: 'density',
+    id: 'homeName',
     label: '设施',
     minWidth: 170,
-
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+let rows = [
+
+];
+
+getVistors()
+function getVistors(){
+    axios.get('/api/list')
+    .then(function (response) {
+        rows = response.data.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 }
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
 
 const useStyles = makeStyles({
   root: {
@@ -90,14 +82,35 @@ export default function CustomerInfoTable() {
     setRowsPerPage(event+event.target.value);
     setPage(0);
   };
-  const [selectedDateBegin, setSelectedDateBegin] = React.useState(new Date('2016-08-18T13:00:00'));
+  const [selectedDateBegin, setSelectedDateBegin] = React.useState(new Date((new Date().getTime() - 86400000*30*6)));
   const handleDateChangeBegin = (date) => {
     setSelectedDateBegin(date);
   };
 
   const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
   const handleDateChangeEnd = (date) => {
+
     setSelectedDateEnd(date);
+    if(date-selectedDateBegin>=0){
+      let bgTemp = Format.dateFormat(selectedDateBegin)
+      let edTemp = Format.dateFormat(date)
+      rows = []
+      axios.get('/api/list',{
+        params: {
+          bgTime: bgTemp,
+          edTime: edTemp
+        }
+      })
+      .then(function (response) {
+          console.log(response)
+          rows = response.data.data
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+ 
+    }
+
   };
 
   return (
@@ -106,7 +119,6 @@ export default function CustomerInfoTable() {
     <Grid container justify="flex-start" >
         <Grid item xs={3}>
             <KeyboardDatePicker 
-                disableToolbar
                 margin="normal"
                 id="beginTime"
                 label="起始时间"

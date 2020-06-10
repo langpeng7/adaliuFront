@@ -13,10 +13,11 @@ import Category from '@material-ui/icons/Category';
  import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CustomerInfoTable  from '../../comment/customerInfoTable/customerInfoTable';
+import CreateUrl  from '../../comment/createUrl/createUrl';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // width: '200px',
     // maxWidth: 200,
     // backgroundColor: theme.palette.background.default,
   }
@@ -84,7 +85,7 @@ export default function managerControl() {
             设施管理
           </div>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==2?"block":"none" }}>
-            生成链接
+            <CreateUrl />
           </div>
         </Grid>
       </Grid> 

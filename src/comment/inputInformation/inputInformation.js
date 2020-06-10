@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CanvasDraw from "react-canvas-draw";
 import axios from 'axios';
-
+import Format  from '../../common/format';
 const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
@@ -81,19 +81,11 @@ export default function InputInformation() {
     //下一步的动作
     const handleNext = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      console.log(activeStep)
+      const visitorNum = Format.getQueryVariable("vn")
+      const constructionId = Format.getQueryVariable("cn")
+      const code= Format.getQueryVariable("cd")
+
       if(activeStep == 2){
-
-
-
-        // axios.get('/api/list')
-        // .then(function (response) {
-        //   console.log(response)
-        // })
-        // .catch(function (error) {
-        //   console.log(error);
-
-        // })
         axios({
           method: 'post',
           url: '/api/savePic',
@@ -107,6 +99,9 @@ export default function InputInformation() {
             csPic1:csPic1,
             csPic2:csPic2,
             csSignPic:csSignPic,
+            visitorNum:visitorNum,
+            constructionId:constructionId,
+            code:code
           })
         })
         .then(function (response) {

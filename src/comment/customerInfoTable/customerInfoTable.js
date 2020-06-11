@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme)=>({
     padding:'1vw'
   },
   container: {
-    maxHeight: 640,
+    height: 560,
   },
   formControl: {
     margin: theme.spacing(2),
@@ -74,7 +74,7 @@ export default function CustomerInfoTable() {
   const classes = useStyles();
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [construct, setConstruct] = React.useState('');
   useEffect(() => {	
     axios.get('/api/list')
@@ -96,7 +96,8 @@ export default function CustomerInfoTable() {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event+event.target.value);
+    console.log(event.target.value)
+    setRowsPerPage(event.target.value);
     setPage(0);
   };
 

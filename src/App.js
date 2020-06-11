@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
 import Router from './router-config/router';
+import intl from 'react-intl-universal';
+
+import jaJP from './asset/json/ja-JP';
+import zhCN from './asset/json/zh-CN';
 import './App.css';
+
+
+const SUPPOER_LOCALES = [
+  {
+    name: '日本語',
+    value: 'ja-JP'
+  },
+  {
+    name: '简体中文',
+    value: 'zh-CN'
+  }
+];
+const locales = {
+  'ja-JP': jaJP,
+  'zh-CN': zhCN
+};
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
+    console.log(this.state)
+
   // this.state = {oldtime:""}
-  // }
+  }
+
   // testpreventclick(msc){
   //   if(this.state.oldtime==''){
   //     this.state.oldtime = new Date().getTime();
@@ -20,11 +43,13 @@ class App extends Component {
   //     }
   //   }
   // }
-  
+ 
+
   render() {
     return (
       <div className="App clearfix">
         <Router   />
+
       </div>
     );
   }

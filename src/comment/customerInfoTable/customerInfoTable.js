@@ -74,11 +74,12 @@ export default function CustomerInfoTable() {
   const classes = useStyles();
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [construct, setConstruct] = React.useState('');
   useEffect(() => {	
     axios.get('/api/list')
     .then(function (response) {
+      console.log(response)
       setRows(response.data.data)
     })
     .catch(function (error) {
@@ -92,6 +93,8 @@ export default function CustomerInfoTable() {
 
 
   const handleChangePage = (event, newPage) => {
+    console.log(event)
+    console.log(newPage)
     setPage(newPage);
   };
 
@@ -162,6 +165,9 @@ export default function CustomerInfoTable() {
  
     }
   };
+  function visitorDetail (e){
+    window.open("vistorDetail?visitorId="+e);
+  }
   return (
 <Paper className={classes.root}>
   <Grid item  xs={10}>
@@ -223,7 +229,7 @@ export default function CustomerInfoTable() {
     </MuiPickersUtilsProvider>
     </Grid>
 
-    </Grid>
+  </Grid>
     <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -242,11 +248,11 @@ export default function CustomerInfoTable() {
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} value={row.id} onClick={()=>visitorDetail(row.id)}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align={column.align}  >
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
@@ -258,7 +264,7 @@ export default function CustomerInfoTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10,25,100]}
+        rowsPerPageOptions={[1,2,10]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

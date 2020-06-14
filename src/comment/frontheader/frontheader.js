@@ -38,11 +38,11 @@ class FrontHeader extends React.Component{
     renderLocaleSelector() {
         return (
         <div
-            style={{ position: 'absolute', zIndex: '9999', right: 160, top: 18 }}
+            style={{ position: 'absolute', zIndex: '9999', right: 100, top:12 }}
         >
-            <select onChange={this.onSelectLocale} defaultValue={this.state.lang}>
+            <select onChange={this.onSelectLocale} defaultValue={this.state.lang} className="languageSelect">
             {SUPPOER_LOCALES.map(locale => (
-                <option key={locale.value} value={locale.value}>
+                <option key={locale.value} value={locale.value} className="languageOption">
                 {locale.name}
                 </option>
             ))}
@@ -80,7 +80,7 @@ class FrontHeader extends React.Component{
         return(
             <div className="headerCon">
                     <div className="logoCon">logo</div>
-                    <div> {intl.get('key1')}</div> 
+                    {/* <div> {intl.get('key1')}</div>  */}
                     {this.renderLocaleSelector()}
         
                     <Link to= {routes.webLoginPath} >

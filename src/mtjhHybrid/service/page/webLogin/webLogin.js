@@ -55,10 +55,10 @@ class WebLogin extends React.Component{
 					</div>
 					<div className="loginRightCon">
 						<div className = "infoCon">
-							<TextField className="usernameText" helperText="请输入账号"   value={this.username} onChange={(e)=>this.setUserName(e)}/>
+							<TextField className="usernameText iptText" helperText="请输入账号"   value={this.username} onChange={(e)=>this.setUserName(e)}/>
 						</div>
 						<div className = "infoCon">
-							<TextField className="passwordText" helperText="请输入密码" value={this.password} onChange={(e)=>this.setPassword(e)}/>
+							<TextField className="passwordText iptText" helperText="请输入密码" value={this.password} onChange={(e)=>this.setPassword(e)}/>
 						</div>
 						<div className="registerBtnCon" onClick={this.inSystem.bind(this)}>
 							登录

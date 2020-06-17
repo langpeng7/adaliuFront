@@ -198,14 +198,14 @@ export default function InputInformation() {
           ))}
         </Stepper>
         <div className = "baseInfoCon"  style={activeStep==0?showEle:hideEle}>
-            <div className = "infoCon">
-                <TextField className="consumerName" helperText="请输入姓名"   value={csName} onChange={iptName}/>
+            <div className = "consumerInfoCon">
+                <TextField className="consumerName consumerIptText" helperText="请输入姓名"   value={csName} onChange={iptName}/>
             </div>
-            <div className = "infoCon">
-                <TextField className="consumerProfession" helperText="请输入职业" value={csJob} onChange={iptJob}/>
+            <div className = "consumerInfoCon">
+                <TextField className="consumerProfession consumerIptText" helperText="请输入职业" value={csJob} onChange={iptJob}/>
             </div>
-            <div className = "infoCon">
-                <TextField className="consumerAddress" helperText="请输入地址" value={csAddress} onChange={iptAddress}/>
+            <div className = "consumerInfoCon">
+                <TextField className="consumerAddress consumerIptText" helperText="请输入地址" value={csAddress} onChange={iptAddress}/>
             </div>
         </div>
         <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>
@@ -233,7 +233,7 @@ export default function InputInformation() {
                 brushRadius={3}
                 lazyRadius={10}
                 canvasWidth={600}
-                canvasHeight={400}
+                canvasHeight={340}
             />
           </div>
           <div className = "signControl">

@@ -3,6 +3,7 @@ import './welcome.css';
 import FrontHeader from '../../../../comment/frontheader/frontheader';
 import Foot  from '../../../../comment/frontfoot/frontfoot';
 import 	InputInformation from '../../../../comment/inputInformation/inputInformation';
+
 class Welcome extends React.Component{
 	constructor(props) {
         super(props);

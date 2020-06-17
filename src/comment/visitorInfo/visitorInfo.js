@@ -1,4 +1,4 @@
-import React,{ useState, useEffect }from 'react';
+import React,{useState,useContext}from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
@@ -10,6 +10,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
 import Format  from '../../common/format';
+import myContext from '../../common/createContext';
 import Card from '@material-ui/core/Card';
 import axios from 'axios';
 
@@ -46,41 +47,21 @@ const useStyles = makeStyles((theme)=>({
 
 export default function VisitorInfo() {
     const classes = useStyles();
-
-
-        axios.get('/api/getVisitorDetail',{
-            params: {
-                visitorId: Format.getQueryVariable("visitorId")
-            }
-          })
-        .then(function (response) {
-            console.log(response)
-  
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
+    const detailData = useContext(myContext); 
 
     
+    const [appointCode, setAppointCode] = React.useState('');
+ 
+
     const [vistNum, setvistNum] = React.useState('');
     const handleChangeVistNum= (event) => {
         setvistNum(event.target.value);
     };
 
-    const [appointCode, setAppointCode] = React.useState('');
-    const handleChangeAppointCode= (event) => {
-        setAppointCode(event.target.value);
-    };
-
     const [beautifulHref, setBeautifulHref] = React.useState('');
-
-
-
 
     //消息条
     const [open, setOpen] = React.useState(false);
-
-  
 
     return (
     <Grid container className={classes.root} spacing={5}>
@@ -91,7 +72,7 @@ export default function VisitorInfo() {
                     <TextField
                       id="standard-read-only-input"
                       label="预约码"
-                      defaultValue="Hello World"
+                      defaultValue={"appointCode"}
                       InputProps={{
                         readOnly: true,
                       }}

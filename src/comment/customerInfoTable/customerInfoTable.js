@@ -88,10 +88,6 @@ export default function CustomerInfoTable() {
   }, []);
 
 
-
-
-
-
   const handleChangePage = (event, newPage) => {
     console.log(event)
     console.log(newPage)
@@ -99,7 +95,6 @@ export default function CustomerInfoTable() {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    console.log(event.target.value)
     setRowsPerPage(event.target.value);
     setPage(0);
   };
@@ -166,7 +161,7 @@ export default function CustomerInfoTable() {
     }
   };
   function visitorDetail (e){
-    window.open("vistorDetail?visitorId="+e);
+    window.open("/#/vistorDetail?visitorId="+e);
   }
   return (
 <Paper className={classes.root}>

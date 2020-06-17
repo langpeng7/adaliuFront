@@ -1,6 +1,6 @@
 import React from "react";
 
-import {BrowserRouter  as Router,Route,Switch} from 'react-router-dom';
+import {HashRouter  as Router,Route,Switch} from 'react-router-dom';
 import ServiceCon from '../mtjhHybrid/service/serviceCon';
 import Welcome from '../mtjhHybrid/service/page/welcome/welcome';
 import WebLogin from '../mtjhHybrid/service/page/webLogin/webLogin';
@@ -10,11 +10,11 @@ function Basic(e) {
   return (
     <Router >
         <Switch>
-        {/* <Route path="/"   component={ManagerPage} /> */}
-        <Route path="/service/webLogin"   component={WebLogin} />
-        <Route path="/service/welcome"    component={Welcome}   />
-        <Route path="/service/managerPage"    component={ManagerPage}   />
-        <Route path="/service/VistorDetail"    component={VistorDetail}   />
+        <Route path="/" exact  component={ManagerPage} />
+        <Route path="/webLogin"  exact   component={WebLogin} />
+        <Route path="/welcome"   exact  component={Welcome}   />
+        <Route path="/managerPage"    exact component={ManagerPage}   />
+        <Route path="/vistorDetail"    exact  component={VistorDetail}   />
         </Switch>
     </Router>
   );

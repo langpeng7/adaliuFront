@@ -1,4 +1,4 @@
-import React,{useState,useContext}from 'react';
+import React,{useState,useContext,useEffect }from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
@@ -48,10 +48,12 @@ const useStyles = makeStyles((theme)=>({
 export default function VisitorInfo() {
     const classes = useStyles();
     const detailData = useContext(myContext); 
+    const code = detailData.code
+    const [appointCode, setAppointCode] = React.useState();
+    useEffect(() => {
+      setAppointCode(detailData.code)
 
-    
-    const [appointCode, setAppointCode] = React.useState('');
- 
+    	})
 
     const [vistNum, setvistNum] = React.useState('');
     const handleChangeVistNum= (event) => {
@@ -64,15 +66,17 @@ export default function VisitorInfo() {
     const [open, setOpen] = React.useState(false);
 
     return (
+
     <Grid container className={classes.root} spacing={5}>
       <Grid item xs={6}  className={classes.gridCss}>
           <Card className={classes.cardCss} variant="outlined">
                 <Grid item xs={12}  >
+             
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <TextField
                       id="standard-read-only-input"
                       label="预约码"
-                      defaultValue={"appointCode"}
+                      defaultValue={appointCode}
                       InputProps={{
                         readOnly: true,
                       }}

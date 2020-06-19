@@ -9,7 +9,20 @@ import axios from 'axios';
 
 export default function VisitorDetail() {
 
-  const [ detail , setDetail ] = useState();
+  const [ detail , setDetail ] = useState({
+    address:"",
+    code:"",
+    constructionId:"",
+    id:"",
+    job:"",
+    name:"",
+    pic1RandomName:"",
+    pic2RandomName:"",
+    signPicRandomName:"",
+    visitorNum:"",
+    visitorTime:""
+
+  });
   useEffect(() => {	
   axios.get('/api/getVisitorDetail',{
     params: {
@@ -17,7 +30,7 @@ export default function VisitorDetail() {
     }
   })
   .then(function (response) {
-      setDetail(response.data.data.data[0].code)
+      setDetail(response.data.data.data[0])
  
   })
   .catch(function (error) {

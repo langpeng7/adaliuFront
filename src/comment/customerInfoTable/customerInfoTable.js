@@ -74,7 +74,7 @@ export default function CustomerInfoTable() {
   const classes = useStyles();
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [construct, setConstruct] = React.useState('');
   useEffect(() => {	
     axios.get('/api/list')
@@ -161,7 +161,7 @@ export default function CustomerInfoTable() {
     }
   };
   function visitorDetail (e){
-    window.open("/#/vistorDetail?visitorId="+e);
+    window.open("service/#/vistorDetail?visitorId="+e);
   }
   return (
 <Paper className={classes.root}>
@@ -259,7 +259,7 @@ export default function CustomerInfoTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[1,2,10]}
+        rowsPerPageOptions={[10,20,30]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

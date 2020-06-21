@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme)=>({
   root: {
     flexGrow: 1,
     width:'100%',
-    minHeight:'96vh',
+    minHeight:'150vh',
     padding:'2vh'
 
   },
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme)=>({
    
   },
   cardCss:{
-    minHeight:'80vh',
+    minHeight:'150vh',
     padding:'2vh'
   },
   container: {
@@ -42,41 +42,69 @@ const useStyles = makeStyles((theme)=>({
     
 
   },
-
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  }
 }));
 
 export default function VisitorInfo() {
     const classes = useStyles();
     const detailData = useContext(myContext); 
-    const code = detailData.code
-    const [appointCode, setAppointCode] = React.useState();
+
+    const [appointCode, setAppointCode] = React.useState('');
+    const [visitorName, setvisitorName] = React.useState('');
+    const [visitorAddress, setvisitorAddress] = React.useState('');
+     const [visitorJob, setvisitorJob] = React.useState('');
+     const [visitNum, setvisitNum] = React.useState('');
+     const [pic1, setPic1] = React.useState('');
+     const [pic2, setPic2] = React.useState('');
+     const [pic3, setPic3] = React.useState('');
+
+     console.log(detailData)
     useEffect(() => {
-      setAppointCode(detailData.code)
+      if(detailData.code){
+        setAppointCode(detailData.code)
+      }
+      if(detailData.name){
+        setvisitorName(detailData.name)
+      }
+      if(detailData.address){
+        setvisitorAddress(detailData.address)
+      }
+      if(detailData.job){
+        setvisitorJob(detailData.job)
+      }
+      if(detailData.visitorNum){
+        setvisitNum(detailData.visitorNum)
+      }
+      if(detailData.pic1RandomName){
+        console.log(window.location.origin+detailData.pic1RandomName)
+        setPic1(window.location.origin+detailData.pic1RandomName)
+      }
+      if(detailData.pic2RandomName){
+        console.log(window.location.origin+detailData.pic2RandomName)
+        setPic2(window.location.origin+detailData.pic2RandomName)
+      }
+      if(detailData.signPicRandomName){
+        setPic3(window.location.origin+detailData.signPicRandomName)
+      }  
+    })
 
-    	})
-
-    const [vistNum, setvistNum] = React.useState('');
-    const handleChangeVistNum= (event) => {
-        setvistNum(event.target.value);
-    };
-
-    const [beautifulHref, setBeautifulHref] = React.useState('');
-
-    //消息条
-    const [open, setOpen] = React.useState(false);
 
     return (
 
     <Grid container className={classes.root} spacing={5}>
       <Grid item xs={6}  className={classes.gridCss}>
           <Card className={classes.cardCss} variant="outlined">
-                <Grid item xs={12}  >
-             
+                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    预约码
+                    </InputLabel>
                     <TextField
                       id="standard-read-only-input"
-                      label="预约码"
-                      defaultValue={appointCode}
+                      value={appointCode}
+                      className={classes.selectEmpty}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -85,10 +113,13 @@ export default function VisitorInfo() {
                 </Grid>
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    姓名
+                    </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
-                      label="姓名"
-                      defaultValue="Hello World"
+                      value={visitorName}
+                      className={classes.selectEmpty}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -97,10 +128,13 @@ export default function VisitorInfo() {
                 </Grid>
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    工作
+                    </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
-                      label="职业"
-                      defaultValue="Hello World"
+                      value={visitorJob}
+                      className={classes.selectEmpty}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -109,10 +143,13 @@ export default function VisitorInfo() {
                 </Grid>
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    住址
+                    </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
-                      label="住址"
-                      defaultValue="Hello World"
+                      value={visitorAddress}
+                      className={classes.selectEmpty}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -121,46 +158,27 @@ export default function VisitorInfo() {
                 </Grid>
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    人数
+                    </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
-                      label="入住人数"
-                      defaultValue="Hello World"
+                      value={visitNum}
+                      className={classes.selectEmpty}
                       InputProps={{
                         readOnly: true,
                       }}
                     />
                     </FormControl>
-                </Grid>     
-                <Grid item xs={12}  >
-                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
-                    <TextField
-                      id="standard-read-only-input"
-                      label="设施"
-                      defaultValue="Hello World"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12}  >
-                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
-                    <TextField
-                      id="standard-read-only-input"
-                      label="确认日期"
-                      defaultValue="Hello World"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    </FormControl>
-                </Grid>                                                                                   
+                </Grid>                                                                                 
         </Card>
       </Grid>
-      <Grid item xs={5}  >
+      <Grid item xs={4}  >
           <Card className={classes.cardCss} variant="outlined">
-                <Grid item xs={6}  >
-                      
+                <Grid item xs={12}  >
+                      <img src={pic1} style={{'width':'100%'}}></img>
+                       <img src={pic2} style={{'width':'100%'}}></img>
+                      <img src={pic3} style={{'width':'100%'}}></img> 
                 </Grid>
                                                                
         </Card>

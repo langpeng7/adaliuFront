@@ -161,7 +161,7 @@ export default function CustomerInfoTable() {
     }
   };
   function visitorDetail (e){
-    window.open("service/#/vistorDetail?visitorId="+e);
+    window.open("/service/#/vistorDetail?visitorId="+e);
   }
   return (
 <Paper className={classes.root}>
@@ -212,10 +212,11 @@ export default function CustomerInfoTable() {
               <MenuItem value="">
                 <em>全部</em>
               </MenuItem>
-              <MenuItem value={1}>大阪府</MenuItem>
-              <MenuItem value={2}>神奈川</MenuItem>
-              <MenuItem value={3}>奈良县</MenuItem>
-              <MenuItem value={4}>北海道</MenuItem>
+              <MenuItem value={1}>ABC Guest House 1F</MenuItem>
+              <MenuItem value={2}>ABC Guest House 2F</MenuItem>
+              <MenuItem value={3}>A&Z Guest House</MenuItem>
+              <MenuItem value={4}>JIYUKA Guest House</MenuItem>
+              <MenuItem value={5}>PLUS 9 Guest House</MenuItem>
      
             </Select>
           </FormControl>

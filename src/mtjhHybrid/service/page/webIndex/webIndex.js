@@ -5,7 +5,7 @@ import Foot  from '../../../../comment/frontfoot/frontfoot';
 class WebIndex extends React.Component{
 	constructor(props) {
         super(props);
-		this.state = {username:"",password:""}
+		this.state = {}
     }
 	componentDidMount(){
 

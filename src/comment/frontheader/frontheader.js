@@ -25,11 +25,10 @@ class FrontHeader extends React.Component{
         super(props);
         this.state = {
           initDone: false,
-          isLogin:'0'
         };
         this.onSelectLocale = this.onSelectLocale.bind(this);
         this.state = { lang: localStorage.getItem('lang_type') || 'ja-JP',isLogin:this.getCookie('isLogin') };
-
+console.log(this.state)
        
   
       // this.state = {oldtime:""}
@@ -62,8 +61,6 @@ class FrontHeader extends React.Component{
 
     componentDidMount() {
         this.loadLocales();
-       console.log( )
-
        console.log(this.state)
     }
     loadLocales() {
@@ -93,13 +90,13 @@ class FrontHeader extends React.Component{
               <div className="logoCon">测试</div>
                 {/* <div> {intl.get('key1')}</div>  */}
                 {this.renderLocaleSelector()}
-                { this.state.isLogin=='0'?(
+                { this.state.isLogin==1?(
                   <Link to= {routes.webLoginPath} >
-                    <div className="loginCon" v-if={this.state.isLogin=='1'}>登陆</div>
+                    <div className="loginCon" >退出</div>
                   </Link>
                 ):(
-                  <Link to= {routes.webLoginPath} v-if={this.state.isLogin=='0'}>
-                    <div className="loginCon">退出</div>
+                  <Link to= {routes.webLoginPath} >
+                    <div className="loginCon">登陆</div>
                   </Link>
                 )
               }

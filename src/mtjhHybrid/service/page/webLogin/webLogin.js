@@ -59,8 +59,7 @@ class WebLogin extends React.Component{
 		  })
 		  .then(function (response) {
 			if(response.data.errno==0){
-				that.setCookie('isLogin','1')
-				window.location.href="service/#/managerPage"
+				window.location.href="/service/#/managerPage/"
 			}else{
 				alert('登陆失败')
 			}
@@ -73,11 +72,8 @@ class WebLogin extends React.Component{
 			<div className="serviceInhouse">
 				<FrontHeader /> 
 				<div className="loginService" >
-					<img style={{ width:'100px'}}src={require("../../../../asset/img/7fcb6874bb70a90272fc1370040c6cc65055fe94ef69a-r77n8Q.jpg")} alt=""></img>
 					<div className="loginLeftPicCon">
 						{/* <img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" /> */}
-
-						
 					</div>
 					<div className="loginRightCon">
 						<div className = "infoCon">

@@ -12,7 +12,7 @@ function Basic(e) {
     <Router >
         <Switch>
         <Route path="/" exact  component={WebIndex} />
-        <Route path="/WebIndex"  exact   component={WebIndex} />
+        <Route path="/webIndex"  exact   component={WebIndex} />
         <Route path="/webLogin"  exact   component={WebLogin} />
         <Route path="/welcome"   exact  component={Welcome}   />
         <Route path="/managerPage"    exact component={ManagerPage}   />

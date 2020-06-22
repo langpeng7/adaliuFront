@@ -1,10 +1,10 @@
 export default { 
     webLoginPath:{
-        pathname:"/service/webLogin",
+        pathname:"/webLogin",
         query:{}
     },
     managerPagePath:{
-        pathname:"/service/managerPage",
+        pathname:"/managerPage",
         query:{}
     },
     fwbContentFuturesMarketPath:{

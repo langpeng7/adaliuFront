@@ -24,14 +24,14 @@ class FrontHeader extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          initDone: false
+          initDone: false,
+          isLogin:'0'
         };
         this.onSelectLocale = this.onSelectLocale.bind(this);
-        this.state = { lang: localStorage.getItem('lang_type') || 'ja-JP' };
-        console.log(this.state)
-    
-    
-    
+        this.state = { lang: localStorage.getItem('lang_type') || 'ja-JP',isLogin:this.getCookie('isLogin') };
+
+       
+  
       // this.state = {oldtime:""}
     }
 
@@ -62,6 +62,9 @@ class FrontHeader extends React.Component{
 
     componentDidMount() {
         this.loadLocales();
+       console.log( )
+
+       console.log(this.state)
     }
     loadLocales() {
         intl
@@ -76,16 +79,30 @@ class FrontHeader extends React.Component{
             this.setState({ initDone: true });
           });
       }
+      getCookie (name) {
+        let arr;
+        let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+        return unescape(arr[2]);
+        else
+        return null;
+      };
 	render(){
         return(
             <div className="headerCon">
-                    <div className="logoCon">logo</div>
-                    {/* <div> {intl.get('key1')}</div>  */}
-                    {this.renderLocaleSelector()}
-        
-                    <Link to= {routes.webLoginPath} >
-                        <div className="loginCon">登陆</div>
-                    </Link>
+              <div className="logoCon">测试</div>
+                {/* <div> {intl.get('key1')}</div>  */}
+                {this.renderLocaleSelector()}
+                { this.state.isLogin=='0'?(
+                  <Link to= {routes.webLoginPath} >
+                    <div className="loginCon" v-if={this.state.isLogin=='1'}>登陆</div>
+                  </Link>
+                ):(
+                  <Link to= {routes.webLoginPath} v-if={this.state.isLogin=='0'}>
+                    <div className="loginCon">退出</div>
+                  </Link>
+                )
+              }
             </div>
         );
     }

@@ -24,8 +24,28 @@ class WebLogin extends React.Component{
 		this.setState({password: data.target.value}, () => {
 		})
 	}
-
+    setCookie(name, value, day) {
+       if(day !== 0){     //当设置的时间等于0时，不设置expires属性，cookie在浏览器关闭后删除
+		let expires = day * 24 * 60 * 60 * 1000;
+		let date = new Date(+new Date()+expires);
+		document.cookie = name + "=" + escape(value) + ";expires=" + date.toUTCString();
+		}else{
+			document.cookie = name + "=" + escape(value);
+		}
+	};
+	getCookie (name) {
+		let arr;
+		let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		if (arr = document.cookie.match(reg))
+		return unescape(arr[2]);
+		else
+		return null;
+	};
+    delCookie (name) {
+       this.setCookie(name, ' ', -1);
+    };
 	inSystem(){
+		let that = this
 		axios({
 			method: 'post',
 			url: '/api/user/login',
@@ -38,7 +58,12 @@ class WebLogin extends React.Component{
 			})
 		  })
 		  .then(function (response) {
-			console.log(response);
+			if(response.data.errno==0){
+				that.setCookie('isLogin','1')
+				window.location.href="service/#/managerPage"
+			}else{
+				alert('登陆失败')
+			}
 		  })
 	}
 	render(){
@@ -47,7 +72,8 @@ class WebLogin extends React.Component{
 		return(
 			<div className="serviceInhouse">
 				<FrontHeader /> 
-				<div className="loginService">
+				<div className="loginService" >
+					<img style={{ width:'100px'}}src={require("../../../../asset/img/7fcb6874bb70a90272fc1370040c6cc65055fe94ef69a-r77n8Q.jpg")} alt=""></img>
 					<div className="loginLeftPicCon">
 						{/* <img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" /> */}
 
@@ -62,7 +88,6 @@ class WebLogin extends React.Component{
 						</div>
 						<div className="registerBtnCon" onClick={this.inSystem.bind(this)}>
 							登录
-							
 						</div>
 	
 					</div>

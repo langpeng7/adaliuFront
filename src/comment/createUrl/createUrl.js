@@ -80,7 +80,7 @@ export default function CreateUrl() {
     const [beautifulHref, setBeautifulHref] = React.useState('');
 
     const createIt = (event) => {
-        let href = 'http://'+window.location.host+'/service/#/welcome?cn='+construct+'&vn='+vistNum+'&cd='+appointCode
+        let href = 'https://'+window.location.host+'/service/#/welcome?cn='+construct+'&vn='+vistNum+'&cd='+appointCode
         setBeautifulHref(href)
     };
 

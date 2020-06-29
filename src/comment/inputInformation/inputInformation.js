@@ -137,7 +137,7 @@ export default function InputInformation() {
 
         let constraints = {
             video: {width: 500, height: 500},
-            audio: true
+            audio: false
         };
         
         //label 隐藏

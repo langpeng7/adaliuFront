@@ -106,6 +106,7 @@ export default function InputInformation() {
         })
         .then(function (response) {
           console.log(response);
+          window.location.href = window.location.href="/service/#/infoFinish/"
         })
       }
     };

@@ -244,7 +244,7 @@ export default function CustomerInfoTable() {
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} value={row.id} onClick={()=>visitorDetail(row.id)}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id} value={row.id} onClick={()=>visitorDetail(row.id)}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (

@@ -7,6 +7,7 @@ import WebLogin from '../mtjhHybrid/service/page/webLogin/webLogin';
 import ManagerPage from '../mtjhHybrid/service/page/managerPage/managerPage';
 import VistorDetail from '../mtjhHybrid/service/page/vistorDetail/vistorDetail';
 import WebIndex from '../mtjhHybrid/service/page/webIndex/webIndex';
+import InfoFinish from '../mtjhHybrid/service/page/infoFinish/infoFinish';
 function Basic(e) {
   return (
     <Router >
@@ -17,6 +18,7 @@ function Basic(e) {
         <Route path="/welcome"   exact  component={Welcome}   />
         <Route path="/managerPage"    exact component={ManagerPage}   />
         <Route path="/vistorDetail"    exact  component={VistorDetail}   />
+        <Route path="/infoFinish"    exact  component={InfoFinish}   />
         </Switch>
     </Router>
   );

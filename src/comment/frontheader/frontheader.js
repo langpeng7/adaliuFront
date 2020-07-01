@@ -1,5 +1,9 @@
 import React ,{ useState, useEffect }from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import './frontheader.css';
 import routes from '../../router-config/routes';
 import {Link} from 'react-router-dom';
@@ -21,7 +25,22 @@ const SUPPOER_LOCALES = [
     'ja-JP': jaJP,
     'zh-CN': zhCN
   };
+
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+
+    },
+    selectEmpty: {
+       marginLeft: theme.spacing(2),
+       color:theme.palette.common.black,
+    },
+    
+  }));
+
   export default function FrontHeader() {
+    const classes = useStyles();
     const [initDone,setInitDone] = React.useState(false)
     const [lang,setLang] = React.useState(localStorage.getItem('lang_type') || 'ja-JP') 
     const [isLogin,setIsLogin] = React.useState(getCookie('isLogin'))
@@ -29,15 +48,21 @@ const SUPPOER_LOCALES = [
     function renderLocaleSelector() {
         return (
         <div
-            style={{ position: 'absolute', zIndex: '9999', right: 100, top:12 }}
+    
         >
-            <select onChange={onSelectLocale} defaultValue={lang} className="languageSelect">
-            {SUPPOER_LOCALES.map(locale => (
-                <option key={locale.value} value={locale.value} className="languageOption">
-                {locale.name}
-                </option>
-            ))}
-            </select>
+          <FormControl className={classes.formControl}>
+            <Select
+              value={lang}
+              onChange={onSelectLocale}
+              displayEmpty
+               className={classes.selectEmpty}
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              {SUPPOER_LOCALES.map(locale => (
+              <MenuItem value={locale.value} key={locale.value}>{locale.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
         );
     }
@@ -72,20 +97,37 @@ const SUPPOER_LOCALES = [
     };
 
     return(
+     
         <div className="headerCon">
-          <div className="logoCon">测试</div>
-            {renderLocaleSelector()}
-            { isLogin==1?(
-              <Link to= {routes.webLoginPath} >
-                <div className="loginCon" >{intl.get('bac2')}</div>
-              </Link>
-            ):(
-              <Link to= {routes.webLoginPath} >
-                <div className="loginCon">{intl.get('bac1')}</div>
-              </Link>
-            )
-          }
+           <Grid container spacing={12}>
+            <Grid item xs={10}>
+              <div className="logoCon">测试</div>
+              </Grid>
+              <Grid item xs={1}>
+            
+              {renderLocaleSelector()}
+
+              </Grid>
+              <Grid item xs={1}>
+          
+                <div>
+                { isLogin==1?(
+                  <Link to= {routes.webLoginPath} >
+                    <div className="loginCon" >{intl.get('bac2')}</div>
+                  </Link>
+                ):(
+                  <Link to= {routes.webLoginPath} >
+                    <div className="loginCon">{intl.get('bac1')}</div>
+                  </Link>
+                )
+              
+              }
+                </div>
+        
+              </Grid>
+            </Grid>
         </div>
+
     );
 }
  

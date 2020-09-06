@@ -1,8 +1,8 @@
 .clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
 .headerCon{
-    width:100%;
+    width:96vw;
     height:50px;
-    background-color: #3f51b5;
+    background-color: #7f4bf5;
 }
 .loginCon{
     float:right;
@@ -14,13 +14,14 @@
 .logoCon{
     float:left;
     height:50px;
-    width:100rpx;
+    width:100px;
     line-height:50px;
     font-size:32px;
     margin-left:100px ;
     color:#FFF
 
 }
+
 /* .languageSelect{
     width:80px;
     height:30px;

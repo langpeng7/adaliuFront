@@ -27,16 +27,22 @@ const SUPPOER_LOCALES = [
   };
 
   const useStyles = makeStyles((theme) => ({
+    root:{
+      color:"#FFF",
+      "& .MuiSelect-icon": {
+        color: "#FFF"
+      },
+      "& .MuiInput-underline:before": {
+        borderBottom:'1px solid #FFF'
+      },
+    },
+    
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
 
     },
-    selectEmpty: {
-       marginLeft: theme.spacing(2),
-       color:theme.palette.common.black,
-    },
-    
+  
   }));
 
   export default function FrontHeader() {
@@ -54,8 +60,9 @@ const SUPPOER_LOCALES = [
             <Select
               value={lang}
               onChange={onSelectLocale}
+         
               displayEmpty
-               className={classes.selectEmpty}
+               className={classes.root}
               inputProps={{ 'aria-label': 'Without label' }}
             >
               {SUPPOER_LOCALES.map(locale => (
@@ -99,9 +106,9 @@ const SUPPOER_LOCALES = [
     return(
      
         <div className="headerCon">
-           <Grid container spacing={12}>
+           <Grid container >
             <Grid item xs={10}>
-              <div className="logoCon">测试</div>
+              <div className="logoCon"></div>
               </Grid>
               <Grid item xs={1}>
             

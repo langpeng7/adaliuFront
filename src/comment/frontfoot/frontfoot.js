@@ -9,7 +9,7 @@ class FrontHeader extends React.Component{
 	render(){
         return(
             <div className="footerCon">
-                <div className="footer"></div>
+                {/* <div className="footer"></div> */}
             </div>
         );
     }

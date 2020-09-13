@@ -174,15 +174,18 @@ export default function VisitorInfo() {
         </Card>
       </Grid>
       <Grid item xs={4}  >
-          <Card className={classes.cardCss} variant="outlined">
-                <Grid item xs={12}  >
-                      <img src={pic1} style={{'width':'100%'}}></img>
-                       <img src={pic2} style={{'width':'100%'}}></img>
-                      <img src={pic3} style={{'width':'100%'}}></img> 
-                </Grid>
-                                                               
+        <Card className={classes.cardCss} variant="outlined">
+          <Grid item xs={12}  >
+                <img src={pic1} style={{'width':'100%'}}></img>
+                  <img src={pic2} style={{'width':'100%'}}></img>
+                <img src={pic3} style={{'width':'100%'}}></img> 
+          </Grid>
         </Card>
       </Grid>
+      <Grid item xs={2}  >
+        <div className="" style={{'width':'90px','height':'34px',color:'#FFF',textAlign:'center',lineHeight:'34px',borderRadius:'5px',cursor:'pointer',background:'#7f4bf5'}}>添加照片</div>
+      
+      </Grid> 
     </Grid>
     );
 }

@@ -71,6 +71,16 @@ export default function InputInformation() {
     const iptAddress = (e) => {
       setAddress(e.target.value);
     }  
+
+    function clickOnChangePic1(e){
+      document.getElementById("profilePic").click(); 
+     
+   }
+    function onChangePicture1(e){
+       let pic = document.getElementById("profilePic").value;
+       console.log(pic)
+    }
+
     //护照
     const [csPic1, setPic1] = React.useState();
     //手持护照
@@ -177,6 +187,7 @@ export default function InputInformation() {
       
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
+      console.log(b64)
       setPic2(b64)
     // $('.pic').val(b64)
     }
@@ -189,6 +200,8 @@ export default function InputInformation() {
     function clear(){
       signCanvas.current.clear()
     }
+
+
     return (
       <div className={classes.root}>
         <Stepper activeStep={activeStep} alternativeLabel>
@@ -216,6 +229,9 @@ export default function InputInformation() {
           </div>
           <div className="videoCanvasCon">
             <canvas id="passportCanvas" width="400px" height="400px"></canvas>
+            <input id="profilePic" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
+            <div onClick={clickOnChangePic1}> 上传图片</div>
+            {/* <h5 οnclick={document.querySelector('#profilePic').onClick()}></h5> */}
           </div>
           <div className="handkeepPassportCanvasCon">
             <canvas id="handkeepPassport" width="400px" height="400px"></canvas>

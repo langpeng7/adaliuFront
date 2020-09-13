@@ -5,3 +5,14 @@
     background-repeat:no-repeat;
     background-size: cover;
 }
+.palette{
+    width: 64.16vw;
+    height:34.8vw;
+    position: absolute;
+    z-index: 1;
+    top:-6.6vw;
+    left:50%;
+    margin-left:-32.08vw;
+
+
+}

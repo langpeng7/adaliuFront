@@ -2,7 +2,7 @@
 .informationCon{
     width:100vw;
     height:800px;
-    background-color: yellow;
+ 
     margin:0 auto
 }
 .tabBanner{
@@ -14,7 +14,6 @@
     float:left;
     width:300px;
     height:38px;
-    background:greenyellow;
     text-align: center;
     line-height: 38px;
     cursor:pointer
@@ -79,8 +78,8 @@
     margin:3vw 0 0 3vw;
     border-radius: 10px;
     overflow: hidden;
-    height:22vw;
-    width:22vw;
+    height:400px;
+    width:400px;
     
     border:1px dashed #666;
     position: relative;
@@ -99,21 +98,19 @@
 
 .videoCanvasCon{
     float:left;
-    margin:3vw 0 0 3vw;
     border-radius: 10px;
     overflow: hidden;
-    height:22vw;
-    width:22vw;
+    height:400px;
+    width:400px;
     border:1px dashed #666
 
 }
 .handkeepPassportCanvasCon{
     float:left;
-    margin:3vw 0 0 3vw;
     border-radius: 10px;
     overflow: hidden;
-    height:22vw;
-    width:22vw;
+    height:400px;
+    width:400px;
     border:1px dashed #666
 }
 .btnCon{

@@ -73,14 +73,25 @@ export default function InputInformation() {
     }  
 
     function clickOnChangePic1(e){
-      document.getElementById("profilePic").click(); 
+      document.getElementById("profilePic1").click(); 
      
-   }
+    }
     function onChangePicture1(e){
-       let pic = document.getElementById("profilePic").value;
+       let pic = document.getElementById("profilePic1").value;
        console.log(pic)
     }
 
+    function clickOnChangePic2(e){
+      document.getElementById("profilePic2").click(); 
+     
+    }
+    function onChangePicture2(e){
+       let pic = document.getElementById("profilePic2").value;
+       console.log(pic)
+  
+    }
+  
+   
     //护照
     const [csPic1, setPic1] = React.useState();
     //手持护照
@@ -169,7 +180,7 @@ export default function InputInformation() {
       let canvas = document.getElementById("passportCanvas");
       let ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, 500, 500);
-      
+      console.log(video)
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
       setPic1(b64)
@@ -227,14 +238,21 @@ export default function InputInformation() {
             <video id="video" width="400px" height="400px" ></video>
             <div className="videoConLabel" >摄像头</div>
           </div>
-          <div className="videoCanvasCon">
-            <canvas id="passportCanvas" width="400px" height="400px"></canvas>
-            <input id="profilePic" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-            <div onClick={clickOnChangePic1}> 上传图片</div>
-            {/* <h5 οnclick={document.querySelector('#profilePic').onClick()}></h5> */}
+          <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
+            <div className="videoCanvasCon">
+              <canvas id="passportCanvas" width="400px" height="400px"></canvas>
+              
+              {/* <h5 οnclick={document.querySelector('#profilePic').onClick()}></h5> */}
+            </div>
+            <input id="profilePic1" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
+            <div style={{float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}> 上传护照</div>
           </div>
-          <div className="handkeepPassportCanvasCon">
-            <canvas id="handkeepPassport" width="400px" height="400px"></canvas>
+          <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
+            <div className="handkeepPassportCanvasCon">
+              <canvas id="handkeepPassport" width="400px" height="400px"></canvas>
+            </div>
+            <input id="profilePic2" style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
+            <div style={{float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}> 上传手持护照</div>
           </div>
           <div className="btnCon">
               <div className="openCamera" onClick={getMedia}>开启摄像头</div>

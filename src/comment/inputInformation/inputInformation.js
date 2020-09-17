@@ -77,8 +77,21 @@ export default function InputInformation() {
      
     }
     function onChangePicture1(e){
-       let pic = document.getElementById("profilePic1").value;
-       console.log(pic)
+        let pic = document.getElementById("profilePic1").files[0];
+        const imgFile = new FileReader();
+        let b64
+        imgFile.readAsDataURL(pic);
+        imgFile.onload = function () {
+        const imgData = this.result; //base64数据 
+        setImgType1("0")
+        setDisplayPic1(imgData)
+        if(pic.type=="image/jpeg"){
+          b64 = imgData.substring(23);
+        }else{
+          b64 = imgData.substring(22);
+        }
+        setPic1(b64)
+        }
     }
 
     function clickOnChangePic2(e){
@@ -86,8 +99,22 @@ export default function InputInformation() {
      
     }
     function onChangePicture2(e){
-       let pic = document.getElementById("profilePic2").value;
+       let pic = document.getElementById("profilePic2").files[0];
        console.log(pic)
+       let b64
+       var imgFile = new FileReader();
+       imgFile.readAsDataURL(pic);
+       imgFile.onload = function () {
+        var imgData = this.result; //base64数据  
+        setImgType2("0")
+        setDisplayPic2(imgData)
+        if(pic.type=="image/jpeg"){
+          b64 = imgData.substring(23);
+        }else{
+          b64 = imgData.substring(22);
+        }
+        setPic2(b64)
+      }
   
     }
   
@@ -96,6 +123,14 @@ export default function InputInformation() {
     const [csPic1, setPic1] = React.useState();
     //手持护照
     const [csPic2, setPic2] = React.useState();  
+
+    const [csDsPic1, setDisplayPic1] = React.useState();
+
+    const [csDsPic2, setDisplayPic2] = React.useState();
+
+    const [imgType1, setImgType1] = React.useState();
+
+    const [imgType2, setImgType2] = React.useState();
     //签名
     const [csSignPic, setSignPic] = React.useState();  
 
@@ -181,6 +216,7 @@ export default function InputInformation() {
       let ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, 500, 500);
       console.log(video)
+      setImgType1("1")
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
       setPic1(b64)
@@ -195,7 +231,7 @@ export default function InputInformation() {
       let canvas = document.getElementById("handkeepPassport");
       let ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, 500, 500);
-      
+      setImgType2("1")
       let saveImage = canvas.toDataURL('image/png');
       let b64 = saveImage.substring(22);
       console.log(b64)
@@ -240,19 +276,19 @@ export default function InputInformation() {
           </div>
           <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
             <div className="videoCanvasCon">
-              <canvas id="passportCanvas" width="400px" height="400px"></canvas>
-              
-              {/* <h5 οnclick={document.querySelector('#profilePic').onClick()}></h5> */}
+              <canvas id="passportCanvas" style={{display:imgType1==1?'block':'none'}} width="400px" height="400px"></canvas>
+              <img style={{width:'400px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
             </div>
             <input id="profilePic1" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-            <div style={{float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}> 上传护照</div>
+            <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}> 上传护照</div>
           </div>
           <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
             <div className="handkeepPassportCanvasCon">
-              <canvas id="handkeepPassport" width="400px" height="400px"></canvas>
+              <canvas id="handkeepPassport" width="400px" height="400px"  style={{display:imgType2==1?'block':'none'}}></canvas>
+              <img style={{width:'400px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
             </div>
             <input id="profilePic2" style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-            <div style={{float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}> 上传手持护照</div>
+            <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}> 上传手持护照</div>
           </div>
           <div className="btnCon">
               <div className="openCamera" onClick={getMedia}>开启摄像头</div>

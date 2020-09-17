@@ -37,7 +37,7 @@
 
 .passportPicCon{
     width:100vw;
-    height:30vw;
+    height:34vw;
     float:left;
     z-index: -10;
     overflow: hidden;
@@ -62,7 +62,7 @@
 }
 .stepBtnCon{
     text-align: center;
-    margin-top:33vw;
+    margin-top:35vw;
     margin-bottom:5vw
 }
 .consumerInfoCon{

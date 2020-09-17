@@ -182,10 +182,6 @@ export default function VisitorInfo() {
           </Grid>
         </Card>
       </Grid>
-      <Grid item xs={2}  >
-        <div className="" style={{'width':'90px','height':'34px',color:'#FFF',textAlign:'center',lineHeight:'34px',borderRadius:'5px',cursor:'pointer',background:'#7f4bf5'}}>添加照片</div>
-      
-      </Grid> 
     </Grid>
     );
 }

@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 class WebLogin extends React.Component{
 	constructor(props) {
         super(props);
-		this.state = {username:"",password:""}
+		this.state = {username:"",password:"",loginType:true}
     }
 	componentDidMount(){
 

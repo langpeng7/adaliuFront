@@ -13,7 +13,7 @@ import Format  from '../../common/format';
 import myContext from '../../common/createContext';
 import Card from '@material-ui/core/Card';
 import axios from 'axios';
-
+import intl from 'react-intl-universal';
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -99,7 +99,7 @@ export default function VisitorInfo() {
                  <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                    预约码
+                    {intl.get('bac33')}
                     </InputLabel>
                     <TextField
                       id="standard-read-only-input"
@@ -114,7 +114,7 @@ export default function VisitorInfo() {
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                    姓名
+                    {intl.get('bac9')}
                     </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
@@ -129,7 +129,7 @@ export default function VisitorInfo() {
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                    工作
+                    {intl.get('bac11')}
                     </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
@@ -144,7 +144,7 @@ export default function VisitorInfo() {
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                    住址
+                    {intl.get('bac13')}
                     </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"
@@ -159,7 +159,7 @@ export default function VisitorInfo() {
                 <Grid item xs={12}  >
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                    人数
+                    {intl.get('bac34')}
                     </InputLabel>                      
                     <TextField
                       id="standard-read-only-input"

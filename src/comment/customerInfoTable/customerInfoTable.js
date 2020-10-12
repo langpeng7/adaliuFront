@@ -20,27 +20,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
 import Format  from '../../common/format';
-
+import intl from 'react-intl-universal';
 const columns = [
   { id: 'name', 
-    label: '姓名', 
+    label: intl.get('bac9'), 
     minWidth: 110 
   },
   {
     id: 'code',
-    label: '预约码',
+    label: intl.get('bac33'),
     minWidth: 100,
 
   },
   { id: 'job', 
-    label: '工作', 
+    label: intl.get('bac11'), 
     minWidth: 80 
   },
   {
     id: 'address',
-    label: '住址',
+    label: intl.get('bac13'),
     minWidth: 170,
 
   },
@@ -173,7 +172,7 @@ export default function CustomerInfoTable() {
             <KeyboardDatePicker 
                 margin="normal"
                 id="beginTime"
-                label="起始时间"
+                label={intl.get('bac29')}
                 format="MM/dd/yyyy"
                 value={selectedDateBegin}
                 onChange={handleDateChangeBegin}
@@ -187,7 +186,7 @@ export default function CustomerInfoTable() {
             <KeyboardDatePicker
             margin="normal"
             id="endTime"
-            label="结束时间"
+            label={intl.get('bac30')}
             format="MM/dd/yyyy"
             value={selectedDateEnd}
             onChange={handleDateChangeEnd}
@@ -199,7 +198,7 @@ export default function CustomerInfoTable() {
         <Grid item xs={3}>
         <FormControl className={classes.formControl}>
             <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-              设施
+            {intl.get('bac31')}
             </InputLabel>
             <Select
               labelId="demo-simple-select-placeholder-label-label"
@@ -210,7 +209,7 @@ export default function CustomerInfoTable() {
               className={classes.selectEmpty}
             >
               <MenuItem value="">
-                <em>全部</em>
+                <em>{intl.get('bac32')}</em>
               </MenuItem>
               <MenuItem value={1}>ABC Guest House 1F</MenuItem>
               <MenuItem value={2}>ABC Guest House 2F</MenuItem>

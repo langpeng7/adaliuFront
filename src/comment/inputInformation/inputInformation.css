@@ -34,7 +34,18 @@
 
 
 }
-
+.baseInfoConMb{
+    width:96vw;
+    height:90vw;
+    text-align:center;
+    display:flex;
+    flex-flow: column;
+    float:left;
+    overflow: hidden;
+    z-index: 10;
+     background:#FFF;
+    position: absolute;
+}
 .passportPicCon{
     width:100vw;
     height:34vw;
@@ -44,10 +55,27 @@
     position: absolute;
     background:#FFF
 }
-
+.passportPicConMb{
+    width:100vw;
+    height:90vw;
+    float:left;
+    z-index: -10;
+    overflow: hidden;
+    position: absolute;
+    background:#FFF
+}
 .signCon{
     width:100vw;
     height:30vw;
+    float:left;
+    z-index: -10;
+    overflow: hidden;
+    position: absolute;
+    background:#FFF
+}
+.signConMb{
+    width:96vw;
+    height:96vw;
     float:left;
     z-index: -10;
     overflow: hidden;
@@ -65,12 +93,19 @@
     margin-top:35vw;
     margin-bottom:5vw
 }
+.stepBtnConMb{
+    text-align: center;
+    margin-top:100vw;
+    margin-bottom:5vw
+}
 .consumerInfoCon{
     margin-top:5vw
 }
 .consumerName,.consumerProfession,.consumerAddress{
     width:22vw;
- 
+}
+.consumerNameMb,.consumerProfessionMb,.consumerAddressMb{
+    width:50vw;
 }
 
 .videoCon{
@@ -123,7 +158,7 @@
 .openCamera{
     width:129px;
     height:40px;
-    background:#3f51b5;
+    background:#7f4bf5;
     border-radius: 5px;
     font-size: 14px;
     line-height: 40px;
@@ -135,7 +170,7 @@
 .takephoto,.takeHandKeepPhoto{
     width:129px;
     height:40px;
-    background:#3f51b5;
+    background:#7f4bf5;
     border-radius: 5px;
     font-size: 14px;
     line-height: 40px;
@@ -153,8 +188,20 @@
     margin:20px auto;
     overflow: hidden;
 }
+.signRegionMb{
+    border:1px solid #666;
+    text-align: center;
+    border-radius: 20px;
+    margin:20px auto;
+    overflow: hidden;
+}
 .signControl{
     width:39vw;
+    height:5vw;
+    margin:0 auto
+}
+.signControlMb{
+    width:66vw;
     height:5vw;
     margin:0 auto
 }
@@ -162,7 +209,7 @@
     width:9vw;
     height:2.6vw;
     float:left;
-    background:#3f51b5;
+    background:#7f4bf5;
     border-radius: 5px;
     font-size: 14px;
     line-height: 2.6vw;
@@ -175,7 +222,7 @@
     width:9vw;
     height:2.6vw;
     float:left;
-    background:#3f51b5;
+    background:#7f4bf5;
     border-radius: 5px;
     font-size: 14px;
     line-height: 2.6vw;
@@ -183,4 +230,32 @@
     text-align: center;
     cursor: pointer;
     margin-left:3vw;
+}
+
+
+.clearSignMb{
+    width:18vw;
+    height:8vw;
+    float:left;
+    background:#7f4bf5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 8vw;
+    color:#FFF;
+    text-align: center;
+    cursor: pointer;
+    margin-left:9vw;
+}
+.takeSignMb{
+    width:24vw;
+    height:8vw;
+    float:left;
+    background:#7f4bf5;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 8vw;
+    color:#FFF;
+    text-align: center;
+    cursor: pointer;
+    margin-left:12vw;
 }

@@ -1,5 +1,5 @@
 import React ,{ useState, useEffect }from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles,createMuiTheme,createStyles, Theme ,ThemeProvider } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +11,10 @@ import intl from 'react-intl-universal';
 
 import jaJP from '../../asset/json/ja-JP';
 import zhCN from '../../asset/json/zh-CN';
+import enUS from '../../asset/json/en-US';
+import Format  from '../../common/format';
+
+
 const SUPPOER_LOCALES = [
     {
       name: '日本語',
@@ -19,56 +23,80 @@ const SUPPOER_LOCALES = [
     {
       name: '简体中文',
       value: 'zh-CN'
+    },
+    {
+      name: 'English',
+      value: 'en-US'
     }
   ];
   const locales = {
     'ja-JP': jaJP,
-    'zh-CN': zhCN
+    'zh-CN': zhCN,
+    'en-US': enUS,
   };
 
   const useStyles = makeStyles((theme) => ({
     root:{
       color:"#FFF",
-      "& .MuiSelect-icon": {
-        color: "#FFF"
-      },
-      "& .MuiInput-underline:before": {
-        borderBottom:'1px solid #FFF'
-      },
+      // "& .MuiSelect-icon": {
+      //   color: "#FFF"
+      // },
+      // "& .MuiInput-underline:before": {
+      //   borderBottom:'1px solid #FFF'
+      // },
     },
-    
+ 
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
 
     },
-  
+    select: {
+      "&:before": {
+        // normal
+        borderBottom: "1px solid #fff"
+      },
+      "&:after": {
+        // focused
+        borderBottom: `1px solid #fff`
+      },
+      "&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):before": {
+        // hover
+        borderBottom: `1px solid #FFF`
+      }
+    }
   }));
-
-  export default function FrontHeader() {
+  const MySelect = withStyles({
+    root: {
+      color:"#FFF",
+    },
+    icon: {
+      color:"#FFF"
+    },
+  })(Select)
+  export default function FrontHeader(props,ref) {
     const classes = useStyles();
+    
     const [initDone,setInitDone] = React.useState(false)
     const [lang,setLang] = React.useState(localStorage.getItem('lang_type') || 'ja-JP') 
     const [isLogin,setIsLogin] = React.useState(getCookie('isLogin'))
-
+    console.log(props)
     function renderLocaleSelector() {
         return (
-        <div
-    
-        >
+        <div>
           <FormControl className={classes.formControl}>
-            <Select
+
+            <MySelect
               value={lang}
               onChange={onSelectLocale}
-         
               displayEmpty
-               className={classes.root}
+              className={classes.select}
               inputProps={{ 'aria-label': 'Without label' }}
             >
               {SUPPOER_LOCALES.map(locale => (
               <MenuItem value={locale.value} key={locale.value}>{locale.name}</MenuItem>
               ))}
-            </Select>
+            </MySelect>
           </FormControl>
         </div>
         );
@@ -106,8 +134,9 @@ const SUPPOER_LOCALES = [
     return(
      
         <div className="headerCon">
+           
            <Grid container >
-            <Grid item xs={10}>
+            <Grid item xs={Format.isPc()?10:7}>
               <div className="logoCon"></div>
               </Grid>
               <Grid item xs={1}>
@@ -115,23 +144,24 @@ const SUPPOER_LOCALES = [
               {renderLocaleSelector()}
 
               </Grid>
-              <Grid item xs={1}>
-          
+
+              <Grid item xs={1} style={{display:Format.isPc()&&props.routerPath!='/welcome'?'block':'none'}}>
+             
                 <div>
                 { isLogin==1?(
-                  <Link to= {routes.webLoginPath} >
-                    <div className="loginCon" >{intl.get('bac2')}</div>
-                  </Link>
-                ):(
-                  <Link to= {routes.webLoginPath} >
-                    <div className="loginCon">{intl.get('bac1')}</div>
-                  </Link>
-                )
-              
-              }
+                    <Link to= {routes.webLoginPath} >
+                      <div className="loginCon" >{intl.get('bac2')}</div>
+                    </Link>
+                  ):(
+                    <Link to= {routes.webLoginPath} >
+                      <div className="loginCon">{intl.get('bac1')}</div>
+                    </Link>
+                  )
+                }
                 </div>
-        
+              
               </Grid>
+        
             </Grid>
 
         </div>

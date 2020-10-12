@@ -2,8 +2,6 @@ import React from 'react';
 import './webIndex.css';
 import FrontHeader from '../../../../comment/frontheader/frontheader';
 import Foot  from '../../../../comment/frontfoot/frontfoot';
-import checkinBackground1 from '../../../../asset/img/checkinBackground1.png';
-import housekey from '../../../../asset/img/key.png';
 const topbackground1 = window.location.origin+'/public/headImage/topbackground1.jpg';
 const image1 = window.location.origin+'/public/headImage/image1.png';
 const image2 = window.location.origin+'/public/headImage/image2.png';

@@ -14,7 +14,7 @@ import Card from '@material-ui/core/Card';
 import copy from  'copy-to-clipboard';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import intl from 'react-intl-universal';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -108,7 +108,7 @@ export default function CreateUrl() {
                 <Grid item xs={6}  style={{marginLeft:'20vw'}}>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                        设施
+                        {intl.get('bac31')}
                         </InputLabel>
                         <Select
                         labelId="construction-label"
@@ -119,18 +119,18 @@ export default function CreateUrl() {
                         className={classes.selectEmpty}
                         >
                         <MenuItem value="">
-                            <em>全部</em>
+                            <em>{intl.get('bac32')}</em>
                         </MenuItem>
-                        <MenuItem value={1}>大阪府</MenuItem>
-                        <MenuItem value={2}>神奈川</MenuItem>
-                        <MenuItem value={3}>奈良县</MenuItem>
-                        <MenuItem value={4}>北海道</MenuItem>
-                
+                        <MenuItem value={1}>ABC Guest House 1F</MenuItem>
+                        <MenuItem value={2}>ABC Guest House 2F</MenuItem>
+                        <MenuItem value={3}>A&Z Guest House</MenuItem>
+                        <MenuItem value={4}>JIYUKA Guest House</MenuItem>
+                        <MenuItem value={5}>PLUS 9 Guest House</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                        人数
+                        {intl.get('bac34')}
                         </InputLabel>
                         <Select
                         labelId="visitorNum-label"
@@ -141,7 +141,7 @@ export default function CreateUrl() {
                         className={classes.selectEmpty}
                         >
                         <MenuItem value="">
-                            <em>人数</em>
+                            <em>{intl.get('bac34')}</em>
                         </MenuItem>
                         <MenuItem value={1}>1人</MenuItem>
                         <MenuItem value={2}>2人</MenuItem>
@@ -152,11 +152,11 @@ export default function CreateUrl() {
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl} style={{'marginTop':30}}>
-                        <TextField id="appointmentCode" label="预约编码" variant="outlined" onChange={handleChangeAppointCode}/>
+                        <TextField id="appointmentCode" label={intl.get('bac33')} variant="outlined" onChange={handleChangeAppointCode}/>
                     </FormControl>
                     <FormControl className={classes.formControl} style={{'marginTop':30}}>
                     <Button variant="contained" color="primary"   onClick={createIt}>
-                        生成
+                    {intl.get('bac35')}
                     </Button>
                     </FormControl>                    
                 </Grid>
@@ -167,7 +167,7 @@ export default function CreateUrl() {
                 id="standard-full-width"
                 label="customer url"
                 placeholder="url"
-                helperText="请在上方控制台输入参数生成链接"
+                helperText={intl.get('bac37')}
                 fullWidth
                 margin="normal"
                 InputLabelProps={{
@@ -180,7 +180,7 @@ export default function CreateUrl() {
             <Grid item   xs={2}>
                 <FormControl className={classes.buttonControl}>
                 <Button variant="contained" color="primary" onClick={copyUrl}>
-                    复制
+                  {intl.get('bac36')}
                 </Button>
                 </FormControl>
             </Grid>

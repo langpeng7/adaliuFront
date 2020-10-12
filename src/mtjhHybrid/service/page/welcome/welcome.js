@@ -10,7 +10,7 @@ class Welcome extends React.Component{
 		this.state = {trainList:[]}
     }
 	componentDidMount(){
-
+		console.log(this)
 
 	}
 	componentWillUnmount(){
@@ -22,7 +22,7 @@ class Welcome extends React.Component{
 	render(){
 		return(
 			<div className="">
-				<FrontHeader />
+				<FrontHeader routerPath={this.props.match.path}/>
 				 <InputInformation /> 
 				<Foot />
 			</div>

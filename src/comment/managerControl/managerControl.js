@@ -14,7 +14,7 @@ import Category from '@material-ui/icons/Category';
 import Container from '@material-ui/core/Container';
 import CustomerInfoTable  from '../../comment/customerInfoTable/customerInfoTable';
 import CreateUrl  from '../../comment/createUrl/createUrl';
-
+import intl from 'react-intl-universal';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -59,19 +59,19 @@ export default function managerControl() {
             <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="顾客信息"   /> 
+              <ListItemText primary={intl.get('bac26')}   /> 
             </ListItem>
             <ListItem button onClick={houseManage}  data-type="1">
               <ListItemIcon>
                   <Category />
                 </ListItemIcon>
-              <ListItemText primary="设施管理" /> 
+              <ListItemText primary={intl.get('bac27')} /> 
             </ListItem>
             <ListItem button  onClick={createUrl} data-type="2">
             <ListItemIcon>
                 <DraftsIcon />
               </ListItemIcon>
-              <ListItemText primary="生成链接"/> 
+              <ListItemText primary={intl.get('bac28')}/> 
             </ListItem>
           </List> 
         </Grid>
@@ -82,7 +82,7 @@ export default function managerControl() {
 
           </div>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==1?"block":"none" }}>
-            设施管理
+            {intl.get('bac27')}
           </div>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==2?"block":"none" }}>
             <CreateUrl />

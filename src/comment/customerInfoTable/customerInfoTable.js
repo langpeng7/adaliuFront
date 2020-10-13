@@ -160,7 +160,7 @@ export default function CustomerInfoTable() {
     }
   };
   function visitorDetail (e){
-    window.open("/service/#/vistorDetail?visitorId="+e);
+    window.open("/#/vistorDetail?visitorId="+e);
   }
   return (
 <Paper className={classes.root}>

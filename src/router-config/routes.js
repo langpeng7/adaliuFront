@@ -8,7 +8,7 @@ export default {
         query:{}
     },
     fwbContentFuturesMarketPath:{
-        pathname:"/service/futuresMarket",
+        pathname:"/futuresMarket",
         query:{title:"期现介绍",stype:'futuresMarket',param:"/commonservices/futuresMarketDatas",des:"期现介绍"}
     } 
 

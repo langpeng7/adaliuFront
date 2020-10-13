@@ -2,8 +2,8 @@ import React from 'react';
 import './webIndex.css';
 import FrontHeader from '../../../../comment/frontheader/frontheader';
 import Foot  from '../../../../comment/frontfoot/frontfoot';
-const topbackground1 = window.location.origin+'/public/headImage/topbackground1.jpg';
-const image1 = window.location.origin+'/public/headImage/image1.png';
+const topbackground1 = require("../../../../asset/img/topbackground1.jpg")
+const image1 = require("../../../../asset/img/image1.png")
 const image2 = window.location.origin+'/public/headImage/image2.png';
 const image3 = window.location.origin+'/public/headImage/image3.png';
 const image4 = window.location.origin+'/public/headImage/image4.png';

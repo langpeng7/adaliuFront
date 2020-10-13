@@ -4,6 +4,7 @@ import axios from 'axios';
 import FrontHeader from '../../../../comment/frontheader/frontheader';
 import Foot  from '../../../../comment/frontfoot/frontfoot';
 import TextField from '@material-ui/core/TextField';
+const topbackground1 = require("../../../../asset/img/topbackground1.jpg")
 class WebLogin extends React.Component{
 	constructor(props) {
         super(props);
@@ -59,7 +60,7 @@ class WebLogin extends React.Component{
 		  })
 		  .then(function (response) {
 			if(response.data.errno==0){
-				window.location.href="/service/#/managerPage/"
+				window.location.href="/#/managerPage/"
 			}else{
 				alert('登陆失败')
 			}
@@ -69,9 +70,10 @@ class WebLogin extends React.Component{
 
 
 		return(
-			<div className="serviceInhouse">
+			<div className="serviceInhouse" >
 				<FrontHeader /> 
-				<div className="loginService" >
+			
+				<div className="loginService" style={{width:'100%',height:'43.6vw',background:"url("+topbackground1+") no-repeat center",backgroundSize:'100%'}} >
 					<div className="loginLeftPicCon">
 						{/* <img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" /> */}
 					</div>

@@ -5,6 +5,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import './frontheader.css';
+import PropTypes from 'prop-types';
 import routes from '../../router-config/routes';
 import {Link} from 'react-router-dom';
 import intl from 'react-intl-universal';
@@ -34,8 +35,7 @@ const SUPPOER_LOCALES = [
     'zh-CN': zhCN,
     'en-US': enUS,
   };
-
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = theme => ({
     root:{
       color:"#FFF",
       // "& .MuiSelect-icon": {
@@ -65,7 +65,8 @@ const SUPPOER_LOCALES = [
         borderBottom: `1px solid #FFF`
       }
     }
-  }));
+  });
+ 
   const MySelect = withStyles({
     root: {
       color:"#FFF",
@@ -74,20 +75,38 @@ const SUPPOER_LOCALES = [
       color:"#FFF"
     },
   })(Select)
-  export default function FrontHeader(props,ref) {
-    const classes = useStyles();
+  const  onSelectLocale = ev => {
+    localStorage.setItem('lang_type', ev.target.value);
+    window.location.reload();
+};
+  class FrontHeader extends React.Component {
+    state = {
+      lang: localStorage.getItem('lang_type'),
+      name: 'hai',
+      labelWidth: 0,
+    };
     
-    const [initDone,setInitDone] = React.useState(false)
-    const [lang,setLang] = React.useState(localStorage.getItem('lang_type') || 'ja-JP') 
-    const [isLogin,setIsLogin] = React.useState(getCookie('isLogin'))
-    console.log(props)
-    function renderLocaleSelector() {
+    componentDidMount() {
+      this.setState({
+
+      });
+    }
+  
+    handleChange = event => {
+      this.setState({ [event.target.name]: event.target.value });
+    };
+
+    render() {
+      console.log(this)
+      const { classes } = this.props;
+      // console.log(classes)
+      function renderLocaleSelector() {
         return (
         <div>
           <FormControl className={classes.formControl}>
 
             <MySelect
-              value={lang}
+              value={this.state.lang}
               onChange={onSelectLocale}
               displayEmpty
               className={classes.select}
@@ -101,77 +120,133 @@ const SUPPOER_LOCALES = [
         </div>
         );
     }
-
-
-    const  onSelectLocale = ev => {
-        localStorage.setItem('lang_type', ev.target.value);
-        window.location.reload();
-    };
-
-    loadLocales();
-    function loadLocales() {
-        intl
-          .init({
-            // init method will load CLDR locale data according to currentLocale
-            // react-intl-universal is singleton, so you should init it only once in your app
-            currentLocale: lang, // TODO: determine locale here
-            locales:locales
-          })
-          .then(() => {
-            // After loading CLDR locale data, start to render
-            setInitDone(true)
-          });
-    }
-    function getCookie (name) {
-      let arr;
-      let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if (arr = document.cookie.match(reg)){
-    
-        return unescape(arr[2]);
-        console.log(arr)
-      }else{
-        console.log(document.cookie.match(reg))
-        return null;
-      }
-    };
-    const loginOut = () => {
-        console.log(1111111122)
-    }
-    return(
-     
-        <div className="headerCon">
-           
-           <Grid container >
+      return (<div className="headerCon">
+          <Grid container >
             <Grid item xs={Format.isPc()?10:7}>
               <div className="logoCon"></div>
-              </Grid>
-              <Grid item xs={1}>
-            
-              {renderLocaleSelector()}
+            </Grid>
+            <Grid item xs={1}>
 
-              </Grid>
 
-              <Grid item xs={1} style={{display:Format.isPc()&&props.routerPath!='/welcome'?'block':'none'}}>
-             
-                <div>
-                { isLogin==1?(
-                    // <Link to= {routes.webLoginPath} >
-                <div className="loginCon" onClick={loginOut()} >{intl.get('bac2')}{isLogin}</div>
-                    // </Link>
-                  ):(
-                    // <Link to= {routes.webLoginPath} >
-                      <div className="loginCon" >{intl.get('bac1')}</div>
-                    // </Link>
-                  )
-                }
-                </div>
-              
-              </Grid>
-        
+
             </Grid>
 
-        </div>
+            <Grid item xs={1} style={{display:Format.isPc()&&this.props.routerPath!='/welcome'?'block':'none'}}>
+          
+    
+          
+            </Grid>          
+          </Grid>
+      </div>)
+    }
+  
+  }
+  FrontHeader.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+  export default withStyles(useStyles)(FrontHeader);
 
-    );
-}
+
+
+// export default function FrontHeader(props,ref) {
+//     const classes = useStyles();
+    
+//     const [initDone,setInitDone] = React.useState(false)
+//     const [lang,setLang] = React.useState(localStorage.getItem('lang_type') || 'ja-JP') 
+//     const [isLogin,setIsLogin] = React.useState(getCookie('isLogin'))
+
+
+//     function renderLocaleSelector() {
+//         return (
+//         <div>
+//           <FormControl className={classes.formControl}>
+
+//             <MySelect
+//               value={lang}
+//               onChange={onSelectLocale}
+//               displayEmpty
+//               className={classes.select}
+//               inputProps={{ 'aria-label': 'Without label' }}
+//             >
+//               {SUPPOER_LOCALES.map(locale => (
+//               <MenuItem value={locale.value} key={locale.value}>{locale.name}</MenuItem>
+//               ))}
+//             </MySelect>
+//           </FormControl>
+//         </div>
+//         );
+//     }
+
+
+//     const  onSelectLocale = ev => {
+//         localStorage.setItem('lang_type', ev.target.value);
+//         window.location.reload();
+//     };
+
+//     loadLocales();
+//     function loadLocales() {
+//         intl
+//           .init({
+//             // init method will load CLDR locale data according to currentLocale
+//             // react-intl-universal is singleton, so you should init it only once in your app
+//             currentLocale: lang, // TODO: determine locale here
+//             locales:locales
+//           })
+//           .then(() => {
+//             // After loading CLDR locale data, start to render
+//             setInitDone(true)
+//           });
+//     }
+//     function getCookie (name) {
+//       let arr;
+//       let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+//       if (arr = document.cookie.match(reg)){
+    
+//         return unescape(arr[2]);
+//         console.log(arr)
+//       }else{
+//         console.log(document.cookie.match(reg))
+//         return null;
+//       }
+//     };
+//     const loginOut = () => {
+//         console.log(1111111122)
+//     }
+//     return(
+     
+//         <div className="headerCon">
+           
+//            <Grid container >
+//             <Grid item xs={Format.isPc()?10:7}>
+//               <div className="logoCon"></div>
+//               </Grid>
+//               <Grid item xs={1}>
+            
+//               {renderLocaleSelector()}
+
+//               </Grid>
+
+//               <Grid item xs={1} style={{display:Format.isPc()&&props.routerPath!='/welcome'?'block':'none'}}>
+             
+//                 <div>
+//                 { isLogin==1?(
+//                     // <Link to= {routes.webLoginPath} >
+//                 <div className="loginCon" onClick={loginOut()} >{intl.get('bac2')}{isLogin}</div>
+//                     // </Link>
+//                   ):(
+//                     // <Link to= {routes.webLoginPath} >
+//                       <div className="loginCon" >{intl.get('bac1')}</div>
+//                     // </Link>
+//                   )
+//                 }
+//                 </div>
+              
+//               </Grid>
+        
+//             </Grid>
+
+//         </div>
+
+//     );
+// }
  

@@ -1,7 +1,7 @@
 import React from 'react';
 import './frontfoot.css';
 
-class FrontHeader extends React.Component{
+class FrontFooter extends React.Component{
 	componentWillMount(){
    
     }
@@ -14,4 +14,4 @@ class FrontHeader extends React.Component{
         );
     }
 }
-export { FrontHeader as default};  
+export { FrontFooter as default};  

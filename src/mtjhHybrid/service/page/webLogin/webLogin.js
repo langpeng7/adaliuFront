@@ -61,6 +61,7 @@ class WebLogin extends React.Component{
 		  .then(function (response) {
 			if(response.data.errno==0){
 				window.location.href="/#/managerPage/"
+				
 			}else{
 				alert('登陆失败')
 			}

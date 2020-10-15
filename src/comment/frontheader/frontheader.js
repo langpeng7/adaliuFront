@@ -122,15 +122,21 @@ const SUPPOER_LOCALES = [
             setInitDone(true)
           });
     }
-    function  getCookie (name) {
+    function getCookie (name) {
       let arr;
       let reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-      if (arr = document.cookie.match(reg))
-      return unescape(arr[2]);
-      else
-      return null;
+      if (arr = document.cookie.match(reg)){
+    
+        return unescape(arr[2]);
+        console.log(arr)
+      }else{
+        console.log(document.cookie.match(reg))
+        return null;
+      }
     };
-
+    const loginOut = () => {
+        console.log(1111111122)
+    }
     return(
      
         <div className="headerCon">
@@ -149,13 +155,13 @@ const SUPPOER_LOCALES = [
              
                 <div>
                 { isLogin==1?(
-                    <Link to= {routes.webLoginPath} >
-                      <div className="loginCon" >{intl.get('bac2')}</div>
-                    </Link>
+                    // <Link to= {routes.webLoginPath} >
+                <div className="loginCon" onClick={loginOut()} >{intl.get('bac2')}{isLogin}</div>
+                    // </Link>
                   ):(
-                    <Link to= {routes.webLoginPath} >
-                      <div className="loginCon">{intl.get('bac1')}</div>
-                    </Link>
+                    // <Link to= {routes.webLoginPath} >
+                      <div className="loginCon" >{intl.get('bac1')}</div>
+                    // </Link>
                   )
                 }
                 </div>

@@ -27,7 +27,9 @@ const indexImage2_4 = require("../../../../asset/img/indexImage2_4.png")
 class WebIndex extends React.Component{
 	constructor(props) {
         super(props);
-		this.state = {}
+		this.state = {
+	
+		}
     }
 	componentDidMount(){
 
@@ -38,7 +40,7 @@ class WebIndex extends React.Component{
 	render(){
 		return(
 			<div className="serviceInhouse">
-				<FrontHeader /> 
+				<FrontHeader  /> 
               	<div style={{width:'100%',height:'14px',background:'#FFF'}}></div>
 				<div className="webCon" >
 					<div className="topbackground1" style={{width:'100%',height:'43.6vw',background:"url("+topbackground1+") no-repeat center",backgroundSize:'100%'}}>

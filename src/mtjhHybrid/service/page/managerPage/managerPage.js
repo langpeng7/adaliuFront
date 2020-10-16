@@ -6,13 +6,17 @@ import Foot  from '../../../../comment/frontfoot/frontfoot';
 import ManagerControl  from '../../../../comment/managerControl/managerControl';
 import TextField from '@material-ui/core/TextField';
 import intl from 'react-intl-universal';
+import Format  from '../../../../common/format';
 class ManagePage extends React.Component{
 	constructor(props) {
         super(props);
 		this.state = {}
+	
     }
 	componentDidMount(){
-		
+		if(Format.getCookie('isLogin')=='0'){
+			window.location.href="/#/webIndex/"
+		}
 	}
 	componentWillUnmount(){
 

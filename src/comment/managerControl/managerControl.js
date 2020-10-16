@@ -30,7 +30,7 @@ function ListItemLink(props) {
 
 export default function managerControl() {
   const classes = useStyles();
-
+  
   //右侧content 根据状态切换
   const [contentType, setContentType] = React.useState(0);
   const customerInfo = (e) => {

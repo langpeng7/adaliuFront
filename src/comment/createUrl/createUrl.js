@@ -113,8 +113,8 @@ export default function CreateUrl() {
                         <Select
                         labelId="construction-label"
                         id="construction-label"
-                        value={vistNum}
-                        onChange={handleChangeVistNum}
+                        value={construct}
+                        onChange={handleChangeConstruction}
                         displayEmpty
                         className={classes.selectEmpty}
                         >
@@ -135,8 +135,8 @@ export default function CreateUrl() {
                         <Select
                         labelId="visitorNum-label"
                         id="visitorNum-label"
-                        value={construct}
-                        onChange={handleChangeConstruction}
+                        value={vistNum}
+                        onChange={handleChangeVistNum}
                         displayEmpty
                         className={classes.selectEmpty}
                         >

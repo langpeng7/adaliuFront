@@ -1,6 +1,6 @@
 .clearfix:after{visibility:hidden;display:block;font-size:0;content: " ";clear:both;height:0;}
 .informationCon{
-    width:100vw;
+    width:96vw;
     height:800px;
  
     margin:0 auto
@@ -21,8 +21,8 @@
 }
 
 .baseInfoCon{
-    width:100vw;
-    height:30vw;
+    width:96vw;
+    height:34vw;
     text-align:center;
     display:flex;
     flex-flow: column;
@@ -47,7 +47,7 @@
     position: absolute;
 }
 .passportPicCon{
-    width:100vw;
+    width:96vw;
     height:34vw;
     float:left;
     z-index: -10;
@@ -56,7 +56,7 @@
     background:#FFF
 }
 .passportPicConMb{
-    width:100vw;
+    width:96vw;
     height:90vw;
     float:left;
     z-index: -10;
@@ -65,7 +65,7 @@
     background:#FFF
 }
 .signCon{
-    width:100vw;
+    width:96vw;
     height:30vw;
     float:left;
     z-index: -10;
@@ -75,12 +75,36 @@
 }
 .signConMb{
     width:96vw;
-    height:96vw;
+    height:90vw;
     float:left;
     z-index: -10;
     overflow: hidden;
     position: absolute;
     background:#FFF
+}
+.completeCon{
+    width:96vw;
+    height:34vw;
+    float:left;
+    z-index: -10;
+    overflow: hidden;
+    position: absolute;
+    background:#FFF;
+    font-size:32px;
+    text-align: center;
+    line-height:30vw
+}
+.completeConMb{
+    width:96vw;
+    height:90vw;
+    float:left;
+    z-index: -10;
+    overflow: hidden;
+    position: absolute;
+    background:#FFF;
+    font-size:32px;
+    text-align: center;
+    line-height:30vw
 }
 .banConshow{
     display: block;
@@ -95,11 +119,14 @@
 }
 .stepBtnConMb{
     text-align: center;
-    margin-top:100vw;
+    margin-top:96vw;
     margin-bottom:5vw
 }
 .consumerInfoCon{
     margin-top:5vw
+}
+.consumerInfoConMb{
+    margin-top:9vw
 }
 .consumerName,.consumerProfession,.consumerAddress{
     width:22vw;
@@ -113,8 +140,8 @@
     margin:3vw 0 0 3vw;
     border-radius: 10px;
     overflow: hidden;
-    height:400px;
-    width:400px;
+    height:300px;
+    width:300px;
     
     border:1px dashed #666;
     position: relative;
@@ -135,18 +162,36 @@
     float:left;
     border-radius: 10px;
     overflow: hidden;
-    height:400px;
-    width:400px;
+    height:300px;
+    width:300px;
     border:1px dashed #666
 
+}
+.videoCanvasConMb{
+    float:left;
+    border-radius: 10px;
+    overflow: hidden;
+    height:150px;
+    width:150px;
+    border:1px dashed #666;
+    margin-left:10vw
 }
 .handkeepPassportCanvasCon{
     float:left;
     border-radius: 10px;
     overflow: hidden;
-    height:400px;
-    width:400px;
+    height:300px;
+    width:300px;
     border:1px dashed #666
+}
+.handkeepPassportCanvasConMb{
+    float:left;
+    border-radius: 10px;
+    overflow: hidden;
+    height:150px;
+    width:150px;
+    border:1px dashed #666;
+    margin-left:10vw
 }
 .btnCon{
     float:left;
@@ -258,4 +303,45 @@
     text-align: center;
     cursor: pointer;
     margin-left:12vw;
+}
+
+.progress{
+    width:96vw;
+    height:3vw;
+}
+.peoUnit{
+    width:2vw;
+    height:1vw;
+    background:#666;
+    border-radius:4px;
+    float:left;
+    margin-top:1vw;
+    margin-left:4vw;
+    cursor:pointer
+}
+.completeInfomation{
+    float:right;
+    width:6vw;
+    height:1.6vw;
+    line-height:1.6vw;
+    border-radius:3px;
+    background:#7f4bf5;
+    margin:1vw 2vw 0 0;
+    color:#FFF;
+    text-align:center;
+    cursor:pointer;
+    font-size:1vw
+}
+.completeInfomationMb{
+    width:80vw;
+    height:10vw;
+    line-height:10vw;
+    border-radius:3px;
+    margin-left:10vw;
+    float:left;
+    background:#7f4bf5;
+    color:#FFF;
+    text-align:center;
+    cursor:pointer;
+
 }

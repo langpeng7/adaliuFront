@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Check from '@material-ui/icons/Check';
 import intl from 'react-intl-universal';
+
   const isPcCon =    function isPC() {
     var userAgentInfo = navigator.userAgent;
     var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
@@ -40,14 +41,6 @@ import intl from 'react-intl-universal';
       marginBottom: theme.spacing(1),
     },
   }));
-  const allState = {
-    name:"",
-    jobL:"",
-    address:"",
-    pic1:"",
-    pic2:"",
-    signPic:""
-  }
 
   const theme = createMuiTheme({
     palette: {
@@ -103,57 +96,196 @@ const useQontoStepIconStyles = makeStyles({
   },
 });
 
-function QontoStepIcon(props) {
-  const classes = useQontoStepIconStyles();
-  const { active, completed } = props;
 
-  return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-      })}
-    >
-      {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-    </div>
-  );
-}
 
-QontoStepIcon.propTypes = {
-  /**
-   * Whether this step is active.
-   */
-  active: PropTypes.bool,
-  /**
-   * Mark the step as completed. Is passed to child components.
-   */
-  completed: PropTypes.bool,
-};
-function getSteps() {
-  return [intl.get('bac6'), intl.get('bac7'), intl.get('bac8')];
-}
-
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return intl.get('bac15');
-    case 1:
-      return intl.get('bac39');
-    case 2:
-      return intl.get('bac22');
-    default:
-      return 'Unknown stepIndex' ;
+  
+function isPC() {
+  var userAgentInfo = navigator.userAgent;
+  var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
+  var flag = true;
+  for (var v = 0; v < Agents.length; v++) {
+    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+      flag = false;
+      break;
+    }
   }
+  return flag;
 }
-
 
 export default function InputInformation() {
     //默认样式
     const classes = useStyles();
-    //步揍状态
-    const [activeStep, setActiveStep] = React.useState(0);
-    //步揍值
-    const steps = getSteps();
-    //姓名
+
+    //客人数目
+    const peoCount = Format.getQueryVariable('vn')
+
+    const [peoNumAllInfo,setPeoNumAllInfo] = React.useState(peoUnitPrepare)
+
+    function submitPeoInfomation(e){
+      console.log(peoNumAllInfo)
+      const allInfoLength = peoNumAllInfo.length;
+      let isCpLength = 0;
+    
+      for(let i=0;i<peoNumAllInfo.length;i++){
+        if(peoNumAllInfo[i].isComplete){
+          isCpLength++
+        }
+
+      }
+      if(isCpLength ==allInfoLength){
+        axios({
+          method: 'post',
+          url: '/api/savePic',
+          headers: {
+            'Content-Type':'application/json'
+          },          
+          data: JSON.stringify(peoNumAllInfo)
+        })
+        .then(function (response) {
+          console.log(response);
+          window.location.href="/#/infoFinish/"
+        })
+
+
+      }else{
+        alert("您有未填写得信息")
+      }
+    }
+
+
+
+    //根据浏览器vn 设置人数对应得默认值
+    function peoUnitPrepare(){
+      
+      const peoUnit =[]
+      for(let i=0;i<peoCount;i++){
+        peoUnit.push({num:i+1,isInputing:i==0?true:false,isComplete:false,csName:'',csJob:'',csAddress:'',csPic1:'',csPic2:'',csSignPic:'',imgType1:1,imgType2:1,visitorNum:'',constructionId:'',code:''})
+      }
+      return peoUnit
+      
+    }
+
+    let peoUnitList = peoNumAllInfo.map(function (value, key) {
+      console.log(value)
+      if(value.isComplete){
+        return (<div className="peoUnit"  style={{background:'green'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
+      }else{
+        return (<div className="peoUnit"  style={{background:value.isInputing?'#faf703':'#666'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
+      }
+      
+    })
+
+    function choosePeoInput(e){
+      const peoInfo = peoNumAllInfo
+      for(let i=0;i<peoNumAllInfo.length;i++){
+          if(e.num == peoNumAllInfo[i].num){
+            peoInfo[i].isInputing = true
+    
+          }else{
+            peoInfo[i].isInputing = false
+          }
+      }
+      setPeoNumAllInfo(peoInfo.slice())
+ 
+      
+    }
+
+
+
+    let eachPeoInfo =peoNumAllInfo.map(function(value,key){
+      console.log(value)
+      console.log(key)
+      //步揍状态
+      const [activeStep, setActiveStep] = React.useState(0);
+      //步揍值
+      const steps = getSteps();
+      //下一步的动作
+      const handleNext = () => {
+      
+      const visitorNum = Format.getQueryVariable("vn")
+      const constructionId = Format.getQueryVariable("cn")
+      const code= Format.getQueryVariable("cd")
+
+        if(activeStep == 2){
+      
+          
+          if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&&code){
+            const peoInfo = peoNumAllInfo;
+            for(let i=0;i<peoNumAllInfo.length;i++){
+              if(value.num == peoNumAllInfo[i].num){
+                peoInfo[i].csName = csName
+                peoInfo[i].csJob = csJob
+                peoInfo[i].csAddress = csAddress
+                peoInfo[i].csPic1 = csPic1
+                peoInfo[i].csPic2 = csPic2
+                peoInfo[i].csSignPic = csSignPic
+                peoInfo[i].visitorNum = visitorNum
+                peoInfo[i].constructionId = constructionId
+                peoInfo[i].code = code
+                peoInfo[i].isComplete = true
+                setPeoNumAllInfo(peoInfo.slice())
+              }
+            }
+     
+          }else{
+            alert(intl.get('bac45'))
+            return false
+          }
+        }
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      };
+      
+      const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      };
+    
+      const handleReset = () => {
+        setActiveStep(0);
+      };
+
+      function getSteps() {
+        return [intl.get('bac6'), intl.get('bac7'), intl.get('bac8')];
+      }
+      
+      function getStepContent(stepIndex) {
+        console.log(stepIndex)
+        switch (stepIndex) {
+          case 0:
+            return intl.get('bac15');
+          case 1:
+            return intl.get('bac39');
+          case 2:
+            return intl.get('bac22');
+          default:
+            return 'Unknown stepIndex' ;
+        }
+      }
+      function QontoStepIcon(props) {
+        const classes = useQontoStepIconStyles();
+        const { active, completed } = props;
+      
+        return (
+          <div
+            className={clsx(classes.root, {
+              [classes.active]: active,
+            })}
+          >
+            {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
+          </div>
+        );
+      }
+      
+      QontoStepIcon.propTypes = {
+        /**
+         * Whether this step is active.
+         */
+        active: PropTypes.bool,
+        /**
+         * Mark the step as completed. Is passed to child components.
+         */
+        completed: PropTypes.bool,
+      };
+          //姓名
     const [csName, setName] = React.useState(intl.get('bac9'));
     const iptName = (e) => {
       setName(e.target.value);
@@ -168,13 +300,28 @@ export default function InputInformation() {
     const iptAddress = (e) => {
       setAddress(e.target.value);
     }  
+   //护照
+   const [csPic1, setPic1] = React.useState();
+   //手持护照
+   const [csPic2, setPic2] = React.useState();  
+
+   const [csDsPic1, setDisplayPic1] = React.useState();
+
+   const [csDsPic2, setDisplayPic2] = React.useState();
+
+   const [imgType1, setImgType1] = React.useState();
+
+   const [imgType2, setImgType2] = React.useState();
+   //签名
+   const [csSignPic, setSignPic] = React.useState();  
+
 
     function clickOnChangePic1(e){
-      document.getElementById("profilePic1").click(); 
+      document.getElementById("profilePic"+value.num).click(); 
      
     }
     function onChangePicture1(e){
-        let pic = document.getElementById("profilePic1").files[0];
+        let pic = document.getElementById("profilePic"+value.num).files[0];
         let imgFile = new FileReader();
         let b64
         if(pic){
@@ -196,11 +343,11 @@ export default function InputInformation() {
     }
 
     function clickOnChangePic2(e){
-      document.getElementById("profilePic2").click(); 
+      document.getElementById("profileHandPic"+value.num).click(); 
      
     }
     function onChangePicture2(e){
-       let pic = document.getElementById("profilePic2").files[0];
+       let pic = document.getElementById("profileHandPic"+value.num).files[0];
        console.log(pic)
        let b64
        var imgFile = new FileReader();
@@ -220,86 +367,29 @@ export default function InputInformation() {
  
       }
   
-    }
-  
-   
-    //护照
-    const [csPic1, setPic1] = React.useState();
-    //手持护照
-    const [csPic2, setPic2] = React.useState();  
-
-    const [csDsPic1, setDisplayPic1] = React.useState();
-
-    const [csDsPic2, setDisplayPic2] = React.useState();
-
-    const [imgType1, setImgType1] = React.useState();
-
-    const [imgType2, setImgType2] = React.useState();
-    //签名
-    const [csSignPic, setSignPic] = React.useState();  
-
-    //下一步的动作
-    const handleNext = () => {
-    
-      const visitorNum = Format.getQueryVariable("vn")
-      const constructionId = Format.getQueryVariable("cn")
-      const code= Format.getQueryVariable("cd")
-
-      if(activeStep == 2){
-        if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&code){
-          axios({
-            method: 'post',
-            url: '/api/savePic',
-            headers: {
-              'Content-Type':'application/json'
-            },          
-            data: JSON.stringify({
-              csName: csName,
-              csJob: csJob,
-              csAddress:csAddress,
-              csPic1:csPic1,
-              csPic2:csPic2,
-              csSignPic:csSignPic,
-              visitorNum:visitorNum,
-              constructionId:constructionId,
-              code:code
-            })
-          })
-          .then(function (response) {
-            console.log(response);
-            window.location.href = window.location.href="/#/webIndex/"
-          })
-        }else{
-          alert(intl.get('bac45'))
-          return false
-        }
-      }
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-    
-    const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-  
-    const handleReset = () => {
-      setActiveStep(0);
-    };
+    } 
 
     //显示隐藏style 状态
-    const hideEle={
+    const hideEle = {
         'zIndex':'-10'
     };
-    const showEle={
+    const showEle = {
         'zIndex':'10'
     };
 
-
+    const showPeoInput = {
+      'zIndex':'5'
+    };
+  
+    const hidePeoInput = {
+      'zIndex':'-5'
+    };
     //加一个videolabel状态
     // const [videoLabel,setVideoLabelType] = React.useState({type:true})
 
 
     //获得video摄像头区域
-    let video = document.getElementById("video");
+    let video = document.getElementById("video"+value.num);
     function getMedia() {
 
         let constraints = {
@@ -322,7 +412,7 @@ export default function InputInformation() {
 
     function takePhoto() {
       //获得Canvas对象
-      let canvas = document.getElementById("passportCanvas");
+      let canvas = document.getElementById("passportCanvas"+value.num);
       let ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, 500, 500);
       console.log(video)
@@ -332,222 +422,250 @@ export default function InputInformation() {
       setPic1(b64)
     // $('.pic').val(b64)
     }
-
-
-
   
-    function takeHandKeepPhoto() {
-      //获得Canvas对象
-      let canvas = document.getElementById("handkeepPassport");
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, 500, 500);
-      setImgType2("1")
-      let saveImage = canvas.toDataURL('image/png');
-      let b64 = saveImage.substring(22);
-      console.log(b64)
-      setPic2(b64)
-    // $('.pic').val(b64)
-    }
-
-    const signCanvas= React.createRef();
-    function takeSign(){
-      let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
-      setSignPic(signImg)
-    }
-    function clear(){
-      signCanvas.current.clear()
-    }
-
-    function isPC() {
-      var userAgentInfo = navigator.userAgent;
-      var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
-      var flag = true;
-      for (var v = 0; v < Agents.length; v++) {
-        if (userAgentInfo.indexOf(Agents[v]) > 0) {
-          flag = false;
-          break;
-        }
+  
+  
+    
+      function takeHandKeepPhoto() {
+        //获得Canvas对象
+        let canvas = document.getElementById("handkeepPassport"+value.num);
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, 500, 500);
+        setImgType2("1")
+        let saveImage = canvas.toDataURL('image/png');
+        let b64 = saveImage.substring(22);
+        console.log(b64)
+        setPic2(b64)
+      // $('.pic').val(b64)
       }
-      return flag;
-    }
-    const screenWidth = document.body.clientWidth-16
+
+      let signCanvas = React.createRef();
+      const inputing = value.isInputing
+      function takeSign(){
+        let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
+        console.log(signImg)
+        setSignPic(signImg)
+        alert("生成签名成功，请点击下一步")
+        
+      }
+      function clear(){
+        // signCanvaName.current.clear()
+      }
+
+      const screenWidth = document.body.clientWidth-16
+      if(isPC()){
+        return(
+          <div key={value.num}  style={{"zIndex":inputing?'15':-15,"position":'absolute',width:'96vw'}} >
+            <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
+              {steps.map((label) => (
+                <Step key={label} >
+                  <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <div className = "baseInfoCon"  style={activeStep==0?showEle:hideEle}>
+                <div className = "consumerInfoCon">
+                    <TextField className="consumerName consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="consumerProfession consumerIptText" helperText={intl.get('bac40')}  value={csJob} onChange={iptJob}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="consumerAddress consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
+                </div>
+            </div>
+            <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>
+              <div className="videoCon">
+                <video id={'video'+value.num} width="300px" height="300px" ></video>
+                <div className="videoConLabel" >{intl.get('bac16')}</div>
+              </div>
+              <div style={{'float':'left',width:'300px',height:'300px',margin:'3vw 0 0 3vw'}}>
+                <div className="videoCanvasCon">
+                  <canvas id={'passportCanvas'+value.num} style={{display:imgType1==1?'block':'none'}} width="300px" height="300px"></canvas>
+                  <img style={{width:'300px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
+                </div>
+                <input id={'profilePic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 123px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
+              </div>
+              <div style={{'float':'left',width:'300px',height:'300px',margin:'3vw 0 0 3vw'}}>
+                <div className="handkeepPassportCanvasCon">
+                  <canvas id={'handkeepPassport'+value.num} width="300px" height="300px"  style={{display:imgType2==1?'block':'none'}}></canvas>
+                  <img style={{width:'300px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
+                </div>
+                <input id={'profileHandPic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 106px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
+              </div>
+              <div className="btnCon">
+              <div className="openCamera" onClick={getMedia}>{intl.get('bac17')}</div>
+                  <div className="takephoto" onClick={takePhoto}>{intl.get('bac18')}</div>
+                  <div className="takeHandKeepPhoto" onClick={takeHandKeepPhoto}>{intl.get('bac19')}</div>
+              </div>
+            </div>
+            <div className = "signCon"  style={activeStep==2?showEle:hideEle}>
+              <div className = "signRegion">
+                <CanvasDraw
+                    ref={signCanvas}
+                    brushColor="#000"
+                    brushRadius={3}
+                    lazyRadius={10}
+                    canvasWidth={600}
+                    canvasHeight={240}
+                />
+              </div>
+              <div className = "signControl">
+                <div className = "clearSign" onClick={clear}>{intl.get('bac20')}</div>
+                <div className = "takeSign" onClick={takeSign}>{intl.get('bac21')}</div>
+              </div>
+    
+            </div>
+            <div className = "completeCon"  style={activeStep==3?showEle:hideEle}>
+
+                  完成
+
+            </div>
+            <div className="stepBtnCon" style={{"display":inputing?'block':'none'}} >
+      
+              {activeStep === steps.length ? (
+                <div>
+                  <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
+                  <Button onClick={handleReset}>Reset</Button>
+                </div>
+              ) : (
+                <div >
+                  <Typography  className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.backButton}
+                    >
+                      Back
+                    </Button>
+                    <Button variant="contained" color="secondary" onClick={handleNext}>
+                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )
+      }else{
+        return(
+          <div key={value.num}  style={{"zIndex":inputing?'15':-15,"position":'absolute',width:'96vw',paddingBottom:'5vw'}} >
+            <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
+              {steps.map((label) => (
+                <Step key={label} >
+                  <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <div className = "baseInfoConMb"  style={activeStep==0?showEle:hideEle}>
+                <div className = "consumerInfoConMb">
+                    <TextField className="consumerNameMb consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
+                </div>
+                <div className = "consumerInfoConMb">
+                    <TextField className="consumerProfessionMb consumerIptText" helperText={intl.get('bac40')}  value={csJob} onChange={iptJob}/>
+                </div>
+                <div className = "consumerInfoConMb">
+                    <TextField className="consumerAddressMb consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
+                </div>
+            </div>
+            <div className = "passportPicConMb" style={activeStep==1?showEle:hideEle}>
+
+              <div style={{'float':'left',width:'96vw',height:'45vw',margin:'3vw 0 0 0'}}>
+                <div className="videoCanvasConMb">
+                  <canvas id={'passportCanvas'+value.num} style={{display:'none'}} width="150px" height="150px"></canvas>
+                  <img style={{width:'150px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
+                </div>
+                <input id={'profilePic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'15vw 0 0 10vw',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
+              </div>
+              <div style={{'float':'left',width:'96vw',height:'45vw',margin:'3vw 0 0 0'}}>
+                <div className="handkeepPassportCanvasConMb">
+                  <canvas id={'handkeepPassport'+value.num} width="150px" height="150px"  style={{display:'none'}}></canvas>
+                  <img style={{width:'150px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
+                </div>
+                <input id={'profileHandPic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'15vw 0 0 10vw',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
+              </div>
+          
+            </div>
+            <div className = "signConMb"  style={activeStep==2?showEle:hideEle}>
+              <div className = "signRegionMb">
+                <CanvasDraw
+                    ref={signCanvas}
+                    brushColor="#000"
+                    brushRadius={3}
+                    lazyRadius={10}
+                    canvasWidth={window.innerWidth}
+                    canvasHeight={240}
+                />
+              </div>
+              <div className = "signControlMb">
+                <div className = "clearSignMb" onClick={clear}>{intl.get('bac20')}</div>
+                <div className = "takeSignMb" onClick={takeSign}>{intl.get('bac21')}</div>
+              </div>
+    
+            </div>
+            <div className = "completeConMb"  style={activeStep==3?showEle:hideEle}>
+
+            {intl.get('bac25')}
+
+            </div>
+            <div className="stepBtnConMb" style={{"display":inputing?'block':'none'}} >
+      
+              {activeStep === steps.length ? (
+                <div>
+                  <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
+                  <Button onClick={handleReset}>Reset</Button>
+                </div>
+              ) : (
+                <div >
+                  <Typography  className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.backButton}
+                    >
+                      Back
+                    </Button>
+                    <Button variant="contained" color="secondary" onClick={handleNext}>
+                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="completeInfomationMb" onClick={submitPeoInfomation}>{intl.get('bac47')}</div> 
+          </div>
+        )
+      }
+    })
     if(isPC()){
       return (
         <div className={classes.root}>
           <ThemeProvider theme={theme}>
-          <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
-            {steps.map((label) => (
-              <Step key={label} >
-                <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div className = "baseInfoCon"  style={activeStep==0?showEle:hideEle}>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerName consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
-              </div>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerProfession consumerIptText" helperText={intl.get('bac40')}  value={csJob} onChange={iptJob}/>
-              </div>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerAddress consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
-              </div>
-          </div>
-          <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>
-            <div className="videoCon">
-              <video id="video" width="400px" height="400px" ></video>
-              <div className="videoConLabel" >{intl.get('bac16')}</div>
+            <div  className="progress">
+             <div> {peoUnitList}</div>
+             <div className="completeInfomation" onClick={submitPeoInfomation}>{intl.get('bac47')}</div> 
             </div>
-            <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
-              <div className="videoCanvasCon">
-                <canvas id="passportCanvas" style={{display:imgType1==1?'block':'none'}} width="400px" height="400px"></canvas>
-                <img style={{width:'400px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
-              </div>
-              <input id="profilePic1" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-              <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
-            </div>
-            <div style={{'float':'left',width:'400px',height:'500px',margin:'3vw 0 0 3vw'}}>
-              <div className="handkeepPassportCanvasCon">
-                <canvas id="handkeepPassport" width="400px" height="400px"  style={{display:imgType2==1?'block':'none'}}></canvas>
-                <img style={{width:'400px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
-              </div>
-              <input id="profilePic2" style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-              <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 150px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
-            </div>
-            <div className="btnCon">
-            <div className="openCamera" onClick={getMedia}>{intl.get('bac17')}</div>
-                <div className="takephoto" onClick={takePhoto}>{intl.get('bac18')}</div>
-                <div className="takeHandKeepPhoto" onClick={takeHandKeepPhoto}>{intl.get('bac19')}</div>
-            </div>
-          </div>
-          <div className = "signCon"  style={activeStep==2?showEle:hideEle}>
-            <div className = "signRegion">
-              <CanvasDraw
-                  ref={signCanvas}
-                  brushColor="#000"
-                  brushRadius={3}
-                  lazyRadius={10}
-                  canvasWidth={600}
-                  canvasHeight={340}
-              />
-            </div>
-            <div className = "signControl">
-             <div className = "clearSign" onClick={clear}>{intl.get('bac20')}</div><div className = "takeSign" onClick={takeSign}>{intl.get('bac21')}</div>
-            </div>
-   
-          </div>
-          <div className="stepBtnCon">
-            {activeStep === steps.length ? (
-              <div>
-                <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
-                <Button onClick={handleReset}>Reset</Button>
-              </div>
-            ) : (
-              <div>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-                  </Button>
-                  <Button variant="contained" color="secondary" onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
+            {eachPeoInfo}
           </ThemeProvider>
         </div>
       );
     }else{
       return (
         <div className={classes.root}>
-          <ThemeProvider theme={theme}>
-          <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
-            {steps.map((label) => (
-              <Step key={label} >
-                <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div className = "baseInfoConMb"  style={activeStep==0?showEle:hideEle}>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerNameMb consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
-              </div>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerProfessionMb consumerIptText" helperText={intl.get('bac40')} value={csJob} onChange={iptJob}/>
-              </div>
-              <div className = "consumerInfoCon">
-                  <TextField className="consumerAddressMb consumerIptText" helperText={intl.get('bac14')} value={csAddress} onChange={iptAddress}/>
-              </div>
-          </div>
-          <div className = "passportPicConMb" style={activeStep==1?showEle:hideEle}>
-            <div className="clearfix">
-              <div className="clearfix">
-                <input id="profilePic1" style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-            <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 10px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
-                <div style={{float:'left',padding:'5px',margin:'20px 0 0 10px'}}>
-                {imgType1?intl.get('bac25'):intl.get('bac43')}
-                </div>
-              </div>
-        
-
-              <div className="clearfix">
-                <input id="profilePic2" style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 10px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
-                <div style={{float:'left',padding:'5px',margin:'20px 0 0 10px'}}>
-                {imgType2?intl.get('bac25'):intl.get('bac43')}
-                </div>
-              </div>
+         <ThemeProvider theme={theme}>
+            <div  className="progress">
+             <div> {peoUnitList}</div>
             </div>
-          </div> 
-
-
-          <div className = "signConMb"  style={activeStep==2?showEle:hideEle}>
-            <div className = "signRegionMb"  style={{width:screenWidth}}>
-              <CanvasDraw
-                  ref={signCanvas}
-                  brushColor="#000"
-                  brushRadius={3}
-                  lazyRadius={10}
-                  canvasWidth={screenWidth}
-                  canvasHeight={screenWidth-100}
-              />
-            </div>
-            <div className = "signControlMb">
-             <div className = "clearSignMb" onClick={clear}>{intl.get('bac20')}</div><div className = "takeSignMb" onClick={takeSign}>{intl.get('bac21')}</div>
-            </div>
-   
-          </div>
-          <div className="stepBtnConMb">
-            {activeStep === steps.length ? (
-              <div>
-                <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
-                <Button onClick={handleReset}>Reset</Button>
-              </div>
-            ) : (
-              <div>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
-                  </Button>
-                  <Button variant="contained" color="secondary" onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
+            {eachPeoInfo}
+           
           </ThemeProvider>
+   
         </div>
       );
 

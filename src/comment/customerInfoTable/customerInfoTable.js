@@ -22,35 +22,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Format  from '../../common/format';
 import intl from 'react-intl-universal';
-const columns = [
-  { id: 'name', 
-    label: intl.get('bac9'), 
-    minWidth: 110 
-  },
-  {
-    id: 'code',
-    label: intl.get('bac33'),
-    minWidth: 100,
-
-  },
-  { id: 'job', 
-    label: intl.get('bac11'), 
-    minWidth: 80 
-  },
-  {
-    id: 'address',
-    label: intl.get('bac13'),
-    minWidth: 170,
-
-  },
-  {
-    id: 'constructionId',
-    label: '设施',
-    minWidth: 170,
-  },
-];
-
-
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -71,6 +42,38 @@ const useStyles = makeStyles((theme)=>({
 
 export default function CustomerInfoTable() {
   const classes = useStyles();
+  const columns = [
+    { id: 'name', 
+      label: intl.get('bac9'), 
+      minWidth: 110 
+    },
+    {
+      id: 'code',
+      label: intl.get('bac33'),
+      minWidth: 100,
+  
+    },
+    { id: 'job', 
+      label: intl.get('bac11'), 
+      minWidth: 80 
+    },
+    {
+      id: 'address',
+      label: intl.get('bac13'),
+      minWidth: 170,
+  
+    },
+    {
+      id: 'constructionId',
+      label: intl.get('bac31'),
+      minWidth: 150,
+    },
+    {
+      id: 'visitorTime',
+      label: intl.get('bac46'),
+      minWidth: 100,
+    },
+  ];
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -100,11 +103,37 @@ export default function CustomerInfoTable() {
 
   //时间下拉
   const [selectedDateBegin, setSelectedDateBegin] = React.useState(new Date((new Date().getTime() - 86400000*30*6)));
+  const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
+
   const handleDateChangeBegin = (date) => {
+
     setSelectedDateBegin(date);
+    if(selectedDateEnd-date >= 0){
+      let bgTemp = Format.dateFormat(date)
+      let edTemp = Format.dateFormat(selectedDateEnd)
+ 
+      axios.get('/api/list',{
+        params: {
+          bgTime: bgTemp,
+          edTime: edTemp,
+          constructionId:construct
+        }
+      })
+      .then(function (response) {
+          console.log(response)
+           setRows(response.data.data);
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+ 
+    }else{
+      alert("起始时间需小于结束时间")
+    }
   };
 
-  const [selectedDateEnd, setSelectedDateEnd] = React.useState(new Date());
+
   const handleDateChangeEnd = (date) => {
     setSelectedDateEnd(date);
     if(date-selectedDateBegin>=0){
@@ -127,6 +156,8 @@ export default function CustomerInfoTable() {
         console.log(error);
       })
  
+    }else{
+      alert("起始时间需小于结束时间")
     }
 
   };

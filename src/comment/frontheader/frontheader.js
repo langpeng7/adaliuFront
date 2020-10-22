@@ -141,7 +141,7 @@ const SUPPOER_LOCALES = [
     renderLocaleSelector(props) {
       const  {classes} = this.props;
         return ( 
-        <div>
+        <div style={{'float':'right'}}>
           <FormControl className={classes.formControl}>
 
             <MySelect
@@ -164,10 +164,10 @@ const SUPPOER_LOCALES = [
     render() {
       return (<div className="headerCon">
           <Grid container >
-            <Grid item xs={Format.isPc()?10:7}>
+            <Grid item xs={Format.isPc()?9:10}>
               <div className="logoCon"></div>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               {this.renderLocaleSelector()}
 
 

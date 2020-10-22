@@ -309,9 +309,23 @@
     width:96vw;
     height:3vw;
 }
+.progressMb{
+    width:96vw;
+    height:8vw;
+}
 .peoUnit{
     width:2vw;
     height:1vw;
+    background:#666;
+    border-radius:4px;
+    float:left;
+    margin-top:1vw;
+    margin-left:4vw;
+    cursor:pointer
+}
+.peoUnitMb{
+    width:5vw;
+    height:2.6vw;
     background:#666;
     border-radius:4px;
     float:left;

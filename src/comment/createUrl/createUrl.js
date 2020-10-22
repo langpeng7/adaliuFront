@@ -149,6 +149,8 @@ export default function CreateUrl() {
                         <MenuItem value={4}>4人</MenuItem>
                         <MenuItem value={5}>5人</MenuItem>
                         <MenuItem value={6}>6人</MenuItem>
+                        <MenuItem value={7}>7人</MenuItem>
+                        <MenuItem value={8}>8人</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl className={classes.formControl} style={{'marginTop':30}}>

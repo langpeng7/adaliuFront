@@ -148,7 +148,7 @@ export default function InputInformation() {
 
 
       }else{
-        alert("您有未填写得信息")
+        alert(intl.get('bac45'))
       }
     }
 
@@ -166,11 +166,11 @@ export default function InputInformation() {
     }
 
     let peoUnitList = peoNumAllInfo.map(function (value, key) {
-      console.log(value)
+      console.log(isPC())
       if(value.isComplete){
-        return (<div className="peoUnit"  style={{background:'green'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
+        return (<div className={isPC()?"peoUnit":"peoUnitMb"}  style={{background:'green'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
       }else{
-        return (<div className="peoUnit"  style={{background:value.isInputing?'#faf703':'#666'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
+        return (<div className={isPC()?"peoUnit":"peoUnitMb"}  style={{background:value.isInputing?'#faf703':'#666'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
       }
       
     })
@@ -579,7 +579,7 @@ export default function InputInformation() {
                   <img style={{width:'150px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
                 </div>
                 <input id={'profilePic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'15vw 0 0 10vw',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'9vw 0 0 10vw',padding:'5px',width:'30vw',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
               </div>
               <div style={{'float':'left',width:'96vw',height:'45vw',margin:'3vw 0 0 0'}}>
                 <div className="handkeepPassportCanvasConMb">
@@ -587,7 +587,7 @@ export default function InputInformation() {
                   <img style={{width:'150px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
                 </div>
                 <input id={'profileHandPic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'15vw 0 0 10vw',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
+                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'9vw 0 0 10vw',padding:'5px',width:'30vw',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
               </div>
           
             </div>
@@ -659,11 +659,10 @@ export default function InputInformation() {
       return (
         <div className={classes.root}>
          <ThemeProvider theme={theme}>
-            <div  className="progress">
+            <div  className="progressMb">
              <div> {peoUnitList}</div>
             </div>
             {eachPeoInfo}
-           
           </ThemeProvider>
    
         </div>

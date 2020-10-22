@@ -75,11 +75,8 @@ class WebLogin extends React.Component{
 				<FrontHeader /> 
 			
 				<div className="loginService" style={{width:'100%',height:'43.6vw',background:"url("+topbackground1+") no-repeat center",backgroundSize:'100%'}} >
-					<div className="loginLeftPicCon">
-						{/* <img style={{"margin":"100px 0 0 150px"}} src={require("../../../../asset/img/fujiyama.jpg")} alt="" /> */}
-					</div>
 					<div className="loginRightCon">
-						<div className = "infoCon">
+						<div className = "infoCon" style={{paddingTop:'4vw'}}>
 							<TextField className="usernameText iptText" helperText="请输入账号"   value={this.username} onChange={(e)=>this.setUserName(e)}/>
 						</div>
 						<div className = "infoCon">

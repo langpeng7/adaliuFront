@@ -22,10 +22,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Format  from '../../common/format';
 import intl from 'react-intl-universal';
-
+import { blue } from '@material-ui/core/colors';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles((theme)=>({
   root: {
-
     padding:'1vw'
   },
   container: {
@@ -37,7 +43,11 @@ const useStyles = makeStyles((theme)=>({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
-  }
+  },
+  avatar: {
+    backgroundColor: blue[100],
+    color: blue[600],
+  },
 }));
 
 export default function CustomerInfoTable() {
@@ -73,11 +83,17 @@ export default function CustomerInfoTable() {
       label: intl.get('bac46'),
       minWidth: 100,
     },
+    {
+      id: 'delete',
+      label: "操作",
+      minWidth: 100,
+    },
   ];
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [construct, setConstruct] = React.useState('');
+
   useEffect(() => {	
     axios.get('/api/list')
     .then(function (response) {
@@ -91,8 +107,6 @@ export default function CustomerInfoTable() {
 
 
   const handleChangePage = (event, newPage) => {
-    console.log(event)
-    console.log(newPage)
     setPage(newPage);
   };
 
@@ -120,7 +134,6 @@ export default function CustomerInfoTable() {
         }
       })
       .then(function (response) {
-          console.log(response)
            setRows(response.data.data);
 
       })
@@ -148,7 +161,6 @@ export default function CustomerInfoTable() {
         }
       })
       .then(function (response) {
-          console.log(response)
            setRows(response.data.data);
 
       })
@@ -180,9 +192,7 @@ export default function CustomerInfoTable() {
         }
       })
       .then(function (response) {
-          console.log(response)
-           setRows(response.data.data);
-
+          setRows(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -190,11 +200,90 @@ export default function CustomerInfoTable() {
  
     }
   };
+
+
+  
   function visitorDetail (e){
-    window.open("/#/vistorDetail?visitorId="+e);
+    console.log(e)
+    setVisitorId(e)
+    setOpen(true);
+ 
+  }
+
+  const detailList = [{type:'detail',name:'详情'}, {type:'edit',name:'编辑'},{type:'delete',name:'删除'}];
+
+  const [open, setOpen] = React.useState(false);
+  const [visitorId, setVisitorId] = React.useState();
+  const [selectedValue, setSelectedValue] = React.useState(detailList[1]);
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
+  function SimpleDialog(props) {
+    const classes = useStyles();
+    const { onClose, selectedValue, open } = props;
+  
+    const handleClose = () => {
+      onClose(selectedValue);
+    };
+  
+    const handleListItemClick = (value) => {
+      if(value.type=="detail"){
+        window.open("/#/vistorDetail?visitorId="+visitorId);
+      }
+      if(value.type=="delete"){
+        const params ={
+          visitorId: visitorId
+        }
+        axios({
+          method: 'post',
+          url: '/api/delete',
+          headers: {
+            'Content-Type':'application/json'
+          },          
+          data: JSON.stringify(params)
+     
+        })
+        .then(function (response) {
+          let bgTemp = Format.dateFormat(selectedDateBegin)
+          let edTemp = Format.dateFormat(selectedDateEnd)
+     
+          axios.get('/api/list',{
+            params: {
+              bgTime: bgTemp,
+              edTime: edTemp,
+            }
+          })
+          .then(function (response) {
+              setRows(response.data.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      }
+      onClose(value);
+    };
+  
+    return (
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <List>
+          {detailList.map((email) => (
+            <ListItem button onClick={() => handleListItemClick(email)} key={email.type}>
+              <ListItemText primary={email.name} />
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
+    );
   }
   return (
 <Paper className={classes.root}>
+  <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
   <Grid item  xs={10}>
     <Grid item xs={8}> 
     <MuiPickersUtilsProvider utils={DateFnsUtils} >

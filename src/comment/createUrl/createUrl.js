@@ -14,6 +14,12 @@ import Card from '@material-ui/core/Card';
 import copy from  'copy-to-clipboard';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import intl from 'react-intl-universal';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -30,7 +36,7 @@ const useStyles = makeStyles((theme)=>({
    
   },
   cardCss:{
-    height:'50vh',
+    height:'70vh',
     padding:'2vh'
   },
   container: {
@@ -38,7 +44,6 @@ const useStyles = makeStyles((theme)=>({
   },
   urlCon:{
     flexGrow: 1, 
- 
   },
   formControl: {
     margin: theme.spacing(2),
@@ -66,21 +71,34 @@ export default function CreateUrl() {
         setConstruct(event.target.value);
     };
 
-    
+    //到访人数
     const [vistNum, setvistNum] = React.useState('');
     const handleChangeVistNum= (event) => {
         setvistNum(event.target.value);
     };
 
+
+    //预约码
     const [appointCode, setAppointCode] = React.useState('');
     const handleChangeAppointCode= (event) => {
         setAppointCode(event.target.value);
     };
 
+      //时间限制下拉
+    const [selectedDate, setSelectedDate] = React.useState(new Date().getTime());
+    const handleDateChange = (date) => {
+      console.log(date)
+      const  temDate = new Date(date).getTime()
+      console.log(temDate)
+      setSelectedDate(temDate);
+    };
+    
     const [beautifulHref, setBeautifulHref] = React.useState('');
 
     const createIt = (event) => {
-        let href = 'https://'+window.location.host+'/#/welcome?cn='+construct+'&vn='+vistNum+'&cd='+appointCode
+
+
+        let href = 'https://'+window.location.host+'/#/welcome?cn='+construct+'&vn='+vistNum+'&cd='+appointCode+'&sd='+selectedDate
         setBeautifulHref(href)
     };
 
@@ -105,7 +123,7 @@ export default function CreateUrl() {
     return (
     <Paper className={classes.root}>
           <Card className={classes.cardCss} variant="outlined">
-                <Grid item xs={6}  style={{marginLeft:'20vw'}}>
+                <Grid item xs={4}  style={{marginLeft:'20vw'}}>
                     <FormControl className={classes.formControl}>
                         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
                         {intl.get('bac31')}
@@ -153,10 +171,25 @@ export default function CreateUrl() {
                         <MenuItem value={8}>8人</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl className={classes.formControl} style={{'marginTop':30}}>
+                    <FormControl className={classes.formControl} >
                         <TextField id="appointmentCode" label={intl.get('bac33')} variant="outlined" onChange={handleChangeAppointCode}/>
                     </FormControl>
-                    <FormControl className={classes.formControl} style={{'marginTop':30}}>
+                    <FormControl className={classes.formControl}>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                          margin="normal"
+                          id="date-picker-dialog"
+                          label={intl.get('bac49')}
+                          format="MM/dd/yyyy"
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </FormControl>
+                    <FormControl className={classes.formControl} >
                     <Button variant="contained" color="primary"   onClick={createIt}>
                     {intl.get('bac35')}
                     </Button>

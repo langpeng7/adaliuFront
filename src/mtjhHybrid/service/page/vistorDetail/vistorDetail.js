@@ -30,6 +30,7 @@ export default function VisitorDetail() {
     }
   })
   .then(function (response) {
+    console.log(response)
       setDetail(response.data.data.data[0])
  
   })
@@ -43,7 +44,6 @@ export default function VisitorDetail() {
            <myContent.Provider value={detail}> 
             <VisitorInfo />
            </myContent.Provider> 
- 
       <Foot />
     </div>
   )

@@ -123,33 +123,45 @@ export default function InputInformation() {
 
     function submitPeoInfomation(e){
       console.log(peoNumAllInfo)
+
+      const visitorSd = Format.getQueryVariable("sd")
+      const todaySd = new Date().getTime()
+
+      console.log(visitorSd) 
+      console.log(todaySd)
       const allInfoLength = peoNumAllInfo.length;
       let isCpLength = 0;
+      if(visitorSd>=todaySd){
     
-      for(let i=0;i<peoNumAllInfo.length;i++){
-        if(peoNumAllInfo[i].isComplete){
-          isCpLength++
+        for(let i=0;i<peoNumAllInfo.length;i++){
+          if(peoNumAllInfo[i].isComplete){
+            isCpLength++
+          }
+  
+        }
+        if(isCpLength ==allInfoLength){
+          axios({
+            method: 'post',
+            url: '/api/savePic',
+            headers: {
+              'Content-Type':'application/json'
+            },          
+            data: JSON.stringify(peoNumAllInfo)
+          })
+          .then(function (response) {
+            console.log(response);
+            window.location.href="/#/infoFinish/"
+          })
+  
+        }else{
+          alert(intl.get('bac45'))
         }
 
-      }
-      if(isCpLength ==allInfoLength){
-        axios({
-          method: 'post',
-          url: '/api/savePic',
-          headers: {
-            'Content-Type':'application/json'
-          },          
-          data: JSON.stringify(peoNumAllInfo)
-        })
-        .then(function (response) {
-          console.log(response);
-          window.location.href="/#/infoFinish/"
-        })
-
-
       }else{
-        alert(intl.get('bac45'))
+        alert(intl.get('bac48'))
       }
+      
+
     }
 
 

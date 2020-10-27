@@ -83,11 +83,6 @@ export default function CustomerInfoTable() {
       label: intl.get('bac46'),
       minWidth: 100,
     },
-    {
-      id: 'delete',
-      label: "操作",
-      minWidth: 100,
-    },
   ];
   const [rows,setRows] = React.useState([])
   const [page, setPage] = React.useState(0);
@@ -265,6 +260,12 @@ export default function CustomerInfoTable() {
         .catch(function (error) {
           console.log(error);
         })
+      }
+      if(value.type=="edit"){
+        console.log(111111)
+  
+          window.open("/#/vistorEdit?visitorId="+visitorId);
+  
       }
       onClose(value);
     };

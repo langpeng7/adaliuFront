@@ -88,16 +88,24 @@ export default function CustomerInfoTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [construct, setConstruct] = React.useState('');
-
+  const [houseList,setHouseList] = React.useState([]);
   useEffect(() => {	
     axios.get('/api/list')
     .then(function (response) {
-      console.log(response)
       setRows(response.data.data)
     })
     .catch(function (error) {
       console.log(error);
     })
+
+    axios.get('/api/houseList')
+    .then(function (response) {
+      setHouseList(response.data.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+
   }, []);
 
 
@@ -199,7 +207,7 @@ export default function CustomerInfoTable() {
 
   
   function visitorDetail (e){
-    console.log(e)
+
     setVisitorId(e)
     setOpen(true);
  
@@ -262,10 +270,7 @@ export default function CustomerInfoTable() {
         })
       }
       if(value.type=="edit"){
-        console.log(111111)
-  
           window.open("/#/vistorEdit?visitorId="+visitorId);
-  
       }
       onClose(value);
     };
@@ -332,11 +337,11 @@ export default function CustomerInfoTable() {
               <MenuItem value="">
                 <em>{intl.get('bac32')}</em>
               </MenuItem>
-              <MenuItem value={1}>ABC Guest House 1F</MenuItem>
-              <MenuItem value={2}>ABC Guest House 2F</MenuItem>
-              <MenuItem value={3}>A&Z Guest House</MenuItem>
-              <MenuItem value={4}>JIYUKA Guest House</MenuItem>
-              <MenuItem value={5}>PLUS 9 Guest House</MenuItem>
+              {houseList.map((hous) => {
+                console.log(hous)
+               return( <MenuItem key={hous.houseId} value={hous.houseId}>{hous.houseName}</MenuItem>)
+              })}
+       
      
             </Select>
           </FormControl>
@@ -363,6 +368,7 @@ export default function CustomerInfoTable() {
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+              console.log(row)
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id} value={row.id} onClick={()=>visitorDetail(row.id)}>
                   {columns.map((column) => {

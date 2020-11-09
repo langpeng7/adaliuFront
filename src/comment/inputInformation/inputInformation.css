@@ -2,7 +2,6 @@
 .informationCon{
     width:96vw;
     height:800px;
- 
     margin:0 auto
 }
 .tabBanner{
@@ -123,15 +122,15 @@
     margin-bottom:5vw
 }
 .consumerInfoCon{
-    margin-top:5vw
+    margin-top:20px
 }
 .consumerInfoConMb{
     margin-top:9vw
 }
-.consumerName,.consumerProfession,.consumerAddress{
+.consumerName,.consumerProfession,.consumerAddress,.faccommodation,.destination{
     width:22vw;
 }
-.consumerNameMb,.consumerProfessionMb,.consumerAddressMb{
+.consumerNameMb,.consumerProfessionMb,.consumerAddressMb,.faccommodationMb,.destinationMb{
     width:50vw;
 }
 
@@ -230,9 +229,27 @@
     border:1px solid #666;
     text-align: center;
     border-radius: 20px;
+    margin:20px 0 20px 680px;
+    overflow: hidden;
+    
+}
+
+.signRegionComplete{
+    width: 600px;
+    height:240px;
+    border:1px solid #666;
+    text-align: center;
+    border-radius: 20px;
     margin:20px auto;
     overflow: hidden;
+    z-index: -8;
+    position: absolute;
+    left: 50%;
+    margin-left: -626px;
 }
+
+
+
 .signRegionMb{
     border:1px solid #666;
     text-align: center;

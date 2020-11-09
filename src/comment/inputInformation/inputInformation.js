@@ -122,13 +122,9 @@ export default function InputInformation() {
     const [peoNumAllInfo,setPeoNumAllInfo] = React.useState(peoUnitPrepare)
 
     function submitPeoInfomation(e){
-      console.log(peoNumAllInfo)
-
       const visitorSd = Format.getQueryVariable("sd")
       const todaySd = new Date().getTime()
 
-      console.log(visitorSd) 
-      console.log(todaySd)
       const allInfoLength = peoNumAllInfo.length;
       let isCpLength = 0;
       if(visitorSd>=todaySd){
@@ -137,7 +133,6 @@ export default function InputInformation() {
           if(peoNumAllInfo[i].isComplete){
             isCpLength++
           }
-  
         }
         if(isCpLength ==allInfoLength){
           axios({
@@ -149,7 +144,7 @@ export default function InputInformation() {
             data: JSON.stringify(peoNumAllInfo)
           })
           .then(function (response) {
-            console.log(response);
+ 
             window.location.href="/#/infoFinish/"
           })
   
@@ -178,7 +173,6 @@ export default function InputInformation() {
     }
 
     let peoUnitList = peoNumAllInfo.map(function (value, key) {
-      console.log(isPC())
       if(value.isComplete){
         return (<div className={isPC()?"peoUnit":"peoUnitMb"}  style={{background:'green'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
       }else{
@@ -205,8 +199,6 @@ export default function InputInformation() {
 
 
     let eachPeoInfo =peoNumAllInfo.map(function(value,key){
-      console.log(value)
-      console.log(key)
       //步揍状态
       const [activeStep, setActiveStep] = React.useState(0);
       //步揍值
@@ -219,8 +211,6 @@ export default function InputInformation() {
       const code= Format.getQueryVariable("cd")
 
         if(activeStep == 2){
-      
-          
           if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&&code){
             const peoInfo = peoNumAllInfo;
             for(let i=0;i<peoNumAllInfo.length;i++){
@@ -298,35 +288,49 @@ export default function InputInformation() {
         completed: PropTypes.bool,
       };
           //姓名
-    const [csName, setName] = React.useState(intl.get('bac9'));
+    const [csName, setName] = React.useState();
     const iptName = (e) => {
       setName(e.target.value);
     }
     //职业
-    const [csJob, setJob] = React.useState(intl.get('bac11'));
+    const [csJob, setJob] = React.useState();
     const iptJob = (e) => {
       setJob(e.target.value);
     }
     //住址
-    const [csAddress, setAddress] = React.useState(intl.get('bac13'));
+    const [csAddress, setAddress] = React.useState();
     const iptAddress = (e) => {
       setAddress(e.target.value);
     }  
-   //护照
-   const [csPic1, setPic1] = React.useState();
-   //手持护照
-   const [csPic2, setPic2] = React.useState();  
+    //前居住地
+    const [faccommodation, setFaccommodation] = React.useState();
+    const iptFaccommodation = (e) => {
+      setFaccommodation(e.target.value);
+    }  
 
-   const [csDsPic1, setDisplayPic1] = React.useState();
+    //目的地
+    const [destination, setDestination] = React.useState();
+    const iptDestination = (e) => {
+      setDestination(e.target.value);
+    }  
 
-   const [csDsPic2, setDisplayPic2] = React.useState();
+    //护照
+    const [csPic1, setPic1] = React.useState();
+    //手持护照
+    const [csPic2, setPic2] = React.useState();  
 
-   const [imgType1, setImgType1] = React.useState();
+    const [csDsPic1, setDisplayPic1] = React.useState();
 
-   const [imgType2, setImgType2] = React.useState();
-   //签名
-   const [csSignPic, setSignPic] = React.useState();  
+    const [csDsPic2, setDisplayPic2] = React.useState();
 
+    const [imgType1, setImgType1] = React.useState();
+
+    const [imgType2, setImgType2] = React.useState();
+    //签名
+    const [csSignPic, setSignPic] = React.useState();  
+
+   
+    const [csSignShow, setCsSignShow] = React.useState(false);  
 
     function clickOnChangePic1(e){
       document.getElementById("profilePic"+value.num).click(); 
@@ -389,6 +393,14 @@ export default function InputInformation() {
         'zIndex':'10'
     };
 
+    //显示cvanvas显示隐藏状态
+    const canvasShowEle = {
+      'zIndex':'-8'
+    };
+    const canvasHideEle = {
+        'zIndex':'8'
+    };  
+
     const showPeoInput = {
       'zIndex':'5'
     };
@@ -396,8 +408,6 @@ export default function InputInformation() {
     const hidePeoInput = {
       'zIndex':'-5'
     };
-    //加一个videolabel状态
-    // const [videoLabel,setVideoLabelType] = React.useState({type:true})
 
 
     //获得video摄像头区域
@@ -452,19 +462,26 @@ export default function InputInformation() {
       }
 
       let signCanvas = React.createRef();
+
+
+
+
+      
       const inputing = value.isInputing
       function takeSign(){
         let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
         console.log(signImg)
         setSignPic(signImg)
+        setCsSignShow(true)
         alert("生成签名成功，请点击下一步")
         
       }
       function clear(){
-        // signCanvaName.current.clear()
+        signCanvas.current.clear()
+        setCsSignShow(false)
       }
 
-      const screenWidth = document.body.clientWidth-16
+      // const screenWidth = document.body.clientWidth-16
       if(isPC()){
         return(
           <div key={value.num}  style={{"zIndex":inputing?'15':-15,"position":'absolute',width:'96vw'}} >
@@ -484,6 +501,12 @@ export default function InputInformation() {
                 </div>
                 <div className = "consumerInfoCon">
                     <TextField className="consumerAddress consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="faccommodation consumerIptText" helperText={intl.get('bac50')}  value={faccommodation} onChange={iptFaccommodation}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="destination consumerIptText" helperText={intl.get('bac51')}  value={destination} onChange={iptDestination}/>
                 </div>
             </div>
             <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>
@@ -514,7 +537,10 @@ export default function InputInformation() {
               </div>
             </div>
             <div className = "signCon"  style={activeStep==2?showEle:hideEle}>
-              <div className = "signRegion">
+              <div className = "signRegionComplete" >
+                <img src={csSignPic} />
+              </div>
+              <div className = "signRegion" >
                 <CanvasDraw
                     ref={signCanvas}
                     brushColor="#000"
@@ -524,11 +550,11 @@ export default function InputInformation() {
                     canvasHeight={240}
                 />
               </div>
+
               <div className = "signControl">
                 <div className = "clearSign" onClick={clear}>{intl.get('bac20')}</div>
                 <div className = "takeSign" onClick={takeSign}>{intl.get('bac21')}</div>
               </div>
-    
             </div>
             <div className = "completeCon"  style={activeStep==3?showEle:hideEle}>
 
@@ -581,6 +607,12 @@ export default function InputInformation() {
                 </div>
                 <div className = "consumerInfoConMb">
                     <TextField className="consumerAddressMb consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="faccommodationMb consumerIptText" helperText={intl.get('bac50')}  value={faccommodation} onChange={iptFaccommodation}/>
+                </div>
+                <div className = "consumerInfoCon">
+                    <TextField className="destinationMb consumerIptText" helperText={intl.get('bac51')}  value={destination} onChange={iptDestination}/>
                 </div>
             </div>
             <div className = "passportPicConMb" style={activeStep==1?showEle:hideEle}>

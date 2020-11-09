@@ -41,10 +41,12 @@
     "bac41":"upload passport",
     "bac42":"upload passport in hand",
     "bac43":"not uploaded",
-    "bac44": "copy succeeded",
+    "bac44":"copy succeeded",
     "bac45":"please complete the information",
     "bac46":"time",
     "bac47":"submit",
     "bac48":"已超过填写时间，请联系shikanko工作人员",
-    "bac49":"截至日期"
+    "bac49":"截至日期",
+    "bac50":"former accommodation",
+    "bac51":"destination"
 }

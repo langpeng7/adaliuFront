@@ -134,6 +134,7 @@ export default function InputInformation() {
             isCpLength++
           }
         }
+        console.log(peoNumAllInfo)
         if(isCpLength ==allInfoLength){
           axios({
             method: 'post',
@@ -144,7 +145,7 @@ export default function InputInformation() {
             data: JSON.stringify(peoNumAllInfo)
           })
           .then(function (response) {
- 
+            console.log(response)
             window.location.href="/#/infoFinish/"
           })
   
@@ -166,7 +167,7 @@ export default function InputInformation() {
       
       const peoUnit =[]
       for(let i=0;i<peoCount;i++){
-        peoUnit.push({num:i+1,isInputing:i==0?true:false,isComplete:false,csName:'',csJob:'',csAddress:'',csPic1:'',csPic2:'',csSignPic:'',imgType1:1,imgType2:1,visitorNum:'',constructionId:'',code:''})
+        peoUnit.push({num:i+1,isInputing:i==0?true:false,isComplete:false,csName:'',csJob:'',csAddress:'',csPic1:'',csPic2:'',csSignPic:'',imgType1:1,imgType2:1,visitorNum:'',constructionId:'',code:'',faccommodation:'',destination:''})
       }
       return peoUnit
       
@@ -211,7 +212,7 @@ export default function InputInformation() {
       const code= Format.getQueryVariable("cd")
 
         if(activeStep == 2){
-          if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&&code){
+          if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&&code&&faccommodation&&destination){
             const peoInfo = peoNumAllInfo;
             for(let i=0;i<peoNumAllInfo.length;i++){
               if(value.num == peoNumAllInfo[i].num){
@@ -225,9 +226,12 @@ export default function InputInformation() {
                 peoInfo[i].constructionId = constructionId
                 peoInfo[i].code = code
                 peoInfo[i].isComplete = true
+                peoInfo[i].faccommodation = faccommodation
+                peoInfo[i].destination = destination
                 setPeoNumAllInfo(peoInfo.slice())
               }
             }
+            console.log(peoInfo)
      
           }else{
             alert(intl.get('bac45'))
@@ -288,46 +292,46 @@ export default function InputInformation() {
         completed: PropTypes.bool,
       };
           //姓名
-    const [csName, setName] = React.useState();
+    const [csName, setName] = React.useState('');
     const iptName = (e) => {
       setName(e.target.value);
     }
     //职业
-    const [csJob, setJob] = React.useState();
+    const [csJob, setJob] = React.useState('');
     const iptJob = (e) => {
       setJob(e.target.value);
     }
     //住址
-    const [csAddress, setAddress] = React.useState();
+    const [csAddress, setAddress] = React.useState('');
     const iptAddress = (e) => {
       setAddress(e.target.value);
     }  
     //前居住地
-    const [faccommodation, setFaccommodation] = React.useState();
+    const [faccommodation, setFaccommodation] = React.useState('');
     const iptFaccommodation = (e) => {
       setFaccommodation(e.target.value);
     }  
 
     //目的地
-    const [destination, setDestination] = React.useState();
+    const [destination, setDestination] = React.useState('');
     const iptDestination = (e) => {
       setDestination(e.target.value);
     }  
 
     //护照
-    const [csPic1, setPic1] = React.useState();
+    const [csPic1, setPic1] = React.useState('');
     //手持护照
-    const [csPic2, setPic2] = React.useState();  
+    const [csPic2, setPic2] = React.useState('');  
 
-    const [csDsPic1, setDisplayPic1] = React.useState();
+    const [csDsPic1, setDisplayPic1] = React.useState('');
 
-    const [csDsPic2, setDisplayPic2] = React.useState();
+    const [csDsPic2, setDisplayPic2] = React.useState('');
 
-    const [imgType1, setImgType1] = React.useState();
+    const [imgType1, setImgType1] = React.useState('');
 
-    const [imgType2, setImgType2] = React.useState();
+    const [imgType2, setImgType2] = React.useState('');
     //签名
-    const [csSignPic, setSignPic] = React.useState();  
+    const [csSignPic, setSignPic] = React.useState('');  
 
    
     const [csSignShow, setCsSignShow] = React.useState(false);  
@@ -470,7 +474,6 @@ export default function InputInformation() {
       const inputing = value.isInputing
       function takeSign(){
         let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
-        console.log(signImg)
         setSignPic(signImg)
         setCsSignShow(true)
         alert("生成签名成功，请点击下一步")
@@ -608,10 +611,10 @@ export default function InputInformation() {
                 <div className = "consumerInfoConMb">
                     <TextField className="consumerAddressMb consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
                 </div>
-                <div className = "consumerInfoCon">
+                <div className = "consumerInfoConMb">
                     <TextField className="faccommodationMb consumerIptText" helperText={intl.get('bac50')}  value={faccommodation} onChange={iptFaccommodation}/>
                 </div>
-                <div className = "consumerInfoCon">
+                <div className = "consumerInfoConMb">
                     <TextField className="destinationMb consumerIptText" helperText={intl.get('bac51')}  value={destination} onChange={iptDestination}/>
                 </div>
             </div>

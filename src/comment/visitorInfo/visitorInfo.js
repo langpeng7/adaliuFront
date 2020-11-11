@@ -50,17 +50,18 @@ const useStyles = makeStyles((theme)=>({
 export default function VisitorInfo() {
     const classes = useStyles();
     const detailData = useContext(myContext); 
-
+    console.log(detailData)
     const [appointCode, setAppointCode] = React.useState('');
     const [visitorName, setvisitorName] = React.useState('');
     const [visitorAddress, setvisitorAddress] = React.useState('');
-     const [visitorJob, setvisitorJob] = React.useState('');
-     const [visitNum, setvisitNum] = React.useState('');
-     const [pic1, setPic1] = React.useState('');
-     const [pic2, setPic2] = React.useState('');
-     const [pic3, setPic3] = React.useState('');
+    const [visitorJob, setvisitorJob] = React.useState('');
+    const [visitNum, setvisitNum] = React.useState('');
+    const [pic1, setPic1] = React.useState('');
+    const [pic2, setPic2] = React.useState('');
+    const [pic3, setPic3] = React.useState('');
+    const [faccommodation, setFaccommodation] = React.useState('');
+    const [destination, setDestination] = React.useState('');
 
-     console.log(detailData)
     useEffect(() => {
       if(detailData.code){
         setAppointCode(detailData.code)
@@ -78,15 +79,19 @@ export default function VisitorInfo() {
         setvisitNum(detailData.visitorNum)
       }
       if(detailData.pic1RandomName){
-        console.log(window.location.origin+detailData.pic1RandomName)
         setPic1(window.location.origin+detailData.pic1RandomName)
       }
       if(detailData.pic2RandomName){
-        console.log(window.location.origin+detailData.pic2RandomName)
         setPic2(window.location.origin+detailData.pic2RandomName)
       }
       if(detailData.signPicRandomName){
-        setPic3(window.location.origin+detailData.signPicRandomName)
+        setPic3(detailData.visitorNum)
+      }  
+      if(detailData.faccommodation){
+        setFaccommodation(detailData.faccommodation)
+      }  
+      if(detailData.destination){
+        setDestination(detailData.destination)
       }  
     })
 
@@ -170,7 +175,37 @@ export default function VisitorInfo() {
                       }}
                     />
                     </FormControl>
-                </Grid>                                                                                 
+                </Grid>   
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac50')}
+                    </InputLabel>                      
+                    <TextField
+                      id="standard-read-only-input"
+                      value={faccommodation}
+                      className={classes.selectEmpty}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac51')}
+                    </InputLabel>                      
+                    <TextField
+                      id="standard-read-only-input"
+                      value={destination}
+                      className={classes.selectEmpty}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                    </FormControl>
+                </Grid>                                                                                     
         </Card>
       </Grid>
       <Grid item xs={4}  >

@@ -233,7 +233,7 @@ export default function CustomerInfoTable() {
   
     const handleListItemClick = (value) => {
       if(value.type=="detail"){
-        window.open("/#/vistorDetail?visitorId="+visitorId);
+        window.open("/#/visitorDetail?visitorId="+visitorId);
       }
       if(value.type=="delete"){
         const params ={
@@ -270,7 +270,7 @@ export default function CustomerInfoTable() {
         })
       }
       if(value.type=="edit"){
-          window.open("/#/vistorEdit?visitorId="+visitorId);
+          window.open("/#/visitorEdit?visitorId="+visitorId);
       }
       onClose(value);
     };

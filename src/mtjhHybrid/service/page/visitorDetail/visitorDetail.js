@@ -1,5 +1,5 @@
 import React , { useState ,createContext,useEffect }from 'react';
-import './vistorDetail.css';
+import './visitorDetail.css';
 import FrontHeader from '../../../../comment/frontheader/frontheader';
 import Foot  from '../../../../comment/frontfoot/frontfoot';
 import VisitorInfo  from '../../../../comment/visitorInfo/visitorInfo';

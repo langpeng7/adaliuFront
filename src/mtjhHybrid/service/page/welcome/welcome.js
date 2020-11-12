@@ -10,15 +10,9 @@ class Welcome extends React.Component{
 		this.state = {trainList:[]}
     }
 	componentDidMount(){
-		console.log(this)
-
 	}
 	componentWillUnmount(){
-
 	}
-
-
-
 	render(){
 		return(
 			<div className="">

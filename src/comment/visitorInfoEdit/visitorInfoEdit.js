@@ -1,723 +1,236 @@
-import React ,{useState,useContext,useEffect } from 'react';
+import React,{useState,useContext,useEffect }from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import './visitorInfoEdit.css';
-import {  makeStyles, withStyles,createMuiTheme,createStyles, Theme ,ThemeProvider } from '@material-ui/core/styles';
-import myContext from '../../common/createContext';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepConnector from '@material-ui/core/StepConnector';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CanvasDraw from "react-canvas-draw";
-import axios from 'axios';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+
 import Format  from '../../common/format';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import Check from '@material-ui/icons/Check';
+import myContext from '../../common/createContext';
+import Card from '@material-ui/core/Card';
+import axios from 'axios';
 import intl from 'react-intl-universal';
 
-  const isPcCon =    function isPC() {
-    var userAgentInfo = navigator.userAgent;
-    var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
-    var flag = true;
-    for (var v = 0; v < Agents.length; v++) {
-      if (userAgentInfo.indexOf(Agents[v]) > 0) {
-        flag = false;
-        break;
-      }
-    }
-    return flag;
-  }
-
-
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      minHeight:isPcCon?'100px':'781px'
-    },
-    backButton: {
-      marginRight: theme.spacing(1),
-    },
-    instructions: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-  }));
-
-  const theme = createMuiTheme({
-    palette: {
-      secondary: {
-        main: '#7f4bf5',
-      },
-    },
-  });
-  const ColorlibConnector = withStyles({
-    alternativeLabel: {
-      top: 22,
-    },
-    active: {
-      '& $line': {
-        backgroundImage:
-          'linear-gradient( 95deg,#7f4bf5 0%,#7f4bf5 50%,#7f4bf5 100%)',
-      },
-    },
-    completed: {
-      '& $line': {
-        backgroundImage:
-          'linear-gradient( 95deg,#7f4bf5 0%,#7f4bf5 50%,#7f4bf5 100%)',
-      },
-    },
-    line: {
-      height: 3,
-      border: 0,
-      backgroundColor: '#eaeaf0',
-      borderRadius: 1,
-    },
-  })(StepConnector);
-  
-const useQontoStepIconStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
   root: {
-    color: '#eaeaf0',
-    display: 'flex',
-    height: 22,
-    alignItems: 'center',
-  },
-  active: {
-    color: '#784af4',
-  },
-  circle: {
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    backgroundColor: 'currentColor',
-  },
-  completed: {
-    color: '#784af4',
-    zIndex: 1,
-    fontSize: 18,
-  },
-});
+    flexGrow: 1,
+    width:'100%',
+    padding:'2vh'
 
-  
-function isPC() {
-  var userAgentInfo = navigator.userAgent;
-  var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
-  var flag = true;
-  for (var v = 0; v < Agents.length; v++) {
-    if (userAgentInfo.indexOf(Agents[v]) > 0) {
-      flag = false;
-      break;
-    }
+  },
+  gridCss:{
+    textAlign:'center',
+  },
+  cardCss:{
+    padding:'2vh'
+  },
+  container: {
+    maxHeight: 640,
+  },
+
+  formControl: {
+    margin: theme.spacing(2),
+    width: 380,
+    
+
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   }
-  return flag;
-}
+}));
 
 export default function VisitorInfoEdit() {
-    //默认样式
     const classes = useStyles();
-    //数据
     const detailData = useContext(myContext); 
+    const [appointCode, setAppointCode] = React.useState('');
+    const [visitorName, setvisitorName] = React.useState('');
+    const [visitorAddress, setvisitorAddress] = React.useState('');
+    const [visitorJob, setvisitorJob] = React.useState('');
+    const [visitNum, setvisitNum] = React.useState('');
+    const [pic1, setPic1] = React.useState('');
+    const [pic2, setPic2] = React.useState('');
+    const [pic3, setPic3] = React.useState('');
+    const [faccommodation, setFaccommodation] = React.useState('');
+    const [destination, setDestination] = React.useState('');
     console.log(detailData)
-    //客人数目
-    const peoCount = 1
-
-    const [peoNumAllInfo,setPeoNumAllInfo] = React.useState(peoUnitPrepare)
-
-    setPeoNumAllInfo({
-      
-      
-    })
-    //提交
-    function submitPeoInfomation(e){
-      const visitorSd = Format.getQueryVariable("sd")
-      const todaySd = new Date().getTime()
-
-      const allInfoLength = peoNumAllInfo.length;
-      let isCpLength = 0;
-      if(visitorSd>=todaySd){
-    
-        for(let i=0;i<peoNumAllInfo.length;i++){
-          if(peoNumAllInfo[i].isComplete){
-            isCpLength++
-          }
-        }
-
-        if(isCpLength ==allInfoLength){
-          axios({
-            method: 'post',
-            url: '/api/savePic',
-            headers: {
-              'Content-Type':'application/json'
-            },          
-            data: JSON.stringify(peoNumAllInfo)
-          })
-          .then(function (response) {
-          
-            window.location.href="/#/infoFinish/"
-          })
-  
-        }else{
-          alert(intl.get('bac45'))
-        }
-
-      }else{
-        alert(intl.get('bac48'))
+    useEffect(() => {
+      if(detailData.code){
+        setAppointCode(detailData.code)
       }
-      
-
-    }
-
-
-    //根据浏览器vn 设置人数对应得默认值
-    function peoUnitPrepare(){
-      const peoUnit =[]
-      for(let i=0;i<peoCount;i++){
-        peoUnit.push({num:i+1,isInputing:i==0?true:false,isComplete:false,csName:'',csJob:'',csAddress:'',csPic1:'',csPic2:'',csSignPic:'',imgType1:1,imgType2:1,visitorNum:'',constructionId:'',code:'',faccommodation:'',destination:''})
-      }
-
-      return peoUnit
-    }
-
-    // let peoUnitList = peoNumAllInfo.map(function (value, key) {
-    //   if(value.isComplete){
-    //     return (<div className={isPC()?"peoUnit":"peoUnitMb"}  style={{background:'green'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
-    //   }else{
-    //     return (<div className={isPC()?"peoUnit":"peoUnitMb"}  style={{background:value.isInputing?'#faf703':'#666'}} key={value.num} cusnum={value.num} onClick={()=>choosePeoInput(value)}></div>)
-    //   }
-      
-    // })
-
-    function choosePeoInput(e){
-      const peoInfo = peoNumAllInfo
-      for(let i=0;i<peoNumAllInfo.length;i++){
-          if(e.num == peoNumAllInfo[i].num){
-            peoInfo[i].isInputing = true
-    
-          }else{
-            peoInfo[i].isInputing = false
-          }
-      }
-      setPeoNumAllInfo(peoInfo.slice())
- 
-      
-    }
-
-
-
-    let eachPeoInfo =peoNumAllInfo.map(function(value,key){
-      console.log(value)
-      //步揍状态
-      const [activeStep, setActiveStep] = React.useState(0);
-      //步揍值
-      const steps = getSteps();
-      //下一步的动作
- 
-      const handleNext = () => {
-
-        if(activeStep == 2){
-          // if(csName&&csJob&&csAddress&&csPic1&&csPic2&&csSignPic&&visitorNum&&constructionId&&code&&faccommodation&&destination){
-          //   const peoInfo = peoNumAllInfo;
-          //   for(let i=0;i<peoNumAllInfo.length;i++){
-          //     if(value.num == peoNumAllInfo[i].num){
-          //       peoInfo[i].csName = csName
-          //       peoInfo[i].csJob = csJob
-          //       peoInfo[i].csAddress = csAddress
-          //       peoInfo[i].csPic1 = csPic1
-          //       peoInfo[i].csPic2 = csPic2
-          //       peoInfo[i].csSignPic = csSignPic
-          //       peoInfo[i].visitorNum = visitorNum
-          //       peoInfo[i].constructionId = constructionId
-          //       peoInfo[i].code = code
-          //       peoInfo[i].isComplete = true
-          //       peoInfo[i].faccommodation = faccommodation
-          //       peoInfo[i].destination = destination
-          //       setPeoNumAllInfo(peoInfo.slice())
-          //     }
-          //   }
-     
-          // }else{
-          //   alert(intl.get('bac45'))
-          //   return false
-          // }
-        }
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      };
-      
-      const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-      };
-    
-      const handleReset = () => {
-        setActiveStep(0);
-      };
-
-      function getSteps() {
-        return [intl.get('bac6'), intl.get('bac7'), intl.get('bac8')];
-      }
-      
-      function getStepContent(stepIndex) {
-        console.log(stepIndex)
-        switch (stepIndex) {
-          case 0:
-            return intl.get('bac15');
-          case 1:
-            return intl.get('bac39');
-          case 2:
-            return intl.get('bac22');
-          default:
-            return 'Unknown stepIndex' ;
-        }
-      }
-      function QontoStepIcon(props) {
-        const classes = useQontoStepIconStyles();
-        const { active, completed } = props;
-      
-        return (
-          <div
-            className={clsx(classes.root, {
-              [classes.active]: active,
-            })}
-          >
-            {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-          </div>
-        );
-      }
-      
-      QontoStepIcon.propTypes = {
-        /**
-         * Whether this step is active.
-         */
-        active: PropTypes.bool,
-        /**
-         * Mark the step as completed. Is passed to child components.
-         */
-        completed: PropTypes.bool,
-      };
-      //姓名
-      const [csName, setName] = React.useState('');
-      const iptName = (e) => {
-        setName(e.target.value);
-      }
-      //职业
-      const [csJob, setJob] = React.useState('');
-      const iptJob = (e) => {
-        setJob(e.target.value);
-      }
-      //住址
-      const [csAddress, setAddress] = React.useState('');
-      const iptAddress = (e) => {
-        setAddress(e.target.value);
-      }  
-      //前居住地
-      const [faccommodation, setFaccommodation] = React.useState('');
-      const iptFaccommodation = (e) => {
-        setFaccommodation(e.target.value);
-      }  
-
-      //目的地
-      const [destination, setDestination] = React.useState('');
-      const iptDestination = (e) => {
-        setDestination(e.target.value);
-      }  
-
-      //护照
-      const [csPic1, setPic1] = React.useState('');
-      //手持护照
-      const [csPic2, setPic2] = React.useState('');  
-
-      const [csDsPic1, setDisplayPic1] = React.useState('');
-
-      const [csDsPic2, setDisplayPic2] = React.useState('');
-
-      const [imgType1, setImgType1] = React.useState('');
-
-      const [imgType2, setImgType2] = React.useState('');
-      //签名
-      const [csSignPic, setSignPic] = React.useState('');  
-
-    
-      const [csSignShow, setCsSignShow] = React.useState(false);  
-
-      function clickOnChangePic1(e){
-        document.getElementById("profilePic"+value.num).click(); 
-      
-      }
-      function onChangePicture1(e){
-          let pic = document.getElementById("profilePic"+value.num).files[0];
-          let imgFile = new FileReader();
-          let b64
-          if(pic){
-            imgFile.readAsDataURL(pic);
-            imgFile.onload = function () {
-            const imgData = this.result; //base64数据 
-            setImgType1("0")
-            setDisplayPic1(imgData)
-            if(pic.type=="image/jpeg"){
-              b64 = imgData.substring(23);
-            }else{
-              b64 = imgData.substring(22);
-            }
-            setPic1(b64)
-            }
-
-          }
-      
-      }
-
-    function clickOnChangePic2(e){
-      document.getElementById("profileHandPic"+value.num).click(); 
-     
-    }
-    function onChangePicture2(e){
-       let pic = document.getElementById("profileHandPic"+value.num).files[0];
-       console.log(pic)
-       let b64
-       var imgFile = new FileReader();
-       if(pic){
-        imgFile.readAsDataURL(pic);
-        imgFile.onload = function () {
-         var imgData = this.result; //base64数据  
-         setImgType2("0")
-         setDisplayPic2(imgData)
-         if(pic.type=="image/jpeg"){
-           b64 = imgData.substring(23);
-         }else{
-           b64 = imgData.substring(22);
-         }
-         setPic2(b64)
-       }
+      if(detailData.name){
+        setvisitorName(detailData.name)
  
       }
-  
-    } 
+      if(detailData.address){
+        setvisitorAddress(detailData.address)
+      }
+      if(detailData.job){
+        setvisitorJob(detailData.job)
+      }
+      if(detailData.visitorNum){
+        setvisitNum(detailData.visitorNum)
+      }
+      if(detailData.pic1RandomName){
+        setPic1(window.location.origin+detailData.pic1RandomName)
+      }
+      if(detailData.pic2RandomName){
+        setPic2(window.location.origin+detailData.pic2RandomName)
+      }
+      if(detailData.signPicRandomName){
+        setPic3(detailData.visitorNum)
+      }  
+      if(detailData.faccommodation){
+        setFaccommodation(detailData.faccommodation)
+      }  
+      if(detailData.destination){
+        setDestination(detailData.destination)
+      }  
+    },[detailData])
 
-    //显示隐藏style 状态
-    const hideEle = {
-        'zIndex':'-10'
-    };
-    const showEle = {
-        'zIndex':'10'
-    };
+    //姓名
+    const iptName = (e) => {
+      setvisitorName(e.target.value);
+    }
+    //职业
 
-    //显示cvanvas显示隐藏状态
-    const canvasShowEle = {
-      'zIndex':'-8'
-    };
-    const canvasHideEle = {
-        'zIndex':'8'
-    };  
-
-    const showPeoInput = {
-      'zIndex':'5'
-    };
-  
-    const hidePeoInput = {
-      'zIndex':'-5'
-    };
-
-
-    //获得video摄像头区域
-    let video = document.getElementById("video"+value.num);
-    function getMedia() {
-
-        let constraints = {
-            video: {width: 500, height: 500},
-            audio: false
-        };
-        
-        //label 隐藏
-        // setVideoLabelType((type) => false);
-
-        let promise = navigator.mediaDevices.getUserMedia(constraints);
-        promise.then(function (MediaStream) {
-            video.srcObject = MediaStream;
-            video.play();
-          
-        }).catch(function (PermissionDeniedError) {
-            console.log(PermissionDeniedError);
-        })
+    const iptJob = (e) => {
+      setvisitorJob(e.target.value);
     }
 
-    function takePhoto() {
-      //获得Canvas对象
-      let canvas = document.getElementById("passportCanvas"+value.num);
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, 500, 500);
-      console.log(video)
-      setImgType1("1")
-      let saveImage = canvas.toDataURL('image/png');
-      let b64 = saveImage.substring(22);
-      setPic1(b64)
-    // $('.pic').val(b64)
-    }
-  
-  
-  
-    
-      function takeHandKeepPhoto() {
-        //获得Canvas对象
-        let canvas = document.getElementById("handkeepPassport"+value.num);
-        let ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, 500, 500);
-        setImgType2("1")
-        let saveImage = canvas.toDataURL('image/png');
-        let b64 = saveImage.substring(22);
-        console.log(b64)
-        setPic2(b64)
-      // $('.pic').val(b64)
-      }
+    const iptAddress = (e) => {
+      setvisitorAddress(e.target.value);
+    }  
 
-      let signCanvas = React.createRef();
+    const visitorNumIpt = (e) => {
+      setvisitNum(e.target.value);
+    }  
 
+    const iptFaccommodation = (e) => {
+      setFaccommodation(e.target.value);
+    }  
 
+    const iptDestination = (e) => {
+      setDestination(e.target.value);
+    }  
+    return (
+    <Grid container className={classes.root} spacing={5}>
+      <Grid item xs={6}  className={classes.gridCss}>
+          <Card className={classes.cardCss} variant="outlined">
+                 <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac33')}
+                    </InputLabel>
+                    <TextField
+                      value={appointCode}
+                      className={classes.selectEmpty}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac9')}
+                    </InputLabel>                      
+                    <TextField
+                      className={classes.selectEmpty} 
+                      value={visitorName}
+                      onChange={iptName}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac11')}
+                    </InputLabel>                      
+                    <TextField
+                      value={visitorJob}
+                      className={classes.selectEmpty}
+                      onChange={iptJob}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac13')}
+                    </InputLabel>                      
+                    <TextField
+                      value={visitorAddress}
+                      className={classes.selectEmpty}
+                      onChange={iptAddress}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac34')}
+                    </InputLabel>                      
+                    <TextField
+                      value={visitNum}
+                      className={classes.selectEmpty}
+                      onChange={visitorNumIpt}
 
-
-      
-      const inputing = value.isInputing
-      function takeSign(){
-        let signImg = signCanvas.current.canvas.drawing.toDataURL('image/png');
-        setSignPic(signImg)
-        setCsSignShow(true)
-        alert("生成签名成功，请点击下一步")
-        
-      }
-      function clear(){
-        signCanvas.current.clear()
-        setCsSignShow(false)
-      }
-
-      // const screenWidth = document.body.clientWidth-16
-      if(isPC()){
-        return(
-          <div key={value.num}  style={{"zIndex":inputing?'15':-15,"position":'absolute',width:'96vw'}} >
-            <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
-              {steps.map((label) => (
-                <Step key={label} >
-                  <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <div className = "baseInfoCon"  style={activeStep==0?showEle:hideEle}>
-                <div className = "consumerInfoCon">
-                    <TextField className="consumerName consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
+                    />
+                    </FormControl>
+                </Grid>   
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac50')}
+                    </InputLabel>                      
+                    <TextField
+                      value={faccommodation}
+                      className={classes.selectEmpty}
+                      onChange={iptFaccommodation}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac51')}
+                    </InputLabel>                      
+                    <TextField
+                      value={destination}
+                      className={classes.selectEmpty}
+                      onChange={iptDestination}
+                    />
+                    </FormControl>
+                </Grid>                                                                                     
+        </Card>
+      </Grid>
+      <Grid item xs={4}  >
+        <Card className={classes.cardCss} variant="outlined">
+          <Grid item xs={12}  >
+                <div style={{width:'500px',height:'300px'}}>
+                  <div className="picCon1">
+                    <img src={pic1} style={{'width':'300px'}}></img>
+                  </div>
+                  <div className="changeBtn">编辑</div>
                 </div>
-                <div className = "consumerInfoCon">
-                    <TextField className="consumerProfession consumerIptText" helperText={intl.get('bac40')}  value={csJob} onChange={iptJob}/>
+                <div style={{width:'500px',height:'300px',marginTop:'10px'}}>
+                  <div className="picCon1">
+                    <img src={pic2} style={{'width':'300px'}}></img>
+                  </div>
+                  <div className="changeBtn">编辑</div>
                 </div>
-                <div className = "consumerInfoCon">
-                    <TextField className="consumerAddress consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
-                </div>
-                <div className = "consumerInfoCon">
-                    <TextField className="faccommodation consumerIptText" helperText={intl.get('bac50')}  value={faccommodation} onChange={iptFaccommodation}/>
-                </div>
-                <div className = "consumerInfoCon">
-                    <TextField className="destination consumerIptText" helperText={intl.get('bac51')}  value={destination} onChange={iptDestination}/>
-                </div>
-            </div>
-            <div className = "passportPicCon" style={activeStep==1?showEle:hideEle}>
-              <div className="videoCon">
-                <video id={'video'+value.num} width="300px" height="300px" ></video>
-                <div className="videoConLabel" >{intl.get('bac16')}</div>
-              </div>
-              <div style={{'float':'left',width:'300px',height:'300px',margin:'3vw 0 0 3vw'}}>
-                <div className="videoCanvasCon">
-                  <canvas id={'passportCanvas'+value.num} style={{display:imgType1==1?'block':'none'}} width="300px" height="300px"></canvas>
-                  <img style={{width:'300px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
-                </div>
-                <input id={'profilePic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 123px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
-              </div>
-              <div style={{'float':'left',width:'300px',height:'300px',margin:'3vw 0 0 3vw'}}>
-                <div className="handkeepPassportCanvasCon">
-                  <canvas id={'handkeepPassport'+value.num} width="300px" height="300px"  style={{display:imgType2==1?'block':'none'}}></canvas>
-                  <img style={{width:'300px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
-                </div>
-                <input id={'profileHandPic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'20px 0 0 106px',padding:'5px',height:'26px',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
-              </div>
-              <div className="btnCon">
-              <div className="openCamera" onClick={getMedia}>{intl.get('bac17')}</div>
-                  <div className="takephoto" onClick={takePhoto}>{intl.get('bac18')}</div>
-                  <div className="takeHandKeepPhoto" onClick={takeHandKeepPhoto}>{intl.get('bac19')}</div>
-              </div>
-            </div>
-            <div className = "signCon"  style={activeStep==2?showEle:hideEle}>
-              <div className = "signRegionComplete" >
-                <img src={csSignPic} />
-              </div>
-              <div className = "signRegion" >
-                <CanvasDraw
-                    ref={signCanvas}
-                    brushColor="#000"
-                    brushRadius={3}
-                    lazyRadius={10}
-                    canvasWidth={600}
-                    canvasHeight={240}
-                />
-              </div>
-
-              <div className = "signControl">
-                <div className = "clearSign" onClick={clear}>{intl.get('bac20')}</div>
-                <div className = "takeSign" onClick={takeSign}>{intl.get('bac21')}</div>
-              </div>
-            </div>
-            <div className = "completeCon"  style={activeStep==3?showEle:hideEle}>
-
-                  完成
-
-            </div>
-            <div className="stepBtnCon" style={{"display":inputing?'block':'none'}} >
-      
-              {activeStep === steps.length ? (
-                <div>
-                  <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
-                  <Button onClick={handleReset}>Reset</Button>
-                </div>
-              ) : (
-                <div >
-                  <Typography  className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                  <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={classes.backButton}
-                    >
-                      Back
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
+                <div style={{width:'500px',height:'300px',marginTop:'10px'}}>
+                  <div className="picCon1">
+                    <img src={pic3} style={{'width':'300px'}}></img>
                   </div>
                 </div>
-              )}
-            </div>
-          </div>
-        )
-      }else{
-        return(
-          <div key={value.num}  style={{"zIndex":inputing?'15':-15,"position":'absolute',width:'96vw',paddingBottom:'5vw'}} >
-            <Stepper activeStep={activeStep}  alternativeLabel connector={<ColorlibConnector />}>
-              {steps.map((label) => (
-                <Step key={label} >
-                  <StepLabel    StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <div className = "baseInfoConMb"  style={activeStep==0?showEle:hideEle}>
-                <div className = "consumerInfoConMb">
-                    <TextField className="consumerNameMb consumerIptText" helperText={intl.get('bac10')}   value={csName} onChange={iptName}/>
-                </div>
-                <div className = "consumerInfoConMb">
-                    <TextField className="consumerProfessionMb consumerIptText" helperText={intl.get('bac40')}  value={csJob} onChange={iptJob}/>
-                </div>
-                <div className = "consumerInfoConMb">
-                    <TextField className="consumerAddressMb consumerIptText" helperText={intl.get('bac14')}  value={csAddress} onChange={iptAddress}/>
-                </div>
-                <div className = "consumerInfoConMb">
-                    <TextField className="faccommodationMb consumerIptText" helperText={intl.get('bac50')}  value={faccommodation} onChange={iptFaccommodation}/>
-                </div>
-                <div className = "consumerInfoConMb">
-                    <TextField className="destinationMb consumerIptText" helperText={intl.get('bac51')}  value={destination} onChange={iptDestination}/>
-                </div>
-            </div>
-            <div className = "passportPicConMb" style={activeStep==1?showEle:hideEle}>
-
-              <div style={{'float':'left',width:'96vw',height:'45vw',margin:'3vw 0 0 0'}}>
-                <div className="videoCanvasConMb">
-                  <canvas id={'passportCanvas'+value.num} style={{display:'none'}} width="150px" height="150px"></canvas>
-                  <img style={{width:'150px',display:imgType1==0?'block':'none'}} src={csDsPic1}/>
-                </div>
-                <input id={'profilePic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'9vw 0 0 10vw',padding:'5px',width:'30vw',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic1}>{intl.get('bac41')}</div>
-              </div>
-              <div style={{'float':'left',width:'96vw',height:'45vw',margin:'3vw 0 0 0'}}>
-                <div className="handkeepPassportCanvasConMb">
-                  <canvas id={'handkeepPassport'+value.num} width="150px" height="150px"  style={{display:'none'}}></canvas>
-                  <img style={{width:'150px',display:imgType2==0?'block':'none'}} src={csDsPic2}/>
-                </div>
-                <input id={'profileHandPic'+value.num} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
-                <div style={{display:activeStep==1?"block":"none",float:'left',margin:'9vw 0 0 10vw',padding:'5px',width:'30vw',background:'#7f4bf5',color:'#FFF',textAlign:'center',lineHeight:'26px',cursor:'pointer',borderRadius:'3px'}} onClick={clickOnChangePic2}>{intl.get('bac42')}</div>
-              </div>
-          
-            </div>
-            <div className = "signConMb"  style={activeStep==2?showEle:hideEle}>
-              <div className = "signRegionMb">
-                <CanvasDraw
-                    ref={signCanvas}
-                    brushColor="#000"
-                    brushRadius={3}
-                    lazyRadius={10}
-                    canvasWidth={window.innerWidth}
-                    canvasHeight={240}
-                />
-              </div>
-              <div className = "signControlMb">
-                <div className = "clearSignMb" onClick={clear}>{intl.get('bac20')}</div>
-                <div className = "takeSignMb" onClick={takeSign}>{intl.get('bac21')}</div>
-              </div>
-    
-            </div>
-            <div className = "completeConMb"  style={activeStep==3?showEle:hideEle}>
-
-            {intl.get('bac25')}
-
-            </div>
-            <div className="stepBtnConMb" style={{"display":inputing?'block':'none'}} >
-      
-              {activeStep === steps.length ? (
-                <div>
-                  <Typography className={classes.instructions}>{intl.get('bac25')}</Typography>
-                  <Button onClick={handleReset}>Reset</Button>
-                </div>
-              ) : (
-                <div >
-                  <Typography  className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                  <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={classes.backButton}
-                    >
-                      Back
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="completeInfomationMb" onClick={submitPeoInfomation}>{intl.get('bac47')}</div> 
-          </div>
-        )
-      }
-    })
-    if(isPC()){
-      return (
-        <div className={classes.root}>
-          <ThemeProvider theme={theme}>
-            <div  className="progress">
-             {/* <div> {peoUnitList}</div> */}
-             <div className="completeInfomation" onClick={submitPeoInfomation}>{intl.get('bac47')}</div> 
-            </div>
-            {eachPeoInfo}
-          </ThemeProvider>
-        </div>
-      );
-    }else{
-      return (
-        <div className={classes.root}>
-         <ThemeProvider theme={theme}>
-            <div  className="progressMb">
-             {/* <div> {peoUnitList}</div> */}
-            </div>
-            {eachPeoInfo}
-          </ThemeProvider>
-   
-        </div>
-      );
-
-    }
-
-  }
+          </Grid>
+        </Card>
+      </Grid>
+      <Grid item xs={2}>
+      {'1231313213'}
+      </Grid>
+    </Grid>
+    );
+}

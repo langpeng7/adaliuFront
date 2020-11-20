@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme)=>({
     textAlign:'center',
   },
   cardCss:{
-    padding:'2vh'
+    padding:'2vh',
+    textAlign:'center'
   },
   container: {
     maxHeight: 640,
@@ -50,9 +51,12 @@ export default function VisitorInfoEdit() {
     const [visitorAddress, setvisitorAddress] = React.useState('');
     const [visitorJob, setvisitorJob] = React.useState('');
     const [visitNum, setvisitNum] = React.useState('');
+    const [constructionId,setConstructionId] = React.useState('');
     const [pic1, setPic1] = React.useState('');
     const [pic2, setPic2] = React.useState('');
     const [pic3, setPic3] = React.useState('');
+    const [csDsPic1, setDisplayPic1] = React.useState('');
+    const [csDsPic2, setDisplayPic2] = React.useState('');
     const [faccommodation, setFaccommodation] = React.useState('');
     const [destination, setDestination] = React.useState('');
     console.log(detailData)
@@ -62,7 +66,6 @@ export default function VisitorInfoEdit() {
       }
       if(detailData.name){
         setvisitorName(detailData.name)
- 
       }
       if(detailData.address){
         setvisitorAddress(detailData.address)
@@ -73,11 +76,24 @@ export default function VisitorInfoEdit() {
       if(detailData.visitorNum){
         setvisitNum(detailData.visitorNum)
       }
+      if(detailData.constructionId){
+        setConstructionId(detailData.constructionId)
+      }
       if(detailData.pic1RandomName){
+        const  picBs64 = Format.startTrans(window.location.origin+detailData.pic1RandomName)
+        console.log(picBs64)
         setPic1(window.location.origin+detailData.pic1RandomName)
+        
       }
       if(detailData.pic2RandomName){
         setPic2(window.location.origin+detailData.pic2RandomName)
+      }
+
+      if(detailData.pic1RandomName){
+        setDisplayPic1(window.location.origin+detailData.pic1RandomName)
+      }
+      if(detailData.pic2RandomName){
+        setDisplayPic2(window.location.origin+detailData.pic2RandomName)
       }
       if(detailData.signPicRandomName){
         setPic3(detailData.visitorNum)
@@ -90,6 +106,10 @@ export default function VisitorInfoEdit() {
       }  
     },[detailData])
 
+    //设施
+    const consId= (e) => {
+      setConstructionId(e.target.value);
+    }
     //姓名
     const iptName = (e) => {
       setvisitorName(e.target.value);
@@ -114,12 +134,91 @@ export default function VisitorInfoEdit() {
 
     const iptDestination = (e) => {
       setDestination(e.target.value);
-    }  
+    }
+
+    function clickOnChangePic1(e){
+      document.getElementById("profilePic1").click(); 
+     
+    }
+    function onChangePicture1(e){
+      let pic = document.getElementById("profilePic1").files[0];
+      let imgFile = new FileReader();
+      let b64
+      if(pic){
+        imgFile.readAsDataURL(pic);
+        imgFile.onload = function () {
+        const imgData = this.result; //base64数据 
+        setDisplayPic1(imgData)
+        if(pic.type=="image/jpeg"){
+          b64 = imgData.substring(23);
+        }else{
+          b64 = imgData.substring(22);
+        }
+        setPic1(b64)
+        }
+      }
+    }
+
+    function clickOnChangePic2(e){
+      document.getElementById("profilePic2").click(); 
+    }
+
+
+    function onChangePicture2(e){
+      let pic = document.getElementById("profilePic2").files[0];
+      console.log(pic)
+      let imgFile = new FileReader();
+      let b64
+      if(pic){
+        imgFile.readAsDataURL(pic);
+        imgFile.onload = function () {
+        console.log(this.result)
+        const imgData = this.result; //base64数据 
+        setDisplayPic2(imgData)
+        if(pic.type=="image/jpeg"){
+          b64 = imgData.substring(23);
+        }else{
+          b64 = imgData.substring(22);
+        }
+        setPic2(b64)
+        }
+      }
+    }
+
+
+    function submitEdit(e){
+          let peoInfo ={};
+          peoInfo.csName = visitorName
+          peoInfo.csJob = visitorJob
+          peoInfo.csAddress = visitorAddress
+          peoInfo.csPic1 = pic1
+          peoInfo.csPic2 = pic2
+          peoInfo.visitorNum = visitNum
+          peoInfo.constructionId = constructionId
+          peoInfo.code = appointCode
+          peoInfo.faccommodation = faccommodation
+          peoInfo.destination = destination
+          const  picBs64 = Format.startTrans(window.location.origin+detailData.pic1RandomName)
+       
+          console.log(picBs64)
+          // axios({
+          //   method: 'post',
+          //   url: '/api/savePic',
+          //   headers: {
+          //     'Content-Type':'application/json'
+          //   },          
+          //   data: JSON.stringify(peoInfo)
+          // })
+          // .then(function (response) {
+          //   console.log(response)
+          //   window.location.href="/#/infoFinish/"
+          // })
+    }
     return (
     <Grid container className={classes.root} spacing={5}>
       <Grid item xs={6}  className={classes.gridCss}>
-          <Card className={classes.cardCss} variant="outlined">
-                 <Grid item xs={12}  >
+          <Grid className={classes.cardCss} >
+                 <Grid item xs={12}>
                     <FormControl className={classes.formControl} style={{'marginTop':50}}>
                     <InputLabel shrink id="demo-simple-select-placeholder-label-label">
                     {intl.get('bac33')}
@@ -127,6 +226,18 @@ export default function VisitorInfoEdit() {
                     <TextField
                       value={appointCode}
                       className={classes.selectEmpty}
+                    />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}  >
+                    <FormControl className={classes.formControl} style={{'marginTop':50}}>
+                    <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    {intl.get('bac31')}
+                    </InputLabel>
+                    <TextField
+                      className={classes.selectEmpty}
+                      value={constructionId}
+                      onChange={consId}
                     />
                     </FormControl>
                 </Grid>
@@ -203,33 +314,35 @@ export default function VisitorInfoEdit() {
                     />
                     </FormControl>
                 </Grid>                                                                                     
-        </Card>
+        </Grid>
       </Grid>
       <Grid item xs={4}  >
-        <Card className={classes.cardCss} variant="outlined">
+        <Grid className={classes.cardCss} >
           <Grid item xs={12}  >
-                <div style={{width:'500px',height:'300px'}}>
+                <div >
                   <div className="picCon1">
-                    <img src={pic1} style={{'width':'300px'}}></img>
+                    <img src={csDsPic1} style={{'width':'68%'}}></img>
+                    <input id={'profilePic1'} style={{'display':'none'}} type="file" onChange={()=>onChangePicture1(this)} />
                   </div>
-                  <div className="changeBtn">编辑</div>
+                  <div className="changeBtn" onClick={clickOnChangePic1}>编辑</div>
                 </div>
-                <div style={{width:'500px',height:'300px',marginTop:'10px'}}>
+                <div style={{marginTop:'10px'}}>
                   <div className="picCon1">
-                    <img src={pic2} style={{'width':'300px'}}></img>
+                    <img src={csDsPic2} style={{'width':'68%'}}></img>
+                    <input id={'profilePic2'} style={{'display':'none'}} type="file" onChange={()=>onChangePicture2(this)} />
                   </div>
-                  <div className="changeBtn">编辑</div>
+                  <div className="changeBtn" onClick={clickOnChangePic2}>编辑</div>
                 </div>
-                <div style={{width:'500px',height:'300px',marginTop:'10px'}}>
+                <div style={{marginTop:'10px'}}>
                   <div className="picCon1">
-                    <img src={pic3} style={{'width':'300px'}}></img>
+                    <img src={pic3} style={{'width':'68%'}}></img>
                   </div>
                 </div>
           </Grid>
-        </Card>
+        </Grid>
       </Grid>
       <Grid item xs={2}>
-      {'1231313213'}
+        <div className="submit"  onClick={submitEdit}>提交</div>
       </Grid>
     </Grid>
     );

@@ -49,6 +49,7 @@ const getBase64Image = (img) => {
   var ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0, img.width, img.height);
   var dataURL = canvas.toDataURL("image/png");  // 可选其他值 image/jpeg
+  console.log(dataURL)
   return dataURL
 }
 const startTrans = (src) => {
@@ -58,8 +59,9 @@ const startTrans = (src) => {
   image.crossOrigin = "*";  // 支持跨域图片
   console.log(image)
    image.onload = function(){
+    console.log(image)
     base64Data = getBase64Image(image);
-    console.log(getBase64Image(image))
+
   }
 
   return base64Data

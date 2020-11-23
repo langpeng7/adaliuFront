@@ -80,8 +80,6 @@ export default function VisitorInfoEdit() {
         setConstructionId(detailData.constructionId)
       }
       if(detailData.pic1RandomName){
-        const  picBs64 = Format.startTrans(window.location.origin+detailData.pic1RandomName)
-        console.log(picBs64)
         setPic1(window.location.origin+detailData.pic1RandomName)
         
       }
@@ -198,9 +196,17 @@ export default function VisitorInfoEdit() {
           peoInfo.code = appointCode
           peoInfo.faccommodation = faccommodation
           peoInfo.destination = destination
-          const  picBs64 = Format.startTrans(window.location.origin+detailData.pic1RandomName)
+          console.log(window.location.origin+detailData.pic1RandomName)
+          console.log(Format.startTrans(window.location.origin+detailData.pic1RandomName))
+          // const  picBs64 = new Promise(function(resolve, reject){
+          //   return Format.startTrans(window.location.origin+detailData.pic1RandomName)
+          //   resolve('123123')
+          
+          // }).then(function(data){
+          //     console.log(data)
+          // })
        
-          console.log(picBs64)
+          // console.log(picBs64)
           // axios({
           //   method: 'post',
           //   url: '/api/savePic',

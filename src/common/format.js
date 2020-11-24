@@ -42,30 +42,33 @@ const isPc =()=> {
     }
   };
 const getBase64Image = (img) => {
-  console.log(img)
   var canvas = document.createElement("canvas");
   canvas.width = img.width;
   canvas.height = img.height;
   var ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0, img.width, img.height);
   var dataURL = canvas.toDataURL("image/png");  // 可选其他值 image/jpeg
-  console.log(dataURL)
   return dataURL
 }
 const startTrans = (src) => {
-  let image =  new Image();
-  var base64Data
-  image.src = src + '?v=' + Math.random(); // 处理缓存
-  image.crossOrigin = "*";  // 支持跨域图片
-  console.log(image)
-   image.onload = function(){
-    console.log(image)
-    base64Data = getBase64Image(image);
-
-  }
-
-  return base64Data
+  return new Promise((resolve,reject)=>{
+    let image =  new Image();
+    var base64Data
+    image.src = src + '?v=' + Math.random(); // 处理缓存
+    image.crossOrigin = "*";  // 支持跨域图片
+    image.onload = function(){
+      base64Data = getBase64Image(image);
+      if(base64Data){
+        resolve(base64Data)
+      }
+    }
+    
+  })
 }
+
+
+
+
 module.exports = {
     dateFormat,
     getQueryVariable,

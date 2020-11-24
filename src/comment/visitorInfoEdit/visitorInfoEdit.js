@@ -80,11 +80,36 @@ export default function VisitorInfoEdit() {
         setConstructionId(detailData.constructionId)
       }
       if(detailData.pic1RandomName){
-        setPic1(window.location.origin+detailData.pic1RandomName)
+        Format.startTrans(window.location.origin+detailData.pic1RandomName).then(function(value){
+          let bas64;
+          if(value.indexOf('image/png')!=-1){
+            bas64 = value.substring(22);
+            setPic1(value)
+          }else if(value.indexOf('image/jpeg')!=-1){
+            bas64 = value.substring(23);
+            setPic1(value)
+          }
+
+   
+        })
+    
+   
+       
         
       }
       if(detailData.pic2RandomName){
-        setPic2(window.location.origin+detailData.pic2RandomName)
+        Format.startTrans(window.location.origin+detailData.pic2RandomName).then(function(value){
+          console.log(value)
+          let bas64;
+          if(value.indexOf('image/png')!=-1){
+            bas64 = value.substring(22);
+            console.log(bas64)
+            setPic2(value)
+          }else if(value.indexOf('image/jpeg')!=-1){
+            bas64 = value.substring(23);
+            setPic2(value)
+          }
+        })
       }
 
       if(detailData.pic1RandomName){
@@ -198,14 +223,7 @@ export default function VisitorInfoEdit() {
           peoInfo.destination = destination
           console.log(window.location.origin+detailData.pic1RandomName)
           console.log(Format.startTrans(window.location.origin+detailData.pic1RandomName))
-          // const  picBs64 = new Promise(function(resolve, reject){
-          //   return Format.startTrans(window.location.origin+detailData.pic1RandomName)
-          //   resolve('123123')
-          
-          // }).then(function(data){
-          //     console.log(data)
-          // })
-       
+     
           // console.log(picBs64)
           // axios({
           //   method: 'post',

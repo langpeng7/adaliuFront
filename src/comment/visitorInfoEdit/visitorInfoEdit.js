@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme)=>({
 export default function VisitorInfoEdit() {
     const classes = useStyles();
     const detailData = useContext(myContext); 
+    const [visitorId, setVisitorId] = React.useState(Format.getQueryVariable('visitorId'));
     const [appointCode, setAppointCode] = React.useState('');
     const [visitorName, setvisitorName] = React.useState('');
     const [visitorAddress, setvisitorAddress] = React.useState('');
@@ -59,7 +60,7 @@ export default function VisitorInfoEdit() {
     const [csDsPic2, setDisplayPic2] = React.useState('');
     const [faccommodation, setFaccommodation] = React.useState('');
     const [destination, setDestination] = React.useState('');
-    console.log(detailData)
+
     useEffect(() => {
       if(detailData.code){
         setAppointCode(detailData.code)
@@ -99,11 +100,9 @@ export default function VisitorInfoEdit() {
       }
       if(detailData.pic2RandomName){
         Format.startTrans(window.location.origin+detailData.pic2RandomName).then(function(value){
-          console.log(value)
           let bas64;
           if(value.indexOf('image/png')!=-1){
             bas64 = value.substring(22);
-            console.log(bas64)
             setPic2(value)
           }else if(value.indexOf('image/jpeg')!=-1){
             bas64 = value.substring(23);
@@ -119,7 +118,7 @@ export default function VisitorInfoEdit() {
         setDisplayPic2(window.location.origin+detailData.pic2RandomName)
       }
       if(detailData.signPicRandomName){
-        setPic3(detailData.visitorNum)
+        setPic3(window.location.origin+detailData.signPicRandomName)
       }  
       if(detailData.faccommodation){
         setFaccommodation(detailData.faccommodation)
@@ -211,6 +210,7 @@ export default function VisitorInfoEdit() {
 
     function submitEdit(e){
           let peoInfo ={};
+          peoInfo.visitorId = visitorId
           peoInfo.csName = visitorName
           peoInfo.csJob = visitorJob
           peoInfo.csAddress = visitorAddress
@@ -221,22 +221,21 @@ export default function VisitorInfoEdit() {
           peoInfo.code = appointCode
           peoInfo.faccommodation = faccommodation
           peoInfo.destination = destination
-          console.log(window.location.origin+detailData.pic1RandomName)
-          console.log(Format.startTrans(window.location.origin+detailData.pic1RandomName))
+          console.log(peoInfo)
      
           // console.log(picBs64)
-          // axios({
-          //   method: 'post',
-          //   url: '/api/savePic',
-          //   headers: {
-          //     'Content-Type':'application/json'
-          //   },          
-          //   data: JSON.stringify(peoInfo)
-          // })
-          // .then(function (response) {
-          //   console.log(response)
-          //   window.location.href="/#/infoFinish/"
-          // })
+          axios({
+            method: 'post',
+            url: '/api/update',
+            headers: {
+              'Content-Type':'application/json'
+            },          
+            data: JSON.stringify(peoInfo)
+          })
+          .then(function (response) {
+            console.log(response)
+        
+          })
     }
     return (
     <Grid container className={classes.root} spacing={5}>

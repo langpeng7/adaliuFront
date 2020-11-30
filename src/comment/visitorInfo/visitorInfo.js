@@ -85,7 +85,7 @@ export default function VisitorInfo() {
         setPic2(window.location.origin+detailData.pic2RandomName)
       }
       if(detailData.signPicRandomName){
-        setPic3(detailData.visitorNum)
+        setPic3(detailData.signPicRandomName)
       }  
       if(detailData.faccommodation){
         setFaccommodation(detailData.faccommodation)

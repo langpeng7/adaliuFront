@@ -30,6 +30,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import {excelUtil,initColumn} from '../../common/excelExp.js';
+console.log(initColumn)
 const useStyles = makeStyles((theme)=>({
   root: {
     padding:'1vw'
@@ -92,6 +95,7 @@ export default function CustomerInfoTable() {
   useEffect(() => {	
     axios.get('/api/list')
     .then(function (response) {
+   
       setRows(response.data.data)
     })
     .catch(function (error) {
@@ -287,13 +291,14 @@ export default function CustomerInfoTable() {
       </Dialog>
     );
   }
+
   return (
 <Paper className={classes.root}>
   <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
-  <Grid item  xs={10}>
+  <Grid item  xs={12}>
     <Grid item xs={8}> 
     <MuiPickersUtilsProvider utils={DateFnsUtils} >
-      <Grid container justify="flex-start" spacing={3}>
+      <Grid container justify="flex-start" spacing={4}>
         <Grid item xs={4}>
             <KeyboardDatePicker 
                 margin="normal"
@@ -322,7 +327,7 @@ export default function CustomerInfoTable() {
             />
         </Grid>
         <Grid item xs={3}>
-        <FormControl className={classes.formControl}>
+          <FormControl className={classes.formControl}>
             <InputLabel shrink id="demo-simple-select-placeholder-label-label">
             {intl.get('bac31')}
             </InputLabel>
@@ -338,7 +343,6 @@ export default function CustomerInfoTable() {
                 <em>{intl.get('bac32')}</em>
               </MenuItem>
               {houseList.map((hous) => {
-                console.log(hous)
                return( <MenuItem key={hous.houseId} value={hous.houseId}>{hous.houseName}</MenuItem>)
               })}
        
@@ -346,8 +350,16 @@ export default function CustomerInfoTable() {
             </Select>
           </FormControl>
         </Grid>
+        <Grid item xs={1}  style={{"lineHeight":"80px"}}>
+          <Button variant="contained" style={{"marginLeft":"20px"}} color="primary" onClick={() => {excelUtil(initColumn, rows, "人员名单.xlsx") }}>
+              导出
+          </Button>
+
+        </Grid>
       </Grid>
+ 
     </MuiPickersUtilsProvider>
+
     </Grid>
 
   </Grid>
@@ -368,16 +380,33 @@ export default function CustomerInfoTable() {
           </TableHead>
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              console.log(row)
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id} value={row.id} onClick={()=>visitorDetail(row.id)}>
                   {columns.map((column) => {
                     const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}  >
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
+                    if(column.id=="constructionId"){
+                      for( let cos in houseList){
+                        if(houseList[cos].houseId==value){
+                          return  (
+                            <TableCell key={column.id} align={column.align}  >
+                              {houseList[cos].houseName}
+                            </TableCell>
+                          );
+                          
+                         
+                        }
+                      }
+                    }else{
+                      return (
+                        <TableCell key={column.id} align={column.align}  >
+                          {column.format && typeof value === 'number' ? column.format(value) : value}
+                        </TableCell>
+                      );
+
+
+                    }
+            
+                
                   })}
                 </TableRow>
               );

@@ -222,8 +222,6 @@ export default function VisitorInfoEdit() {
           peoInfo.faccommodation = faccommodation
           peoInfo.destination = destination
           console.log(peoInfo)
-     
-          // console.log(picBs64)
           axios({
             method: 'post',
             url: '/api/update',
@@ -233,8 +231,8 @@ export default function VisitorInfoEdit() {
             data: JSON.stringify(peoInfo)
           })
           .then(function (response) {
-            console.log(response)
-        
+              alert("保存成功")
+              window.close();
           })
     }
     return (

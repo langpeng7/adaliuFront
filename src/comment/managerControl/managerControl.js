@@ -9,9 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import Category from '@material-ui/icons/Category';
- import Paper from '@material-ui/core/Paper';
- import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import CustomerInfoTable  from '../../comment/customerInfoTable/customerInfoTable';
 import CreateUrl  from '../../comment/createUrl/createUrl';
 import intl from 'react-intl-universal';
@@ -74,6 +72,7 @@ export default function managerControl() {
               <ListItemText primary={intl.get('bac28')}/> 
             </ListItem>
           </List> 
+
         </Grid>
         <Grid item xs={10}>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==0?"block":"none"}} >
@@ -81,17 +80,14 @@ export default function managerControl() {
           <CustomerInfoTable />
 
           </div>
-          <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==1?"block":"none" }}>
-            {intl.get('bac27')}
+          <div style={{ backgroundColor: '#FFF', height: '100vh',fontSize:'32px',textAlign:'center',lineHeight:'100vh',display:contentType==1?"block":"none" }}>
+            <span >hold on...</span>
           </div>
           <div style={{ backgroundColor: '#FFF', height: '100vh',display:contentType==2?"block":"none" }}>
             <CreateUrl />
           </div>
         </Grid>
       </Grid> 
-     
-
- 
     </div>
   );
 }

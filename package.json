@@ -9,7 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.55",
     "@material-ui/pickers": "^3.2.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "copy-to-clipboard": "^3.0.5",
     "date-fns": "^2.14.0",
     "node-sass": "^4.14.1",

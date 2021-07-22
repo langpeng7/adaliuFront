@@ -39,6 +39,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.0"
   }
 }
